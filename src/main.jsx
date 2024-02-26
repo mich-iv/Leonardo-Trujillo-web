@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import Menu from './Components/Menu.jsx'
+// import Menu from './Components/Menu.jsx'
 import {createHashRouter, RouterProvider} from 'react-router-dom'
 
 import Home from './routes/home.jsx'
@@ -41,6 +41,8 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router}>
+      <App/>
+    </RouterProvider>
   </React.StrictMode>,
 )

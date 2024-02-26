@@ -1,15 +1,16 @@
-import React from 'react'
-import './Menu.css'
+// import React from 'react'
+// import '../Components/Menu.css'
 
 function Menu() {
   return (
     <div className="menu">
-      <a className="active" href="#home">Home</a>
+      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      {/* <a className="active" href="#home">Home</a>
       <a href="#news">Awards</a>
       <a href="#contact">Book Chapters</a>
       <a href="#about">Journal Publications</a>
       <a href="#about">Select Conference Papers</a>
-      <a href="#about">Projects</a>
+      <a href="#about">Projects</a> */}
 
       {/* <div className="dropdown">
         <button className="dropbtn">Projects

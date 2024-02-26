@@ -1,10 +1,24 @@
-// import React from 'react'
+import React from 'react'
+import { Link } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 // import '../Components/Menu.css'
 
-function Menu() {
+export default function Menu() {
   return (
     <div className="menu">
-      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      <Link to={'/'}>Home</Link>
+      <br/>
+      <Link to={'/awards'}>Awards</Link>
+      <br/>
+      <Link to="/bookChapters">Book Chapters</Link>
+      <br/>
+      <Link to="/journalPublications">Journal Publications</Link>
+      <br/>
+      <Link to="/conferencePapers">Select Conference Papers</Link>
+      <br/>
+      <Link to="/projects">Projects</Link>
+      <Outlet/>
+
       {/* <a className="active" href="#home">Home</a>
       <a href="#news">Awards</a>
       <a href="#contact">Book Chapters</a>
@@ -26,5 +40,3 @@ function Menu() {
     </div>
   )
 }
-
-export default Menu

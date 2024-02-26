@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import Menu from "./Menu";
 
 export default function Route(){
     return(
         <h1>
-            Home
+
+            aaaa
+            {/* Home
             <br/>
             <br/>
             <Link to="/awards">Awards</Link>
@@ -14,7 +17,7 @@ export default function Route(){
             <br/>
             <Link to="/conferencePapers">Select Conference Papers</Link>
             <br/>
-            <Link to="/projects">Projects</Link>
+            <Link to="/projects">Projects</Link> */}
         </h1>
     )
 }

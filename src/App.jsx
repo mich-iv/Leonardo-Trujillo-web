@@ -5,6 +5,7 @@ import './App.css'
 import Menu from './routes/Menu.jsx'
 
 import {createHashRouter, RouterProvider} from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import Home from './routes/home.jsx'
 import Awards from './routes/awards.jsx'
@@ -15,36 +16,9 @@ import Projects from './routes/projects.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
-  const router = createHashRouter([
-    {
-      path:'/',
-      element: <Home/>
-    },
-    {
-      path:'/awards',
-      element: <Awards/>
-    },
-    {
-      path:'/bookChapters',
-      element: <BookChapters/>
-    },
-    {
-      path:'/journalPublications',
-      element: <JournalPublications/>
-    },
-    {
-      path:'/conferencePapers',
-      element: <ConferencePapers/>
-    },
-    {
-      path:'/projects',
-      element: <Projects/>
-    },
-  ])
 
   return (
     <>
-    <Menu/>
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>

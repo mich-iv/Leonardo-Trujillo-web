@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 export default function Route(){
     return(
         <h1>
@@ -8,7 +6,6 @@ export default function Route(){
             <br/>
             <br/>
             <br/>
-            <Link to="/">Home</Link>
         </h1>
     )
 }

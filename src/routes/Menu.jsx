@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 export default function Menu() {
   return (
     <div className="menu">
-      <Link to={'/'}>Home</Link>
+      <Link to={'/'}>Home</Link> 
       <br/>
       <Link to={'/awards'}>Awards</Link>
       <br/>

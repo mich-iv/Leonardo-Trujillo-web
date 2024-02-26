@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
-// import Menu from './Components/Menu.jsx'
 import {createHashRouter, RouterProvider} from 'react-router-dom'
-import { BrowserRouter } from 'react-router-dom'
 
 import Home from './routes/home.jsx'
 import Awards from './routes/awards.jsx'
@@ -41,26 +38,6 @@ const router = createHashRouter([
       },
     ],
   },
-  // {
-  //   path:'/awards',
-  //   element: <Awards/>
-  // },
-  // {
-  //   path:'/bookChapters',
-  //   element: <BookChapters/>
-  // },
-  // {
-  //   path:'/journalPublications',
-  //   element: <JournalPublications/>
-  // },
-  // {
-  //   path:'/conferencePapers',
-  //   element: <ConferencePapers/>
-  // },
-  // {
-  //   path:'/projects',
-  //   element: <Projects/>
-  // },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

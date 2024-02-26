@@ -2,13 +2,8 @@
   height: auto 3rem;
   width: 1920px;
   max-width: calc(100% - 1px);
-  /* margin: 0 auto; */
-  /* padding: 0 auto; */
-  /* background-color: rgb(100, 175, 159); */
   position: fixed;
   top: 0;
-  /* color: rgb(255, 255, 255); */
-  /* font-size: 1em; */
 
   background-color: rgb(100, 175, 159);
   overflow: hidden;

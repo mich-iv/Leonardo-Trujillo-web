@@ -1,0 +1,24 @@
+.titulos{
+    padding: 3rem 3rem;
+}
+
+.cuerpo{
+    padding: 2rem 10rem;
+}
+
+.columnas{
+    font-size: 2rem;
+    column-count: 2;
+    column-gap: 1rem;
+    column-rule-width: 0.1rem;
+    column-rule-style: solid;
+    /* display:grid;
+    grid-template-columns: repeat(2, 1ft);
+    gap: 20; */
+}
+
+.centrar{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}

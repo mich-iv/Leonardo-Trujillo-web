@@ -1,7 +1,7 @@
 .menu {
   height: auto 3rem;
   width: 1920px;
-  max-width: calc(100% - 1px);
+  max-width: calc(100% - 10px);
   position: fixed;
   top: 0;
 

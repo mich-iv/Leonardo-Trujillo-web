@@ -8,7 +8,7 @@ export default function Route(){
         <div>
             <div className='cuerpo'>
                     <h1 >
-                        Awards
+                        Awards 
                     </h1>
                     {/* {Employees.map((data, key) => {
                         return <h2 key={key}>{data.preferredFullName}</h2>;

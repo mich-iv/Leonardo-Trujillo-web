@@ -1,5 +1,5 @@
 .titulos{
-    padding: 3rem 3rem;
+    padding: 6rem 3rem;
 }
 
 .cuerpo{
@@ -16,6 +16,7 @@
     /* display:grid;
     grid-template-columns: repeat(2, 1ft);
     gap: 20; */
+    
 }
 
 .centrar{

@@ -1,15 +1,17 @@
+import React, { useEffect, useState } from 'react'
 import '../estilos/Paginas.css';
-import datos from '../bd/datos.json';
 import { Employees } from "../bd/datos.json";
 
 export default function Route(){
-    
     return(
         <div>
             <div className='cuerpo'>
                     <h1 >
-                        Awards 
+                        Awards
                     </h1>
+
+                    
+
                     {/* {Employees.map((data, key) => {
                         return <h2 key={key}>{data.preferredFullName}</h2>;
                     })

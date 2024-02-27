@@ -10,6 +10,7 @@ import JournalPublications from './routes/journalPublications.jsx'
 import ConferencePapers from './routes/conferencePapers.jsx'
 import Projects from './routes/projects.jsx'
 import Menu from './routes/Menu.jsx'
+import Login from './routes/usuario/login.jsx'
 
 const router = createHashRouter([
   {
@@ -35,6 +36,10 @@ const router = createHashRouter([
       {
         path:'/projects',
         element: <Projects/>
+      },
+      {
+        path:'/login',
+        element: <Login/>
       },
     ],
   },

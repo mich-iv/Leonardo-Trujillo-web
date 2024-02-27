@@ -26,11 +26,20 @@ export default function Menu() {
         <Link to="/conferencePapers">Select Conference Papers</Link>
         <Link to="/projects">Projects</Link>
         <div className='izquierda'>
-          <img referrerPolicy="no-referrer" src={foto}/>
-          <Link to="">
+          {!value ? '' :
+            <button onClick={
+              ()=>{
+                console.log('si');
+                localStorage.clear();
+                window.location.reload();
+              }
+            }>
+              <img alt = "foto" referrerPolicy="no-referrer" src={foto}/>
               Cerrar sesión
               <p>{nombre}</p>
-          </Link>
+          </button>
+          }
+          
         </div>
       </div>
       

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { Outlet } from 'react-router-dom';
 import '../estilos/Menu.css'
 
 export default function Menu() {
+  
   const [value, setValue] = useState('')
     useEffect(()=>{
       setValue(localStorage.getItem('email'))
@@ -25,11 +26,10 @@ export default function Menu() {
         <Link to="/conferencePapers">Select Conference Papers</Link>
         <Link to="/projects">Projects</Link>
         <div className='izquierda'>
-          <img src={foto}/>
+          <img referrerPolicy="no-referrer" src={foto}/>
           <Link to="">
               Cerrar sesión
               <p>{nombre}</p>
-            
           </Link>
         </div>
       </div>

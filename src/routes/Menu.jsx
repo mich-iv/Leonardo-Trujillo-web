@@ -6,10 +6,14 @@ import '../estilos/Menu.css'
 export default function Menu() {
   const [value, setValue] = useState('')
     useEffect(()=>{
-        setValue(localStorage.getItem('email'))
+      setValue(localStorage.getItem('email'))
+      setValue(localStorage.getItem('nombre'))
+      setValue(localStorage.getItem('foto'))
   })
 
-  // const value = localStorage.getItem("email");
+  const correo = localStorage.getItem("email");
+  const nombre = localStorage.getItem("nombre");
+  const foto = localStorage.getItem("foto");
 
   return (
     <div>
@@ -21,8 +25,11 @@ export default function Menu() {
         <Link to="/conferencePapers">Select Conference Papers</Link>
         <Link to="/projects">Projects</Link>
         <div className='izquierda'>
-          <Link to="">Cerrar sesión
-            <p>{value}</p>
+          <img src={foto}/>
+          <Link to="">
+              Cerrar sesión
+              <p>{nombre}</p>
+            
           </Link>
         </div>
       </div>

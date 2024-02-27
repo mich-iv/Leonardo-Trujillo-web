@@ -5,6 +5,7 @@ import Menu from '../Menu.jsx';
 import {redirect, useNavigate} from 'react-router-dom'
 
 export default function Route(){
+
     const navigate = useNavigate()
     const [value, setValue] = useState('')
     const handleClick =()=>{
@@ -18,8 +19,6 @@ export default function Route(){
 
     useEffect(()=>{
         setValue(localStorage.getItem('email'));
-        console.log('aaaaaaaa1a');
-        
     })
 
     if(value){
@@ -34,6 +33,5 @@ export default function Route(){
             <button onClick={handleClick}>Iniciar sesión con Google</button>
         }
     </div>
-    
   )
 }

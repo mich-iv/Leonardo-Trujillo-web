@@ -12,6 +12,10 @@ import Projects from './routes/projects.jsx'
 import Menu from './routes/Menu.jsx'
 import Login from './routes/usuario/login.jsx'
 
+function loader() {
+  return fetchFakeAlbums();
+}
+
 const router = createHashRouter([
   {
     path:'/',
@@ -19,7 +23,8 @@ const router = createHashRouter([
     children: [
       {
         path:'/awards',
-        element: <Awards/>
+        element: <Awards/>,
+        loader: loader,
       },
       {
         path:'/bookChapters',

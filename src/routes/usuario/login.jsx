@@ -11,6 +11,8 @@ export default function Route(){
         signInWithPopup(auth, provider).then((data)=>{
             setValue(data.user.email)
             localStorage.setItem("email", data.user.email)
+            localStorage.setItem("foto", data.user.photoURL)
+            localStorage.setItem("nombre", data.user.displayName)
         })
     }
 

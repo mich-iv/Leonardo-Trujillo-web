@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../estilos/Paginas.css';
 import { Employees } from "../bd/datos.json";
 import { useParams } from 'react-router-dom';
-import {bd} from '../../firebase.jsx';
-import { collection, addDoc} from "firebase/firestore";
+import {bd, collection, addDoc} from '../../firebase.jsx';
 
 export default function Route(){
     const [tituloForm, setTitulo] = useState("");
@@ -38,56 +37,56 @@ export default function Route(){
     return(
         <div>
             <div>
-                    <h1 >
-                        Agregar {ubicacion}
-                    </h1>
+                <h1 >
+                    Agregar {ubicacion}
+                </h1>
 
-                    <form>
-                        Titulo<br/>
-                        <input 
-                            value={tituloForm}
-                            placeholder='Ingresar titulo'
-                            onChange={(e) => setTitulo(e.target.value)}
-                        />
-                        <br/>
-                        <br/>
+                <form>
+                    Titulo<br/>
+                    <input 
+                        value={tituloForm}
+                        placeholder='Ingresar titulo'
+                        onChange={(e) => setTitulo(e.target.value)}
+                    />
+                    <br/>
+                    <br/>
 
-                        Descripción<br/>
-                        <input 
-                            value={descripcionForm}
-                            placeholder='Descripción'
-                            onChange={(e) => setDescripcion(e.target.value)}
-                        />
-                        
-                        <br/>
-                        <br/>
-                        URL de publicación<br/>
-                        <input 
-                            value={urlForm} 
-                            placeholder='URL'
-                            onChange={(e) => setUrl(e.target.value)}
-                        />
-                        <br/>
-                        <br/>
-                        Año<br/>
-                        <input 
-                            value={anioForm} 
-                            placeholder='Año'
-                            onChange={(e) => setAnio(e.target.value)}
-                        />
-                        <br/>
-                        <br/>
-                        {/* por investigar */}
-                        PDF<br/>
-                        <input 
-                            type="file"
-                            onChange={(e) => setUrl(e.target.value)}
-                        />
-                        <br/>
-                        <br/>
-                    </form>
+                    Descripción<br/>
+                    <input 
+                        value={descripcionForm}
+                        placeholder='Descripción'
+                        onChange={(e) => setDescripcion(e.target.value)}
+                    />
+                    
+                    <br/>
+                    <br/>
+                    URL de publicación<br/>
+                    <input 
+                        value={urlForm} 
+                        placeholder='URL'
+                        onChange={(e) => setUrl(e.target.value)}
+                    />
+                    <br/>
+                    <br/>
+                    Año<br/>
+                    <input 
+                        value={anioForm} 
+                        placeholder='Año'
+                        onChange={(e) => setAnio(e.target.value)}
+                    />
+                    <br/>
+                    <br/>
+                    {/* por investigar */}
+                    PDF<br/>
+                    <input 
+                        type="file"
+                        onChange={(e) => setUrl(e.target.value)}
+                    />
+                    <br/>
+                    <br/>
+                </form>
 
-                    <button onClick={submit}>Agregar</button>
+                <button onClick={submit}>Agregar</button>
             </div>
         </div>
     )

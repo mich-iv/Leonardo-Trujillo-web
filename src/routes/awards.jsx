@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react'
 import '../estilos/Paginas.css';
 import { Employees } from "../bd/datos.json";
 import { useLoaderData } from 'react-router-dom';
+import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
+
+const querySnapshot = await getDocs(collection(bd, "awards"));
+querySnapshot.forEach((docu) => {
+    console.log(`${docu.id} => ${docu.data()}`);
+});
 
 export default function Route(){
     return(

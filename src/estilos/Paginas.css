@@ -1,10 +1,16 @@
 .titulos{
-    padding: 6rem 3rem;
+    padding: 1rem 0rem;
+    border: 1px solid ;
 }
 
 .cuerpo{
-    padding: 2rem 10rem;
-    margin: 0;
+    /* padding: 2rem 10rem; */
+    margin: auto;
+    padding-top: calc(90vh - 45%);
+    padding-bottom: calc(100vh - 80%);
+    padding-left: calc(100vw - 80%);
+    padding-right: calc(100vw - 80%);
+    border: 2px solid green;
 }
 
 .columnas{
@@ -17,6 +23,11 @@
     grid-template-columns: repeat(2, 1ft);
     gap: 20; */
     
+}
+
+.texto{
+    text-align: justify;
+    border:  1px solid;
 }
 
 .centrar{

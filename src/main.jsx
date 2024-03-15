@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import {createHashRouter, RouterProvider} from 'react-router-dom'
+import {createHashRouter, RouterProvider, useLocation} from 'react-router-dom'
 
 import Home from './routes/home.jsx'
 import Awards from './routes/awards.jsx'
@@ -11,10 +11,7 @@ import ConferencePapers from './routes/conferencePapers.jsx'
 import Projects from './routes/projects.jsx'
 import Menu from './routes/Menu.jsx'
 import Login from './routes/usuario/login.jsx'
-
-function loader() {
-  return fetchFakeAlbums();
-}
+import Agregar from './routes/agregar.jsx'
 
 const router = createHashRouter([
   {
@@ -23,8 +20,7 @@ const router = createHashRouter([
     children: [
       {
         path:'/awards',
-        element: <Awards/>,
-        loader: loader,
+        element: <Awards/>
       },
       {
         path:'/bookChapters',
@@ -44,6 +40,18 @@ const router = createHashRouter([
       },
       {
         path:'/login',
+        element: <Login/>
+      },
+      {
+        path:'/agregar/:ubicacion',
+        element: <Agregar/>
+      },
+      {
+        path:'/eliminar',
+        element: <Login/>
+      },
+      {
+        path:'/editar',
         element: <Login/>
       },
     ],

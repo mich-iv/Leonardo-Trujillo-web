@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../estilos/Paginas.css';
-import { Employees } from "../bd/datos.json";
 import { useLoaderData, useLocation } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
 

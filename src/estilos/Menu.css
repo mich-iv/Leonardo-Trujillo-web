@@ -6,7 +6,7 @@
   width: 100%;
   /* max-width: calc(100% - 1px); */
   position: fixed;
-  top: 0;
+  top: 1;
 
   background-color: rgb(100, 175, 159);
   overflow: hidden;

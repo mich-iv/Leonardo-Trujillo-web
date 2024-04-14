@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLoaderData, useLocation } from "react-router-dom";
 import { Outlet } from 'react-router-dom';
 import '../estilos/Menu.css'
+import '../estilos/Paginas.css'
 
 export default function Menu() {
   var habilitar = true;
   const location = useLocation();
-  console.log(location.pathname);
   
   const [value, setValue] = useState('')
     useEffect(()=>{
@@ -21,12 +21,6 @@ export default function Menu() {
 
   return (
     <div>
-      <header>
-        aaaaa
-      </header>
-      <div>
-        siaaaa
-      </div>
       <div className="menu">
         <Link to={'/'}>Home</Link> 
         <Link to={'/awards'}>Awards</Link>
@@ -46,7 +40,6 @@ export default function Menu() {
           {!value ? '' :
             <button onClick={
               ()=>{
-                console.log('si');
                 localStorage.clear();
                 window.location.reload();
               }

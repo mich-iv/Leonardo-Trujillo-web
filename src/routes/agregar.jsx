@@ -23,6 +23,7 @@ import 'tinymce/skins/ui/oxide/skin.min.css';
 
 // importing the plugin js.
 import 'tinymce/plugins/advlist';
+import 'tinymce/plugins/accordion';
 import 'tinymce/plugins/autolink';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/image';
@@ -103,9 +104,6 @@ export default function Route(){
             setTimeout(() => setId(prueba[0].id), 1);
         });
     }, []);
-    
-   
-    
 
     return(
         <div>
@@ -116,25 +114,13 @@ export default function Route(){
 
                 
                 <h2>Actualizar información</h2>
-                {/* <Frame
-                initialContent='<div></div>'
-                style={{
-                    width: "100%",
-                    margin: '0 auto',
-                    border: '0',
-                    backgroundColor: 'transparent',
-                    scrollbarColor: 'auto',
-                    minHeight: '100%',
-                    maxHeight: '100%',
-                }}
-                > */}
-                
                     <Editor className='root'
                         inline={false}
                         tinymceScriptSrc={'tinymce/tinymce.min.js'}
                         onInit={(evt, editor) => editorRef.current = editor}
                         initialValue={initialValue}
                         init={{
+                            promotion: false,
                             content_css: "tinymce/skins/content/default/content.min.css, tinymce/skins/ui/oxide/content.min.css",
                             object_resizing: true,
                             image_advtab: true,
@@ -179,32 +165,24 @@ export default function Route(){
                             },
                             license_key: 'gpl',
                             language: ""+idioma+"",
-                            height: 500,
+                            height: 700,
                             menubar: true,
                             plugins: [
                                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion' 
                             ],
                             toolbar:[
                                 { name: 'Historial', items: [ 'undo', 'redo' ] },
-                                { name: 'Estilos', items: [ 'casechange', 'blocks' ] },
-                                { name: 'Formato', items: [ 'bold', 'italic', 'forecolor', 'backcolor', 'link', 'image' ] },
+                                { name: 'Formato', items: [ 'styles', 'bold', 'italic', 'forecolor', 'backcolor' ] },
+                                { name: 'Insertar', items: [ 'link', 'image', 'table', 'accordion' ] },
                                 { name: 'Alinear', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                                 { name: 'Listas', items: [ 'bullist', 'numlist', 'checklist' ] },
                                 { name: 'Sangría', items: [ 'outdent', 'indent' ] },
-                                { name: 'Opciones', items: [ 'removeformat', 'indent' ] },
-                                { name: 'EXtras', items: [  'code', 'table', 'help' ] }
-                                
-                            ],
-                            
-                            //   toolbar1:
-                            //   'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help ',
-                            content_style: ''
+                                { name: 'Opciones', items: [ 'removeformat', 'help' ] }
+                            ]
                         }}
                     />
-                {/* </Frame> */}
-                {/* <button onClick={log}>Log editor content</button> */}
                 <button onMouseUp={submit}>Agregar</button>
             </div>
         </div>

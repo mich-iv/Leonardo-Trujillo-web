@@ -1,41 +1,50 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { getAuth, signOut, onAuthStateChanged  } from 'firebase/auth';
-import '../estilos/Menu.css'
-import '../estilos/Paginas.css'
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
+import '../estilos/Menu.css';
+import '../estilos/Paginas.css';
 
 export default function Menu() {
   var habilitar = true;
-  const location = useLocation();
-
-  const [correo, setCorreo] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [foto, setFoto] = useState("");
-  const [token, setToken] = useState("");
-
   //método para obtener datos del usuario con sesión iniciada
-  const sesion = getAuth();
+  const sesion = getAuth(); // Obtiene la sesión de autenticación
+
+  // Variables de estado para almacenar los datos del usuario
+  const [correo, setCorreo] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [foto, setFoto] = useState('');
+  const [token, setToken] = useState('');
+
+  // Obtiene los datos del usuario al iniciar sesión
   useEffect(() => {
-    onAuthStateChanged(sesion, (usuario) => {
+    const unsubscribe = onAuthStateChanged(sesion, (usuario) => {
       if (usuario) {
         setCorreo(usuario.email);       //asignamos datos obtenidos a las variables
         setNombre(usuario.displayName);
         setFoto(usuario.photoURL);
         setToken(usuario.accessToken);
       }
-    })
-  }, []) 
+    });
+
+    // Limpia el effect cuando se desmonta el componente
+    return () => unsubscribe();
+  }, [sesion]); // Dependencia de effect: solo se ejecuta si cambia la sesión
+  //Es decir si la sesion cambia cambia el componente xd
+
+  const location = useLocation(); // Obtiene la ubicación actual
 
   return (
     <div>
       <div className="menu">
-        <Link to={'/'}>Home</Link> 
-        <Link to={'/awards'}>Awards</Link>
+        {/* Enlaces a diferentes secciones */}
+        <Link to="/">Home</Link>
+        <Link to="/awards">Awards</Link>
         <Link to="/bookChapters">Book Chapters</Link>
         <Link to="/journalPublications">Journal Publications</Link>
         <Link to="/conferencePapers">Select Conference Papers</Link>
         <Link to="/projects">Projects</Link>
+
         {
           // mostrar el botón solo si la ruta es diferente de "agregar"
           // porque de no evaluar, podríamos entrar en un loop de
@@ -44,31 +53,37 @@ export default function Menu() {
           !location.pathname.startsWith('/agregar/') ? <Link to={'/agregar'+location.pathname+''}>Agregar</Link> :
           habilitar = false
         }
-        <div className='izquierda'>
-          {/*POR FIN ENTENDÍ ESTA FUNCIÓN 
+
+        <div className="izquierda">
+          {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
             ordenemos; condición ? entonces : si no
             - condición: por ejemplo, 10 es mayor que 5?
               ?
             - entonces: si condición es verdad (true), entonces haz //lo que sea
               :
             - si no: si condición es falso (false), entonces haz //otra cosa */}
-          {token ? 
-            <button type='submit' id="cerrarSesion" onClick={()=>{
+          {/* Botón de inicio de sesión/cierre de sesión */}
+          {token ? (
+            <button
+              type="submit"
+              id="cerrarSesion"
+              onClick={() => {
                 signOut(sesion);
-                window.location.reload();
-            }}>
-              <img alt = "foto" referrerPolicy="no-referrer" src={foto}/>
-                Cerrar sesión
-                <p>{nombre}</p>
+                window.location.reload(); // Recarga la página al cerrar sesión
+              }}
+            >
+              <img alt="foto" referrerPolicy="no-referrer" src={foto} />
+              Cerrar sesión
+              <p>{nombre}</p>
             </button>
-            : 'Iniciar'
-          }
-          
+          ) : (
+            <Link to="/login">Login</Link> // Enlace a la página de inicio de sesión si no hay token
+          )}
         </div>
       </div>
-      <div className='cuerpo'>
-        <Outlet/>
+      <div className="cuerpo">
+        <Outlet /> {/* Renderiza el contenido de la página actual */}
       </div>
     </div>
-  )
+  );
 }

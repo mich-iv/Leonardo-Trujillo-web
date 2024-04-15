@@ -1,7 +1,7 @@
 export default function Route(){
     return(
         <h1>
-            Book chapters
+            Book chapters component
             <br/>
             <br/>
             <br/>

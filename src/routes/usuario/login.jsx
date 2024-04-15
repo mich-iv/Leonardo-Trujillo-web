@@ -1,35 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import {auth, provider} from "../../../firebase.jsx";
-import {signInWithPopup} from "firebase/auth";
+import {signInWithPopup, GoogleAuthProvider, getAuth, onAuthStateChanged} from "firebase/auth";
 import Menu from '../Menu.jsx';
-import {redirect, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 export default function Route(){
+    const navigate = useNavigate();
+    
+    //declaramos vairables para datos de usuario
+    const [correo, setCorreo] = useState("");
+    const [nombre, setNombre] = useState('');
+    const [foto, setFoto] = useState("");
+    const [token, setToken] = useState('');
 
-    const navigate = useNavigate()
-    const [value, setValue] = useState('')
+    //asignamos una variable con el método para el popup de Google
     const handleClick =()=>{
         signInWithPopup(auth, provider).then((data)=>{
-            setValue(data.user.email)
-            localStorage.setItem("email", data.user.email)
-            localStorage.setItem("foto", data.user.photoURL)
-            localStorage.setItem("nombre", data.user.displayName)
+            const credential = GoogleAuthProvider.credentialFromResult(data);
+            setToken(credential.accessToken); //guardamos los datos obtenidos
+            setNombre(data.user);
         })
     }
 
-    useEffect(()=>{
-        setValue(localStorage.getItem('email'));
-    })
+    //método para recuperar datos del usuario con sesión iniciada
+    //NOTA: probablemente hay otro método que no implique un useEffect,
+    //PERO NO ESTOY MUY SEGURO, Y NO SÉ SI SEA NECESARIO.
+    const sesion = getAuth();
+    //sin el useEffect, se cicla y se va a la porquería jkaskj
+    useEffect(() => {
+        onAuthStateChanged(sesion, (usuario) => {
+        if (usuario) {
+            setCorreo(usuario.email);
+            setNombre(usuario.displayName);
+            setFoto(usuario.photoURL);
+            setToken(usuario.accessToken);
+        }
+        })
+    }, []) 
 
-    if(value){
+    //existe un token? entonces, redirecciona al inicio
+    if(token){
         navigate('/')
-        window.location.reload();
+        //window.location.reload();
     }
     
   return (
     <div>
         <h1>Login</h1>
-        {value ?'Sesión iniciada con '+value:
+        {nombre ?'Sesión iniciada como '+nombre:
             <button onClick={handleClick}>Iniciar sesión con Google</button>
         }
     </div>

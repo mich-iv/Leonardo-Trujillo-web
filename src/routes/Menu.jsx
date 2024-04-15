@@ -61,7 +61,7 @@ export default function Menu() {
                 Cerrar sesión
                 <p>{nombre}</p>
             </button>
-            : 'Iniciar'
+            : 'Login'
           }
           
         </div>

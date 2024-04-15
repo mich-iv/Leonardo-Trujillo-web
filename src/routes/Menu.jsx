@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLoaderData, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Outlet } from 'react-router-dom';
+import { getAuth, signOut, onAuthStateChanged  } from 'firebase/auth';
 import '../estilos/Menu.css'
 import '../estilos/Paginas.css'
 
 export default function Menu() {
   var habilitar = true;
   const location = useLocation();
-  
-  const [value, setValue] = useState('')
-    useEffect(()=>{
-      setValue(localStorage.getItem('email'))
-      setValue(localStorage.getItem('nombre'))
-      setValue(localStorage.getItem('foto'))
-  })
 
-  const correo = localStorage.getItem("email");
-  const nombre = localStorage.getItem("nombre");
-  const foto = localStorage.getItem("foto");
+  const [correo, setCorreo] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [foto, setFoto] = useState("");
+  const [token, setToken] = useState("");
+
+  //método para obtener datos del usuario con sesión iniciada
+  const sesion = getAuth();
+  useEffect(() => {
+    onAuthStateChanged(sesion, (usuario) => {
+      if (usuario) {
+        setCorreo(usuario.email);       //asignamos datos obtenidos a las variables
+        setNombre(usuario.displayName);
+        setFoto(usuario.photoURL);
+        setToken(usuario.accessToken);
+      }
+    })
+  }, []) 
 
   return (
     <div>
@@ -32,22 +40,28 @@ export default function Menu() {
           // mostrar el botón solo si la ruta es diferente de "agregar"
           // porque de no evaluar, podríamos entrar en un loop de
           // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
-          !value ? '':
+          !token ? '':
           !location.pathname.startsWith('/agregar/') ? <Link to={'/agregar'+location.pathname+''}>Agregar</Link> :
           habilitar = false
         }
         <div className='izquierda'>
-          {!value ? '' :
-            <button onClick={
-              ()=>{
-                localStorage.clear();
+          {/*POR FIN ENTENDÍ ESTA FUNCIÓN 
+            ordenemos; condición ? entonces : si no
+            - condición: por ejemplo, 10 es mayor que 5?
+              ?
+            - entonces: si condición es verdad (true), entonces haz //lo que sea
+              :
+            - si no: si condición es falso (false), entonces haz //otra cosa */}
+          {token ? 
+            <button type='submit' id="cerrarSesion" onClick={()=>{
+                signOut(sesion);
                 window.location.reload();
-              }
-            }>
+            }}>
               <img alt = "foto" referrerPolicy="no-referrer" src={foto}/>
-              Cerrar sesión
-              <p>{nombre}</p>
-          </button>
+                Cerrar sesión
+                <p>{nombre}</p>
+            </button>
+            : 'Iniciar'
           }
           
         </div>

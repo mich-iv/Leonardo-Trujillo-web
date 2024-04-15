@@ -1,12 +1,11 @@
 import React, { useEffect, useState , useRef } from 'react'
 
-import { useParams } from 'react-router-dom';
-import { bd, collection, addDoc, doc, getDocs } from '../../firebase.jsx';
+import { useParams, useNavigate } from 'react-router-dom';
+import { bd, collection, doc, getDocs } from '../../firebase.jsx';
 import { updateDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import { Editor } from '@tinymce/tinymce-react';
-
-import Frame from 'react-frame-component';
 
 // TinyMCE so the global var exists
 /* eslint-disable-next-line no-unused-vars */
@@ -60,6 +59,18 @@ export default function Route(){
     //obtenemos la ruta actual del url
     const { ubicacion } = useParams();
 
+    const navigate = useNavigate();
+
+    const [token, setToken] = useState("");
+    const sesion = getAuth();
+    useEffect(() => {
+        onAuthStateChanged(sesion, (usuario) => {
+        if (usuario) {
+            setToken(usuario.accessToken);
+        }
+        })
+    }, []) 
+
     const submit = (e) => {
         //traemos los datos del editor
         const textoFinal = editorRef.current.getContent();
@@ -72,8 +83,6 @@ export default function Route(){
             cada sección.
             - Además, el id lo obtenemos de la base para actualizar el mismo registro
             */
-            console.log("4.- antes de updateDoc");
-            console.log("4.1.- textoFinal"+textoFinal);
             updateDoc(doc(bd, ubicacion, id), {
                 texto : textoFinal
                 // titulo: tituloForm,
@@ -105,6 +114,9 @@ export default function Route(){
         });
     }, []);
 
+    if(!token){
+        navigate("/");
+    }
     return(
         <div>
             <div  className='root'>

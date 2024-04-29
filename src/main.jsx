@@ -9,15 +9,19 @@ import BookChapters from './routes/bookChapters.jsx'
 import JournalPublications from './routes/journalPublications.jsx'
 import ConferencePapers from './routes/conferencePapers.jsx'
 import Projects from './routes/projects.jsx'
-import Menu from './routes/Menu.jsx'
 import Login from './routes/usuario/login.jsx'
-import Agregar from './routes/agregar.jsx'
+import Agregar from './routes/usuario/agregar.jsx'
+import App from './App.jsx'
 
 const router = createHashRouter([
   {
     path:'/',
-    element: <Menu/>,
+    element: <App/>,
     children: [
+      {
+        path:'/home',
+        element: <Home/>
+      },
       {
         path:'/awards',
         element: <Awards/>
@@ -45,14 +49,6 @@ const router = createHashRouter([
       {
         path:'/agregar/:ubicacion',
         element: <Agregar/>
-      },
-      {
-        path:'/eliminar',
-        element: <Login/>
-      },
-      {
-        path:'/editar',
-        element: <Login/>
       },
     ],
   },

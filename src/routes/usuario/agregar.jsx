@@ -1,8 +1,8 @@
 import React, { useEffect, useState , useRef } from 'react'
 
 import { useParams, useNavigate } from 'react-router-dom';
-import { bd, collection, doc, getDocs } from '../../firebase.jsx';
-import { updateDoc } from 'firebase/firestore';
+import { bd, collection, doc, getDocs } from '../../../firebase.jsx';
+import { setDoc, updateDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import { Editor } from '@tinymce/tinymce-react';
@@ -45,7 +45,7 @@ import 'tinymce/plugins/visualblocks';
 import 'tinymce/plugins/preview';
 import 'tinymce/plugins/save';
 
-import '../estilos/Paginas.css';
+import '../../estilos/Paginas.css';
 
 export default function Route(){
     var idioma = "es_MX";
@@ -83,14 +83,33 @@ export default function Route(){
             cada sección.
             - Además, el id lo obtenemos de la base para actualizar el mismo registro
             */
-            updateDoc(doc(bd, ubicacion, id), {
-                texto : textoFinal
-                // titulo: tituloForm,
-                // descripcion: descripcionForm,
-                // url: urlForm,
-                // anio: anioForm
-            });
-            console.log("5.- saliendo de updateDoc");
+            const documento = doc(bd, ubicacion, "0");
+            // console.log(documento);
+            // const existeDocumento = getDoc(documento);
+            // if(existeDocumento.exists()){
+                console.log("SI existe documento, entonces actualiza");
+                setDoc(documento, {
+                    texto : textoFinal
+                    // titulo: tituloForm,
+                    // descripcion: descripcionForm,
+                    // url: urlForm,
+                    // anio: anioForm
+                }).then(() => {
+                    alert('Información actualizada')
+                    navigate(-1);
+                }).catch((error) => {
+
+                });
+            // }else{
+            //     console.log("NO existe documento, entonces crea");
+            //     setDoc(documento, {
+            //         texto : textoFinal
+            //         // titulo: tituloForm,
+            //         // descripcion: descripcionForm,
+            //         // url: urlForm,
+            //         // anio: anioForm
+            //     });
+            // }
         }catch (error) {
             console.log(error);
         }
@@ -108,9 +127,11 @@ export default function Route(){
             return docs;
         }
         docSnap().then(valor => {
-            const prueba = valor;
-            setTimeout(() => setInitialValue(prueba[0].texto), 1);
-            setTimeout(() => setId(prueba[0].id), 1);
+            const temporal = valor;
+            if(temporal.length>0){
+                setTimeout(() => setInitialValue(temporal[0].texto), 1);
+                setTimeout(() => setId(temporal[0].id), 1);
+            }
         });
     }, []);
 
@@ -177,7 +198,7 @@ export default function Route(){
                             },
                             license_key: 'gpl',
                             language: ""+idioma+"",
-                            height: 700,
+                            height: 550,
                             menubar: true,
                             plugins: [
                                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',

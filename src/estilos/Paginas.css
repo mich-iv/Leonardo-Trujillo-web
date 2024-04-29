@@ -1,6 +1,6 @@
 .titulos{
     padding: 1rem 0rem;
-    border: 1px solid ;
+    font-size: 2em;
 }
 
 .cuerpo{
@@ -8,9 +8,8 @@
     margin: auto;
     padding-top: 5%;
     padding-bottom: calc(100vh - 80%);
-    padding-left: calc(100vw - 80%);
-    padding-right: calc(100vw - 80%);
-    border: 2px solid green;
+    padding-left: calc(100vw - 90%);
+    padding-right: calc(100vw - 90%);
 }
 
 .columnas{
@@ -19,15 +18,10 @@
     column-gap: 1rem;
     column-rule-width: 0.1rem;
     column-rule-style: solid;
-    /* display:grid;
-    grid-template-columns: repeat(2, 1ft);
-    gap: 20; */
-    
 }
 
 .texto{
     text-align: justify;
-    border:  1px solid;
     
 }
 

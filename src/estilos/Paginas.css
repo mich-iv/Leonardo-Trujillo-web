@@ -6,7 +6,7 @@
 .cuerpo{
     /* padding: 2rem 10rem; */
     margin: auto;
-    padding-top: calc(90vh - 45%);
+    padding-top: 5%;
     padding-bottom: calc(100vh - 80%);
     padding-left: calc(100vw - 80%);
     padding-right: calc(100vw - 80%);

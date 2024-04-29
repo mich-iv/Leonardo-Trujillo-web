@@ -4,7 +4,7 @@ import { useLoaderData, useLocation } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
 
 export default function Route(){
-    var prueba;
+    var temporal;
     const location = useLocation();
     const [textoCargado, setTextoCargado]= useState("");
 
@@ -14,7 +14,6 @@ export default function Route(){
 
     useEffect (() => {
         async function docSnap(){
-            // const response = await firebase.firestore().collection('awards').get();
             var response = await getDocs(collection(bd, location.pathname));
             const docs = response.docs.map((doc) => {
                 const data = doc.data();
@@ -24,8 +23,8 @@ export default function Route(){
             return docs;
         }
         docSnap().then(valor => {
-            prueba = valor;
-            setTextoCargado(prueba[0].texto);
+            temporal = valor;
+            setTextoCargado(temporal[0].texto);
         });
 
     }, []);
@@ -37,16 +36,9 @@ export default function Route(){
                     Awards
                 </h1>
 
-                
-
-                {/* {Employees.map((data, key) => {
-                    return <h2 key={key}>{data.preferredFullName}</h2>;
-                })
-                } */}
                 <div  className='texto'>
                     {mostrarTexto()}
                 </div>
-                    
             </div>
         </div>
     )

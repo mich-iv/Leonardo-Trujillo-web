@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../estilos/Paginas.css';
-import { useLoaderData, useLocation } from 'react-router-dom';
+import { useLoaderData, useLocation, Link } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
 
 export default function SeccionesDerecha(){
-    const yearsRef = useRef();
+
+    useEffect(()=>{
+        console.log(parent.document.getElementById('year2023'));
+    })
+    
 
     return(
         <div>
             <div>
                 <div className='seccionDerecha'>
-                    <a href=''>2023</a>
+                    <Link to="/bookChapters#year2023">Press Link to get to headline</Link>
                 </div>
             </div>
         </div>

@@ -207,7 +207,7 @@ export default function Route(){
                             ],
                             toolbar:[
                                 { name: 'Historial', items: [ 'undo', 'redo' ] },
-                                { name: 'Formato', items: [ 'styles', 'bold', 'italic', 'forecolor', 'backcolor' ] },
+                                { name: 'Formato', items: [ 'styles', 'fontsizeinput', 'bold', 'italic', 'forecolor', 'backcolor' ] },
                                 { name: 'Insertar', items: [ 'link', 'image', 'table', 'accordion' ] },
                                 { name: 'Alinear', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                                 { name: 'Listas', items: [ 'bullist', 'numlist', 'checklist' ] },

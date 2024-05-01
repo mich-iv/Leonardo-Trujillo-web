@@ -30,3 +30,9 @@
     width: 50%;
     padding: 10px;
 }
+
+.seccionDerecha{
+    position: fixed;
+    right: 2em;
+    top: 10em;
+}

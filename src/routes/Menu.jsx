@@ -16,6 +16,22 @@ export default function Menu() {
   const [foto, setFoto] = useState('');
   const [token, setToken] = useState('');
 
+  const [mostrarBoton, setMostrarBoton] = useState(false);
+
+  const handleKeyboard = ({ repeat, metaKey, ctrlKey, shiftKey , key, KeyM }) => {
+    if (repeat) return
+  
+    // Handle both, `ctrl` and `meta`.
+    if (((metaKey || ctrlKey) && shiftKey) && key === 'Insert') setMostrarBoton(prev => !prev)
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyboard)
+  
+    // Important to remove the listeners.
+    return () => document.removeEventListener('keydown', handleKeyboard)
+  })
+
   // Obtiene los datos del usuario al iniciar sesión
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(sesion, (usuario) => {
@@ -33,11 +49,13 @@ export default function Menu() {
   //Es decir si la sesion cambia cambia el componente xd
 
   const location = useLocation(); // Obtiene la ubicación actual
-
+  console.log(":"+location.pathname+":");
+  console.log(location.pathname.endsWith('/'));
+  
   return (
     <>
       <nav className='menu'>
-        <Link to="/home">Home</Link>
+        <Link to="/">Home</Link>
         <Link to="/awards">Awards</Link>
         <Link to="/bookChapters">Book Chapters</Link>
         <Link to="/journalPublications">Journal Publications</Link>
@@ -66,7 +84,7 @@ export default function Menu() {
               <p>Cerrar sesión</p>
             </button>
           ) : (
-            <Link to="/login">Login</Link> // Enlace a la página de inicio de sesión si no hay token
+            <Link to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
           )}
         </div>
         {
@@ -75,7 +93,7 @@ export default function Menu() {
           // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
           !token ? '':
           !location.pathname.startsWith('/agregar/') ? 
-          <Link className="agregar" to={'/agregar'+location.pathname+''}><p className='agregarMas' title='Agregar información'>+</p></Link> :
+          <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'>+</p></Link> :
           habilitar = false
         }
       </nav>

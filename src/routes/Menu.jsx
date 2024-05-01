@@ -49,8 +49,6 @@ export default function Menu() {
   //Es decir si la sesion cambia cambia el componente xd
 
   const location = useLocation(); // Obtiene la ubicación actual
-  console.log(":"+location.pathname+":");
-  console.log(location.pathname.endsWith('/'));
   
   return (
     <>

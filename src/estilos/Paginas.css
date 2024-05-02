@@ -5,6 +5,7 @@
 
 .cuerpo{
     /* padding: 2rem 10rem; */
+    height: 8%;
     margin: auto;
     padding-top: 5%;
     padding-bottom: calc(100vh - 80%);

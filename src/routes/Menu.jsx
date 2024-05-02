@@ -71,6 +71,7 @@ export default function Menu() {
           {/* Botón de inicio de sesión/cierre de sesión */}
           {token ? (
             <button
+              className='izquierda'
               type="submit"
               id="cerrarSesion"
               onClick={() => {

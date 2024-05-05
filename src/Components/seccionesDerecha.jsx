@@ -5,45 +5,45 @@ import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
 import { HashLink } from 'react-router-hash-link';
 
 export default function SeccionesDerecha(){
-    const [year, setYear] = useState("");
     const [campos, setCampos] = useState("");
-    const expresion = /^year[0-9]+$/i;
-    var temporal;
 
     const lista = parent.document.getElementsByTagName('a');
     var nombre = '';
     var nombreFiltrado = '';
-    console.log(lista);
+    // console.log('LISTAAAA'+lista);
 
     useEffect(()=>{
             try{
-                setTimeout(() => setCampos(parent.document.getElementsByTagName('a')), 1000);
-                // console.log("campos:"+campos);
+                /* obtener los elementos del HTML con la etiqueta <a>, pues desde el editor de texto
+                se agregan los marcadores a los años correspondientes con la etiqueta <a>
+                y un id con el año que se marcó */
+                setTimeout(() => setCampos(parent.document.getElementsByTagName('a')), 500);
             }catch(error){
                 console.log("No hay datos");
             }
     }, [])
 
-    let years = [];
-    years.push('Años');
-    years.push(<br/>);
+    let marcadores = [];
     for (let i = 0; i < lista.length; i++) {
         nombre = lista[i].id;
         if(nombre.startsWith("year")){
             nombreFiltrado = nombre.slice(4, 8);
-            
-            years.push(<HashLink smooth to={"/bookChapters#year"+nombreFiltrado}>
+            marcadores.push(<HashLink name="marcador" smooth to={"/bookChapters#year"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
-                years.push(<br/>);
+                marcadores.push(<br/>);
         }
-        // setYear(parent.document.getElementById(nombre).getAttribute("id")), 2000);
     }
-
+    
     return(
         <div>
             <div>
                 <div className='seccionDerecha'>
-                    {years}
+                    {/* si hay marcadores de años, entonces muestralos */}
+                    {marcadores.length > 0 ? 
+                        <div className="" id="tituloMarcadores">Años</div> :
+                        ''
+                    }
+                    {marcadores} {/* años a mostrar */}
                 </div>
             </div>
         </div>

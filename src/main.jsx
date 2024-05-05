@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import {createHashRouter, RouterProvider, useLocation} from 'react-router-dom'
+import {createHashRouter, RouterProvider} from 'react-router-dom'
 
 import Home from './routes/home.jsx'
 import Awards from './routes/awards.jsx'
@@ -12,6 +12,8 @@ import Projects from './routes/projects.jsx'
 import Login from './routes/usuario/login.jsx'
 import Agregar from './routes/usuario/agregar.jsx'
 import App from './App.jsx'
+
+
 
 const router = createHashRouter([
   {

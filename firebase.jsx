@@ -6,12 +6,12 @@ import { collection, addDoc, getDocs, getDoc, doc} from "firebase/firestore";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAejP1sLxR7Ny-bmVonQefSq_ef8ItOTME",
-  authDomain: "pruebasitio-21d00.firebaseapp.com",
-  projectId: "pruebasitio-21d00",
-  storageBucket: "pruebasitio-21d00.appspot.com",
-  messagingSenderId: "524799552667",
-  appId: "1:524799552667:web:ea50f1e84ea199c931aa3e"
+  apiKey: "AIzaSyD6m848l9wtAoxgD_oih2J4L0caEUI0xas",
+  authDomain: "leonardo-trujillo.firebaseapp.com",
+  projectId: "leonardo-trujillo",
+  storageBucket: "leonardo-trujillo.appspot.com",
+  messagingSenderId: "499508165807",
+  appId: "1:499508165807:web:1a51f8d965342964cc685a"
 };
 
 // Initialize Firebase

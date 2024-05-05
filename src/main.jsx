@@ -18,7 +18,7 @@ import App from './App.jsx'
 const router = createHashRouter([
   {
     path:'/',
-    element: <App/>,
+    element: <App style={"secciones"}/>,
     children: [
       {
         path:'/',

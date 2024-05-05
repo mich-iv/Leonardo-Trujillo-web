@@ -60,7 +60,7 @@ export default function Menu() {
         <Link to="/conferencePapers">Select Conference Papers</Link>
         <Link to="/projects">Projects</Link>
 
-        <div className="izquierda">
+        <div className="derecha">
           {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
             ordenemos; condición ? entonces : si no
             - condición: por ejemplo, 10 es mayor que 5?
@@ -71,7 +71,7 @@ export default function Menu() {
           {/* Botón de inicio de sesión/cierre de sesión */}
           {token ? (
             <button
-              className='izquierda'
+              className='derecha'
               type="submit"
               id="cerrarSesion"
               onClick={() => {

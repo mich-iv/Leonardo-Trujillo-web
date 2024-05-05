@@ -9,19 +9,17 @@ export default function Route(){
 
 
     return(
-        <div>
-            <div>
-                <h1 className='titulos'>
-                    Book chapters
-                </h1>
+        <>
+            <h1 className='titulos'>
+                Book chapters
+            </h1>
 
-                <div className='texto'>
-                    <MostrarTexto/>
-                </div>
-                <div>
-                    <SeccionesDerecha/>
-                </div>
+            <div className='texto'>
+                <MostrarTexto/>
             </div>
-        </div>
+            <div>
+                <SeccionesDerecha/>
+            </div>
+        </>
     )
 }

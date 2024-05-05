@@ -8,7 +8,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Editor } from '@tinymce/tinymce-react';
 
 import '../../estilos/Menu.css';
-import '../../estilos/Paginas.css';
 
 // TinyMCE so the global var exists
 /* eslint-disable-next-line no-unused-vars */
@@ -67,11 +66,16 @@ export default function Route(){
     const navigate = useNavigate();
 
     const [token, setToken] = useState("");
+    const [nombre, setNombre] = useState("");
+
     const sesion = getAuth();
+    const horaActual = new Date();
+
     useEffect(() => {
         onAuthStateChanged(sesion, (usuario) => {
         if (usuario) {
             setToken(usuario.accessToken);
+            setNombre(usuario.displayName);
         }else{
             navigate("/");
         }
@@ -91,13 +95,10 @@ export default function Route(){
             - Además, el id lo obtenemos de la base para actualizar el mismo registro
             */
             const documento = doc(bd, ubicacion, "0");
-            // console.log(documento);
-            // const existeDocumento = getDoc(documento);
-            // if(existeDocumento.exists()){
-                console.log("SI existe documento, entonces actualiza");
                 setDoc(documento, {
-                    texto : textoFinal
-                    // titulo: tituloForm,
+                    texto : textoFinal,
+                    usuario: nombre,
+                    hora: horaActual
                     // descripcion: descripcionForm,
                     // url: urlForm,
                     // anio: anioForm
@@ -105,20 +106,10 @@ export default function Route(){
                     alert('Información actualizada')
                     navigate(-1);
                 }).catch((error) => {
-
+                    console.error(error);
                 });
-            // }else{
-            //     console.log("NO existe documento, entonces crea");
-            //     setDoc(documento, {
-            //         texto : textoFinal
-            //         // titulo: tituloForm,
-            //         // descripcion: descripcionForm,
-            //         // url: urlForm,
-            //         // anio: anioForm
-            //     });
-            // }
         }catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -220,7 +211,7 @@ export default function Route(){
                             ]
                         }}
                     />
-                <a className="listo" onMouseUp={submit}><img className="listo" alt="listo" src="../../../src/assets/listo.svg"/></a>
+                <a className="listo" onMouseUp={submit}><img className="" alt="listo" src="../../../src/assets/listo.svg"/></a>
             </div>
         </div>
     )

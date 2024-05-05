@@ -36,12 +36,10 @@ export default function Route(){
     }, []);
 
     return(
-        <div>
-            <div>
-                <div  className='texto'>
-                    {mostrarTexto()}
-                </div>
+        <>
+            <div  className='texto'>
+                {mostrarTexto()}
             </div>
-        </div>
+        </>
     )
 }

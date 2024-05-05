@@ -8,8 +8,7 @@ import MostrarTexto from '../Components/MostrarTexto.jsx';
 export default function Route(){
 
     return(
-        <div>
-            <div>
+        <>
                 <h1 className='titulos'>
                     Select Conference papers
                 </h1>
@@ -17,7 +16,6 @@ export default function Route(){
                 <div  className='texto'>
                     <MostrarTexto/>
                 </div>
-            </div>
-        </div>
+        </>
     )
 }

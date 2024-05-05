@@ -7,6 +7,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import { Editor } from '@tinymce/tinymce-react';
 
+import '../../estilos/Menu.css';
+import '../../estilos/Paginas.css';
+
 // TinyMCE so the global var exists
 /* eslint-disable-next-line no-unused-vars */
 import tinymce from 'tinymce/tinymce.min.js';
@@ -39,8 +42,10 @@ import 'tinymce/plugins/nonbreaking';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/help/';
 import 'tinymce/plugins/help/plugin.js';
-// import 'tinymce/plugins/help/js/i18n/keynav/en.js';
-// import 'tinymce/plugins/help/js/i18n/keynav/es_MX.js';
+import 'tinymce/plugins/help/index.js';
+import 'tinymce/plugins/help/js/i18n/keynav/en.js';
+import 'tinymce/plugins/help/js/i18n/keynav/es_MX.js';
+import '../../../langs/es_MX.js';
 import 'tinymce/plugins/visualblocks';
 import 'tinymce/plugins/preview';
 import 'tinymce/plugins/save';
@@ -67,6 +72,8 @@ export default function Route(){
         onAuthStateChanged(sesion, (usuario) => {
         if (usuario) {
             setToken(usuario.accessToken);
+        }else{
+            navigate("/");
         }
         })
     }, []) 
@@ -134,10 +141,7 @@ export default function Route(){
             }
         });
     }, []);
-
-    if(!token){
-        navigate("/");
-    }
+    
     return(
         <div>
             <div  className='root'>
@@ -197,7 +201,7 @@ export default function Route(){
                             input.click();
                             },
                             license_key: 'gpl',
-                            language: ""+idioma+"",
+                            language: ''+idioma+'',
                             height: 550,
                             menubar: true,
                             plugins: [
@@ -216,7 +220,7 @@ export default function Route(){
                             ]
                         }}
                     />
-                <button onMouseUp={submit}>Agregar</button>
+                <a className="listo" onMouseUp={submit}><img className="listo" alt="listo" src="../../../src/assets/listo.svg"/></a>
             </div>
         </div>
     )

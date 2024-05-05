@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import '../estilos/Paginas.css';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
 
-export default function Route(){
-    var temporal = '';
+const MostrarTexto = () => {
+    var temporal;
     const location = useLocation();
     const [textoCargado, setTextoCargado]= useState("");
 
-    const mostrarTexto = () => {
-        return <div dangerouslySetInnerHTML={{ __html: textoCargado }} />;
-    };
-
     useEffect (() => {
         async function docSnap(){
-            var response = await getDocs(collection(bd, "home"));
+            var response = await getDocs(collection(bd, location.pathname));
             const docs = response.docs.map((doc) => {
                 const data = doc.data();
                 data.id = doc.id;
@@ -29,19 +24,13 @@ export default function Route(){
             } catch (error) {
                 console.error(error);
             }
-                
-            
         });
-
+    
     }, []);
 
-    return(
-        <div>
-            <div>
-                <div  className='texto'>
-                    {mostrarTexto()}
-                </div>
-            </div>
-        </div>
-    )
-}
+    return <div dangerouslySetInnerHTML={{ __html: textoCargado }} />;
+};
+
+
+
+export default MostrarTexto;

@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 .menu {
+  z-index: 500;
   height: auto 3rem;
   width: 100%;
   /* max-width: calc(100% - 1px); */
@@ -9,7 +10,11 @@
   top: 0px;
 
   background-color: rgb(100, 175, 159);
-  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  /* overflow: hidden; */
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .menu a{
@@ -18,10 +23,10 @@
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1rem;
   /* text-decoration: none; */
   font-size: 1.25rem;
-  transition: 125ms;
+  transition: 200ms;
 }
 
 .menu a:hover {
@@ -29,44 +34,41 @@
   color: rgb(73, 73, 73);
 }
 
-.izquierda button{
-  position: fixed;
-  right: 1em;
-  top: 0.5rem;
-  padding: 0.1rem 1rem;
+.derecha button{
+  position: absolute;
+  padding: 0;
+  top: calc(50% - 1.5rem);
+  right: calc(1.5rem - 1vw);
   height: 3rem;
+  /* width: 8rem; */
   background-color: #f2f2f2;
   color: rgb(73, 73, 73);
   transition: 125ms;
-  
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.izquierda button:hover{
+.derecha button:hover{
   background-color: #b6b6b6;
   color: rgb(33, 33, 33);
   border-color: #b6b6b6;
 }
 
-.izquierda p{
-  font-size: 1.5em;
-  padding-left: 1.75em;
-  margin: auto;
+.derecha img{
+  margin: 0.5rem;
+  width: 2rem;
+  border-radius: 10%;
 }
 
-.izquierda img{
-  position: absolute;
-  left: 0.25em;
-  top: 0.1em;
-  padding: auto;
-  margin: auto;
-  width: 2.5em;
-  border-radius: 10%;
+.derecha p{
+  padding-right: 0.5rem;
 }
 
 .agregar {
   position: fixed;
-  bottom: 1em;
-  right: 1em;
+  bottom: 1rem;
+  right: 1rem;
   border-radius: 100%;
   background-color: rgb(100, 175, 159);
   width: 4em;
@@ -81,4 +83,17 @@
   line-height: 1em;       /* The same as your div height */
   margin: 0 auto;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.listo {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 100%;
+  background-color: rgb(100, 175, 159);
+  width: 5em;
+  height: 5em;
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }

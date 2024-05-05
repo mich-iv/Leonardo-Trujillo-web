@@ -8,16 +8,14 @@ import MostrarTexto from '../Components/MostrarTexto.jsx';
 export default function Route(){
 
     return(
-        <div>
-            <div>
-                <h1 className='titulos'>
-                    Journal Publications
-                </h1>
+        <>
+            <h1 className='titulos'>
+                Journal Publications
+            </h1>
 
-                <div  className='texto'>
-                    <MostrarTexto/>
-                </div>
+            <div  className='texto'>
+                <MostrarTexto/>
             </div>
-        </div>
+        </>
     )
 }

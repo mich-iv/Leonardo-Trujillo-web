@@ -2,17 +2,134 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 .cabecera {
-  position: absolute;
-  height: 10rem 10rem;
+  z-index: 500;
+  margin: 0;
+  padding: 0;
+  position: fixed;
   top: 0;
-  /* padding-top: 2rem; */
-  background-color: pink
+  left: 0;
+  height: 4rem;
+  width: 100%;
+  background-color: rgb(100, 175, 159);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
-.cuerpoTexto div {
+
+.menu {
+  /* z-index: 500; */
+  /* height: auto 3rem; */
+  width: 100%;
+  max-width: calc(100% - 1px);
+  position: fixed;
+  top: 0px;
+
+  /* background-color: rgb(100, 175, 159); */
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* overflow: hidden; */
+  justify-content: flex-start;
+}
+
+.menu a{
+  text-align: center;
+  padding: 1rem 1rem;
+  /* float: left; */
+  color: #1a1a1a;
+  /* color: #f2f2f2; */
+  
+  text-align: center;
+  /* padding: 1rem 1rem; */
+  text-decoration: none;
+  font-size: 1.25rem;
+  transition: 200ms;
+  /* align-items: center; */
+}
+
+.menu a:hover {
+  /* background-color: #ddd; */
+  color: rgb(73, 73, 73);
+}
+
+.cuerpo {
   top: 1rem;
-  padding-top: 3em;
-  background-color: green
+  padding-top: 3rem;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+  scroll-margin-top: 6rem;
+
+}
+a:hover {
+  color: #535bf2;
+}
+
+button {
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  /* padding: 0.6em 1.2em; */
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@media all and (max-width: 800px) {
+  .menu, .menuSecciones {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    width: auto;
+  }
+
+  .menuSecciones {
+    display:none;
+  }
+
+  .menu-desplegar {
+    /* align-self:self-end; */
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    cursor: pointer;
+  }
+  
+  .logo {
+    margin: 0;
+  }
 }

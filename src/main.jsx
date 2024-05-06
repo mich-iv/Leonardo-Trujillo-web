@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import {createHashRouter, RouterProvider} from 'react-router-dom'
 
 import Home from './routes/secciones/home.jsx'
@@ -12,8 +11,6 @@ import Projects from './routes/secciones/projects.jsx'
 import Login from './routes/usuario/login.jsx'
 import Agregar from './routes/usuario/agregar.jsx'
 import App from './App.jsx'
-
-
 
 const router = createHashRouter([
   {
@@ -56,7 +53,7 @@ const router = createHashRouter([
   },
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('raiz')).render(
   <React.StrictMode>
     <RouterProvider router={router}/>
   </React.StrictMode>,

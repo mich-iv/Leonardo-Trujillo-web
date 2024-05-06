@@ -18,22 +18,21 @@ import Projects from './routes/secciones/projects.jsx'
 import './estilos/App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return(
-    <>
-      <div>
-
-        <div>
-          <Menu/>
-        </div>
-
-        <div className='cuerpo'>
-          <Outlet/>
-        </div>
-        
+    <div className='secciones'>
+      <div className='cabecera'>
+        <Menu/>
       </div>
-    </>
+
+      <div className='cuerpo'>
+        <Outlet/>
+      </div>
+
+      <div className='pie'>
+
+      </div>
+    </div>
   )
 }
 

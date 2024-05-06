@@ -51,12 +51,12 @@ import 'tinymce/plugins/save';
 
 import '../../estilos/Paginas.css';
 
+import ExtraerTexto from '../../Components/ExtraerDOI.jsx';
+
 export default function Route(){
     var idioma = "es_MX";
 
     const [initialValue, setInitialValue] = useState(undefined);
-
-    const [id, setId] = useState("");
 
     const editorRef = useRef(null);
 
@@ -70,6 +70,55 @@ export default function Route(){
 
     const sesion = getAuth();
     const horaActual = new Date();
+
+    let id = "10.1117/12.2062348";
+    let textoDOI = ExtraerTexto(id);
+    var prueba;
+    var cueva, tit;
+    var resultMap = new Map();
+    
+    try {
+        // console.log(typeof textoDOI);
+        // let myMap = new Map(Object.entries(this.props.textoDOI));
+        // console.log(myMap.TITLE);
+
+        for (const [key, value] of Object.entries(textoDOI)) {
+            // console.log(`${key}: ${value}`);
+            for (const [llave, valor] of Object.entries(value)) {
+                // console.log(`${llave}: ${valor}`);
+                resultMap.set(llave, valor);
+            }
+        }
+
+        // console.log(resultMap);
+        // console.log(
+        //     resultMap.get("AUTHOR")+", "+
+        //     resultMap.get("TITLE")+", "+
+        //     resultMap.get("PUBLISHER")+", "+
+        //     resultMap.get("BOOKTITLE")+", "+
+        //     resultMap.get("TITLE")+", "+
+        //     ""
+        // );
+
+    } catch (error) {
+        console.error(error);
+    }
+
+    // {
+    //     "CUEVAS_2014": {
+    //         "entryType": "INPROCEEDINGS",
+    //         "TITLE": "Facial recognition using composite correlation filters designed with multiobjective combinatorial optimization",
+    //         "ISSN": "0277-786X",
+    //         "URL": "http://dx.doi.org/10.1117/12.2062348",
+    //         "DOI": "10.1117/12.2062348",
+    //         "BOOKTITLE": "Applications of Digital Image Processing XXXVII",
+    //         "PUBLISHER": "SPIE",
+    //         "AUTHOR": "Cuevas, Andres and Diaz-Ramirez, Victor H. and Kober, Vitaly and Trujillo, Leonardo",
+    //         "EDITOR": "Tescher, Andrew G.",
+    //         "YEAR": "2014",
+    //         "MONTH": "September"
+    //     }
+    // }
 
     useEffect(() => {
         onAuthStateChanged(sesion, (usuario) => {
@@ -127,8 +176,9 @@ export default function Route(){
         docSnap().then(valor => {
             const temporal = valor;
             if(temporal.length>0){
-                setTimeout(() => setInitialValue(temporal[0].texto), 1);
-                setTimeout(() => setId(temporal[0].id), 1);
+                // setInitialValue(temporal[0].texto)
+                setTimeout(() => setInitialValue(temporal[0].texto), 200);
+                // setTimeout(() => setId(temporal[0].id), 200);
             }
         });
     }, []);

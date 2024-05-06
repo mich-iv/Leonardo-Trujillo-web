@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import '../estilos/Paginas.css';
-import { useLoaderData, useLocation } from 'react-router-dom';
-import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
+import '../../estilos/Paginas.css';
 
-import MostrarTexto from '../Components/MostrarTexto.jsx';
+import MostrarTexto from '../../Components/MostrarTexto.jsx';
 
 export default function Route(){
 
     return(
         <>
             <h1 className='titulos'>
-                Journal Publications
+                Awards
             </h1>
 
             <div  className='texto'>

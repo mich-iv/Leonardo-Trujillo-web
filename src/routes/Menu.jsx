@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
-import '../estilos/Menu.css';
-import '../estilos/Paginas.css';
+import '../estilos/App.css';
 
 export default function Menu() {
   var habilitar = true;
@@ -49,16 +48,30 @@ export default function Menu() {
   //Es decir si la sesion cambia cambia el componente xd
 
   const location = useLocation(); // Obtiene la ubicación actual
+
+  useEffect(() => {
+    document.querySelector('.menu-desplegar')
+    .addEventListener('click', desplegarMenu);
+  })
+  
+  function desplegarMenu() {
+    console.log('funcionó kask');
+    const navs = document.querySelectorAll('.menuSecciones')
+    navs.forEach(nav => nav.classList.toggle('menu-desplegar'));
+  }
   
   return (
     <>
       <nav className='menu'>
-        <Link to="/">Home</Link>
-        <Link to="/awards">Awards</Link>
-        <Link to="/bookChapters">Book Chapters</Link>
-        <Link to="/journalPublications">Journal Publications</Link>
-        <Link to="/conferencePapers">Select Conference Papers</Link>
-        <Link to="/projects">Projects</Link>
+        <Link className="menuSecciones" to="/">Home</Link>
+        <div class="menu-desplegar">
+          E
+        </div>
+        <Link className="menuSecciones" to="/awards">Awards</Link>
+        <Link className="menuSecciones" to="/bookChapters">Book Chapters</Link>
+        <Link className="menuSecciones" to="/journalPublications">Journal Publications</Link>
+        <Link className="menuSecciones" to="/conferencePapers">Select Conference Papers</Link>
+        <Link className="menuSecciones" to="/projects">Projects</Link>
 
         <div className="derecha">
           {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria

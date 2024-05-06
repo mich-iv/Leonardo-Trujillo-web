@@ -97,3 +97,32 @@
   align-items: center;
   justify-content: center;
 }
+
+.DOI {
+  position: fixed;
+  bottom: 7rem;
+  right: 1rem;
+  border-radius: 100%;
+  background-color: rgb(100, 175, 159);
+  width: 5rem;
+  height: 5rem;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+
+  /* float: left; */
+  color: #f2f2f2;
+  text-align: center;
+  padding: 1rem 1rem;
+  /* text-decoration: none; */
+  font-size: 1.25rem;
+  transition: 200ms;
+  
+}
+
+.DOI p{
+  font-size: 2em;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+  
+}

@@ -7,10 +7,14 @@ import { HashLink } from 'react-router-hash-link';
 export default function SeccionesDerecha(){
     const [campos, setCampos] = useState("");
 
+    const ubicacion = useLocation().pathname; // Obtiene la ubicación actual
+
     const lista = parent.document.getElementsByTagName('a');
     var nombre = '';
+    var nombreKey = '';
     var nombreFiltrado = '';
-    // console.log('LISTAAAA'+lista);
+
+    console.log(ubicacion);
 
     useEffect(()=>{
             try{
@@ -24,13 +28,14 @@ export default function SeccionesDerecha(){
     }, [])
 
     let marcadores = [];
-    for (let i = 0; i < lista.length; i++) {
-        nombre = lista[i].id;
+    for (let i = 0; i < campos.length; i++) {
+        nombre = campos[i].id;
         if(nombre.startsWith("year")){
+            nombreKey = "marcador"+i;
             nombreFiltrado = nombre.slice(4, 8);
-            marcadores.push(<HashLink name="marcador" smooth to={"/bookChapters#year"+nombreFiltrado}>
+            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion+"/#year"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
-                marcadores.push(<br/>);
+                marcadores.push(<br key={nombreKey+"br"}/>);
         }
     }
     
@@ -40,7 +45,7 @@ export default function SeccionesDerecha(){
                 <div className='seccionDerecha'>
                     {/* si hay marcadores de años, entonces muestralos */}
                     {marcadores.length > 0 ? 
-                        <div className="" id="tituloMarcadores">Años</div> :
+                        <div key={"1"} id="tituloMarcadores">Años</div> :
                         ''
                     }
                     {marcadores} {/* años a mostrar */}

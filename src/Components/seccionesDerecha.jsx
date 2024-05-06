@@ -1,20 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../estilos/Paginas.css';
-import { useLoaderData, useLocation, Link } from 'react-router-dom';
-import {bd, collection, getDocs, doc, getDoc} from '../../firebase.jsx';
+import { useParams, useLocation } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
 export default function SeccionesDerecha(){
     const [campos, setCampos] = useState("");
 
-    const ubicacion = useLocation().pathname; // Obtiene la ubicación actual
+    const ubicacion = useLocation(); // Obtiene la ubicación actual
 
     const lista = parent.document.getElementsByTagName('a');
     var nombre = '';
     var nombreKey = '';
     var nombreFiltrado = '';
-
-    console.log(ubicacion);
 
     useEffect(()=>{
             try{
@@ -33,7 +30,7 @@ export default function SeccionesDerecha(){
         if(nombre.startsWith("year")){
             nombreKey = "marcador"+i;
             nombreFiltrado = nombre.slice(4, 8);
-            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion+"/#year"+nombreFiltrado}>
+            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion.pathname+"#year"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
                 marcadores.push(<br key={nombreKey+"br"}/>);
         }

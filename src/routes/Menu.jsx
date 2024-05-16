@@ -59,6 +59,7 @@ export default function Menu() {
         <Link to="/journalPublications">Journal Publications</Link>
         <Link to="/conferencePapers">Select Conference Papers</Link>
         <Link to="/projects">Projects</Link>
+        <Link to="/students">Students</Link>
 
         <div className="derecha">
           {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria

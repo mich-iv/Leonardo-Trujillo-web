@@ -91,18 +91,32 @@ export default function Route(){
         }
 
         // console.log(resultMap);
-        // console.log(
-        //     resultMap.get("AUTHOR")+", "+
-        //     resultMap.get("TITLE")+", "+
-        //     resultMap.get("PUBLISHER")+", "+
-        //     resultMap.get("BOOKTITLE")+", "+
-        //     resultMap.get("TITLE")+", "+
-        //     ""
-        // );
+       
 
     } catch (error) {
         console.error(error);
     }
+
+    console.log(
+        /*
+        Andres Cuevas ; Victor H. Diaz-Ramirez ; Vitaly Kober and Leonardo Trujillo, 
+        Facial recognition using composite correlation filters designed with multiobjective 
+        combinatorial optimization ", Proc. SPIE 9217, Applications of Digital Image Processing XXXVII, 
+        921710 (September 23, 2014); doi:10.1117/12.2062348
+
+        Cuevas, Andres and Diaz-Ramirez, Victor H. and Kober, Vitaly and Trujillo, Leonardo||,
+        Facial recognition using composite correlation filters designed with multiobjective combinatorial optimization||,
+        SPIE||,
+        Applications of Digital Image Processing XXXVII||,
+        Facial recognition using composite correlation filters designed with multiobjective combinatorial optimization||, 
+        */
+        resultMap.get("AUTHOR")+"||, "+
+        resultMap.get("TITLE")+"||, "+
+        resultMap.get("PUBLISHER")+"||, "+
+        resultMap.get("BOOKTITLE")+"||, "+
+        resultMap.get("TITLE")+"||, "+
+        ""
+    );
 
     // {
     //     "CUEVAS_2014": {
@@ -260,8 +274,8 @@ export default function Route(){
                                 { name: 'Opciones', items: [ 'removeformat', 'help' ] }
                             ]
                         }}
-                    />
-                <a className="listo" onMouseUp={submit}><img className="" alt="listo" src="../../../src/assets/listo.svg"/></a>
+                    /> 
+                <a className="listo" onMouseUp={submit}><img className="" alt="listo" src="../../listo.svg"/></a>
             </div>
         </div>
     )

@@ -14,8 +14,6 @@ export default function SeccionesDerecha(){
     var nombreKey = '';
     var nombreFiltrado = '';
 
-    console.log(ubicacion);
-
     useEffect(()=>{
             try{
                 /* obtener los elementos del HTML con la etiqueta <a>, pues desde el editor de texto
@@ -33,7 +31,7 @@ export default function SeccionesDerecha(){
         if(nombre.startsWith("year")){
             nombreKey = "marcador"+i;
             nombreFiltrado = nombre.slice(4, 8);
-            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion+"/#year"+nombreFiltrado}>
+            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion+"#year"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
                 marcadores.push(<br key={nombreKey+"br"}/>);
         }

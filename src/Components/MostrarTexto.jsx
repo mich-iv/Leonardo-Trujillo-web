@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLoaderData, useLocation, useParams } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc, orderBy, query} from '../../firebase.jsx';
-import SeccionesDerecha from './seccionesDerecha.jsx';
 import {eliminar} from './opcionesRegistros.js';
+import SeccionesDerecha from './seccionesDerecha.jsx';
 
 const MostrarTexto = () => {
     const location = useLocation();
@@ -10,10 +10,7 @@ const MostrarTexto = () => {
     
     var temporal;
     let datosTemporal = {};
-    var yearTemporal;
     const [datos, setDatos]= useState({});
-    const [yearSeccion, setYearSeccion]= useState({});
-    let idTemporal = {};
     let val = [];
 
     ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
@@ -21,7 +18,7 @@ const MostrarTexto = () => {
     useEffect (() => {
         async function docSnap(){
             const coleccion = collection(bd, ubicacion)
-            const ordenarPor = query(coleccion, orderBy("YEAR","desc"), orderBy("MONTH","desc"));
+            const ordenarPor = query(coleccion, orderBy("DATE","desc"));
             
             const response = await getDocs(ordenarPor);
             const docs = response.docs.map((doc) => {
@@ -36,7 +33,6 @@ const MostrarTexto = () => {
             try {
                 for (var key in temporal) {
                     if (temporal.hasOwnProperty(key)) {
-                        let incremento = parseInt(key, 10);
                         // Iterar sobre las propiedades de cada objeto anidado
                         for (var subkey in temporal[key]) {
                             if (temporal[key].hasOwnProperty(subkey)) {
@@ -52,7 +48,6 @@ const MostrarTexto = () => {
                     }
                 }
                 setDatos(temporal);
-                setYearSeccion(val);
             } catch (error) {
                 console.error(error);
             }
@@ -88,8 +83,10 @@ const MostrarTexto = () => {
 
         Object.keys(datos).forEach(clave => {
             anioActual = datos[clave].YEAR;
+            console.log(anioActual);
             // 2030 == 2030?
             if(anioViejo == anioActual){
+                console.log(anioViejo + anioActual);
                 //si, entonces no agregues nada, porque al desplegar años nos saldrían dos h2 de 2030, cuando los queremos AGRUPADOS.
                 contenidoAnios.push(<h2 key={""} id={""}>{""}</h2>);
             }else{//2030 == 2029?
@@ -105,12 +102,12 @@ const MostrarTexto = () => {
             <div key={69}>
                 {Object.entries(datos).map(([key, value]) => (
                     [
-                    console.log(value.AUTHOR),
+                        console.log(contenidoAnios),
                     /* añadimos el titulo por año
                     si el arreglo trae el año repetido (''), entonces no muestres nada */,
 
                     // si trae datos (cualquier año), entonces muestra el h2
-                    <h2 key={value.YEAR} id={"year"+value.YEAR}>{contenidoAnios[key].key}</h2>,
+                    <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}>{contenidoAnios[key].key}</h2>,
                     //desplegamos parrafo con la información acomodada
                     <p onMouseOver={mostrarOpciones} onMouseLeave={mostrarOpciones} onMouseUp={mostrarOpciones} key={value.id} id={value.id}>
                         <a>{"["+(parseInt(key)+1)+"] "}</a>
@@ -118,9 +115,11 @@ const MostrarTexto = () => {
                             //si valor(value) es diferente de vacío,muestra lo que trae,
                             //si no,
                             //no muestres nada ('')
+                            value.TEXT !== undefined ? value.MONTH + ", " + value.TEXT + "":
                             (value.PUBLISHER !== undefined  ? value.PUBLISHER + ", " : '')+
                             (value.MONTH !== undefined ? value.MONTH + ", " : '')+
                             (value.TITLE !== undefined  ? value.TITLE + ", " : '')+
+                            (value.BOOKTITLE !== undefined  ? value.BOOKTITLE + ", " : '')+
                             (value.entryType !== undefined ? value.entryType + ", " : '')+
                             (value.VOLUME !== undefined ? value.VOLUME + ", " : '')+
                             (value.PAGES !== undefined  ? value.PAGES + ", " : '') +
@@ -132,18 +131,17 @@ const MostrarTexto = () => {
                             (value.DOI !== undefined  ? "doi: "+ value.DOI + ". " : '')
                         }
                         {/* link del DOI */}
-                        <label key={"url"+value.URL}>{"Available: "}</label><a key={value.URL} href={value.URL}>{value.URL}</a>
+                        {value.TEXT !== undefined ? "" : ""}
+                        <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available: "}</label><a key={value.URL} href={value.URL}>{value.URL}</a>
                         </p>
                     ]))}
             </div>,
             // mostramos sección derecha con navegador por años
-            <SeccionesDerecha key={2}/>
         ]
     }
 
     return [
         textoFormateado(),
-        // mostramos sección derecha con navegador por años
         <SeccionesDerecha key={2}/>
     ];
 };

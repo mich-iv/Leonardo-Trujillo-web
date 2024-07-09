@@ -8,7 +8,6 @@ export default function SeccionesDerecha(){
 
     const ubicacion = useLocation(); // Obtiene la ubicación actual
 
-    const lista = parent.document.getElementsByTagName('h2');
     var nombre = '';
     var nombreKey = '';
     var nombreFiltrado = '';
@@ -20,7 +19,7 @@ export default function SeccionesDerecha(){
                 y un id con el año que se marcó */
                 setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 500);
             }catch(error){
-                console.log("No hay datos");
+                throw new Error("No hay datos", error);
             }
     }, [])
 

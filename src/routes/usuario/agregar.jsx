@@ -29,24 +29,14 @@ export default function Route(){
 
     var resultMap = {};
 
-    let autores = "";
-    let titulo;
-    let editorial;
-    let mes;
-    let anio;
-    let tituloLibro;
-    let valorDOI;
-    let urlDOI;
-
-    // const [autores, setAutores] = useState("");
-    // const [titulo, setTitulo] = useState("");
-    // const [editorial, setEditorial] = useState("");
-    // const [tituloLibro, setTituloLibro] = useState("");
-    // const [DOI, setDOI] = useState("");
-
     const [doiLabel, setDOILabel] = useState("");
+    const [textoYear, setTextoYear] = useState("");
+    const [textoMonth, setTextoMonth] = useState("");
+    const [textoCampo, setTextoCampo] = useState("");
 
     const [textoExtraido, setTextoExtraido] = useState("");
+
+    var doiEncontrado = false;
 
     var respuesta;
     const getFicha = (doi) => {
@@ -60,11 +50,13 @@ export default function Route(){
             .then(response => {
                 // Verificar si la respuesta es exitosa
                 if (!response.ok) {
+                    setDOILabel('');
                     document.getElementById("textoMostrar").innerHTML = '';
                     document.getElementById("confirmacion").style.color = 'red'; 
                     document.getElementById("confirmacion").innerHTML = "DOI not found";
                     throw new Error('Error en la solicitud');
                 }
+                doiEncontrado = true;
                 // Convertir la respuesta a JSON
                 return response.text();
             })
@@ -72,9 +64,26 @@ export default function Route(){
                 document.getElementById("textoMostrar").innerHTML = '';
                 // Procesar los datos de la respuesta
                 let horaActual = new Date();
+                var mes;
+                var anio;
+                var fecha;
                 respuesta = parse(data);
                 for (const [key, value] of Object.entries(respuesta)) {
                     for (let [llave, valor] of Object.entries(value)) {
+                        if(llave == 'MONTH'){
+                            mes = valor;
+                        }
+                        if(llave == 'YEAR'){
+                            anio = valor;
+                        }
+
+                        fecha = (mes + " 01, " + anio + " 5:00 AM");
+
+                        if(mes != undefined && anio != undefined){
+                            var fechaFormateada = new Date(fecha);
+                            resultMap["DATE"] = fechaFormateada;
+                        }
+
                         resultMap[llave] = valor;
 
                         document.getElementById("textoMostrar").innerHTML += llave +": "+ valor + "." + "<br/>";
@@ -88,8 +97,7 @@ export default function Route(){
             .catch(error => {
                 // Manejar errores
                 console.error('Error:', error);
-            }); 
-             
+            });
     }
 
     useEffect(() => {
@@ -105,9 +113,22 @@ export default function Route(){
 
     const submit = (e) => {
         const textoFinal = "";
-        if(doiLabel == ''){
-            alert('There is no DOI to add')
+        if(doiLabel == '' && (textoYear == '' && textoMonth == '' && textoCampo == '')){
+            alert('There is no information to add');
+        }else if(doiEncontrado == false){
+            alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
+        }else if((textoYear != '' || textoMonth != '' || textoCampo != '') && doiLabel == ''){
+            alert('Faltan campos');
         }else{
+            if(textoYear != '' && textoMonth != '' && textoCampo != ''){
+                var fecha = (textoMonth + " 01, " + textoYear + " 5:00 AM");
+                var fechaFormateada = new Date(fecha);
+                
+                resultMap["YEAR"] = textoYear;
+                resultMap["MONTH"] = textoMonth;
+                resultMap["TEXT"] = textoCampo;
+                resultMap["DATE"] = fechaFormateada;
+            }
             e.preventDefault();
             try{
                 /*
@@ -118,13 +139,18 @@ export default function Route(){
                 - Además, el id lo obtenemos de la base para actualizar el mismo registro
                 */
                 const documento = doc(collection(bd, ubicacion));
+                if(Object.keys(resultMap).length === 0){
+                    alert('Error al agregar');
+                    throw new Error('Error al agregar');
+                }else{
                     setDoc(documento, resultMap
                     ).then(() => {
                         alert('Updated Information')
-                        // navigate(-1);
+                        location.reload();
                     }).catch((error) => {
                         console.error(error);
                     });
+                }
             }catch (error) {
                 console.error(error);
             }
@@ -151,7 +177,22 @@ export default function Route(){
     }, []);
 
     const updateDOI = (event) => {
+        doiEncontrado = false;
         setDOILabel(event.target.value);
+        // document.getElementById();
+    }
+
+    const updateYear = (event) => {
+        setTextoYear(event.target.value);
+        // document.getElementById();
+    }
+    const updateMonth = (event) => {
+        setTextoMonth(event.target.value);
+        // document.getElementById();
+    }
+
+    const updateCampoTexto = (event) => {
+        setTextoCampo(event.target.value);
         // document.getElementById();
     }
     
@@ -165,7 +206,43 @@ export default function Route(){
                 <h2>Update information</h2>
                 
                 <a id='urlMostrar'></a>
-                <br/>
+                    Year<br/>
+                    <input
+                        className="inputTexto" 
+                        id="yearTexto" 
+                        title="Write year"
+                        placeholder="Year"
+                        onChange={updateYear}
+                    />
+                    <br/>
+
+                    Month
+                    <br/>
+                    <input
+                        className="inputTexto" 
+                        id="monthTexto" 
+                        title="Write month"
+                        placeholder="Month"
+                        onChange={updateMonth}
+                    />
+                    <br/>
+
+                    Text
+                    <br/>
+                    <textarea
+                        className='inputTexto'
+                        id="campoTexto"
+                        title="Write information without format"
+                        placeholder='Write plain text'
+                        onChange={updateCampoTexto}
+                    />
+
+
+                    
+                    <br/>
+                    <br/>
+                    DOI
+                    <br/>
                     <input
                         className="inputTexto" 
                         id="DOI" 
@@ -173,8 +250,8 @@ export default function Route(){
                         placeholder="Search DOI"
                         onChange={updateDOI}
                     />
-                    <button className="botonForma" onClick={()=>{getFicha(doiLabel)}} title='Click to get DOI'>Get DOI</button>
-                    <br></br>
+                    <button className="botonForma" onClick={()=>{if(doiLabel != ''){getFicha(doiLabel)}}} title='Click to get DOI'>Get DOI</button>
+                    <br/>
                     <label id="confirmacion" style={{fontWeight: 'bold'}}></label>
                     <blockquote id='textoMostrar'></blockquote>
                     {/*Aquí iba el editor de texto, pero ya no se hizo ):*/}

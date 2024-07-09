@@ -74,6 +74,9 @@ export default function Menu() {
           <Link className="menuSecciones" to="/journalPublications">Journal Publications</Link>
           <Link className="menuSecciones" to="/conferencePapers">Select Conference Papers</Link>
           <Link className="menuSecciones" to="/projects">Projects</Link>
+          <Link className="menuSecciones" to="/books">Books</Link>
+          <Link className="menuSecciones" to="/students">Students</Link>
+          <Link className="menuSecciones" to="/code">Code</Link>
         
         <div className="derecha">
           {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria

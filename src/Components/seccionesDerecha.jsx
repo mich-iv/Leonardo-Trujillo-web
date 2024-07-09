@@ -8,7 +8,7 @@ export default function SeccionesDerecha(){
 
     const ubicacion = useLocation(); // Obtiene la ubicación actual
 
-    const lista = parent.document.getElementsByTagName('a');
+    const lista = parent.document.getElementsByTagName('h2');
     var nombre = '';
     var nombreKey = '';
     var nombreFiltrado = '';
@@ -18,7 +18,7 @@ export default function SeccionesDerecha(){
                 /* obtener los elementos del HTML con la etiqueta <a>, pues desde el editor de texto
                 se agregan los marcadores a los años correspondientes con la etiqueta <a>
                 y un id con el año que se marcó */
-                setTimeout(() => setCampos(parent.document.getElementsByTagName('a')), 500);
+                setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 500);
             }catch(error){
                 console.log("No hay datos");
             }
@@ -29,7 +29,8 @@ export default function SeccionesDerecha(){
         nombre = campos[i].id;
         if(nombre.startsWith("year")){
             nombreKey = "marcador"+i;
-            nombreFiltrado = nombre.slice(4, 8);
+            //antes era slice(4, 8), pero se adaptó en el caso de que esta página llegue al año 10000 o más jkaskja
+            nombreFiltrado = nombre.slice(4, nombre.length);
             marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion.pathname+"#year"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
                 marcadores.push(<br key={nombreKey+"br"}/>);
@@ -42,7 +43,7 @@ export default function SeccionesDerecha(){
                 <div className='seccionDerecha'>
                     {/* si hay marcadores de años, entonces muestralos */}
                     {marcadores.length > 0 ? 
-                        <div key={"1"} id="tituloMarcadores">Años</div> :
+                        <div key={"1"} id="tituloMarcadores">Years</div> :
                         ''
                     }
                     {marcadores} {/* años a mostrar */}

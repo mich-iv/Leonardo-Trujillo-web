@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
-import { collection, addDoc, getDocs, getDoc, doc} from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, orderBy, query, deleteDoc} from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -22,4 +22,4 @@ const provider = new GoogleAuthProvider();
 //inicializamos la base de datos
 const bd = getFirestore(app); 
 
-export {auth, provider, bd, collection, addDoc, getDocs, doc, getDoc};
+export {auth, provider, bd, collection, addDoc, getDocs, doc, getDoc, orderBy, query, deleteDoc};

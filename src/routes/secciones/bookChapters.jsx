@@ -16,6 +16,7 @@ export default function Route(){
 
             <div className='texto'>
                 <MostrarTexto/>
+                <SeccionesDerecha/>
             </div>
         </>
     )

@@ -62,17 +62,19 @@ export default function Menu() {
   
   return (
     <>
-      <nav className='menu'>
-        <Link className="menuSecciones" to="/">Home</Link>
-        <div class="menu-desplegar">
+    <div className="menu-desplegar">
           E
         </div>
-        <Link className="menuSecciones" to="/awards">Awards</Link>
-        <Link className="menuSecciones" to="/bookChapters">Book Chapters</Link>
-        <Link className="menuSecciones" to="/journalPublications">Journal Publications</Link>
-        <Link className="menuSecciones" to="/conferencePapers">Select Conference Papers</Link>
-        <Link className="menuSecciones" to="/projects">Projects</Link>
-
+      <nav className='menu'>
+        
+        
+          <Link className="menuSecciones" to="/">Home</Link>
+          <Link className="menuSecciones" to="/awards">Awards</Link>
+          <Link className="menuSecciones" to="/bookChapters">Book Chapters</Link>
+          <Link className="menuSecciones" to="/journalPublications">Journal Publications</Link>
+          <Link className="menuSecciones" to="/conferencePapers">Select Conference Papers</Link>
+          <Link className="menuSecciones" to="/projects">Projects</Link>
+        
         <div className="derecha">
           {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
             ordenemos; condición ? entonces : si no
@@ -93,10 +95,10 @@ export default function Menu() {
               }}
             >
               <img alt="foto" referrerPolicy="no-referrer" src={foto} />
-              <p>Cerrar sesión</p>
+              <p>Log out</p>
             </button>
           ) : (
-            <Link to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
+            <Link className='derecha' to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
           )}
         </div>
         {

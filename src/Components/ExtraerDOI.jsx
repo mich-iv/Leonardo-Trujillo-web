@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import parse from 'bibtex-parser'; 
+import parse from 'bibtex-parser';
 
-function ExtraerTexto(id) {
-    var url="https://doi.org/"+id;
+const ExtraerTexto = (doi) => {
+    var url="https://doi.org/"+doi;
     const [textoExtraido, setTextoExtraido] = useState(null);
 
-    useEffect(() => {
+    var resultMap = new Map();
+
+    //useEffect(() => {
         async function obtenerTexto(){
             return fetch(url, {
                 headers:{
@@ -16,11 +18,22 @@ function ExtraerTexto(id) {
         }
         obtenerTexto().then(datos => {
             setTimeout(() => {setTextoExtraido(parse(datos))}, 200);
-        })
-    },[id]);
 
+            try {
+                for (const [key, value] of Object.entries(datos)) {
+                    for (const [llave, valor] of Object.entries(value)) {
+                        resultMap.set(llave, valor);
+                    }
+                }
+                //console.log(resultMap);
+            } catch (error) {
+                console.error("Falló:"+error);
+            }
+        })
+    //},[id]);
+
+    console.log(resultMap);
     return textoExtraido;
 }
-
 
 export default ExtraerTexto;

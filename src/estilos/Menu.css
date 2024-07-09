@@ -18,7 +18,7 @@
   justify-content: flex-start;
 }
 
-.mensu a{
+.menu a{
   text-align: center;
   padding: 1rem 1rem;
   /* float: left; */
@@ -27,7 +27,7 @@
   /* padding: 1rem 1rem; */
   text-decoration: none;
   font-size: 1.25rem;
-  transition: 200ms;
+  transition: 125ms;
 }
 
 .menu a:hover {
@@ -36,8 +36,12 @@
 }
 
 .derecha button{
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
   position: absolute;
   padding: 0;
+  margin: 0;
   top: calc(50% - 1.5rem);
   right: calc(1.5rem - 1vw);
   height: 3rem;

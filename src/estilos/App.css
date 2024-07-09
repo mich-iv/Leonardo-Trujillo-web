@@ -85,7 +85,7 @@ button {
   font-size: 0.9em;
   font-family: inherit;
   transition: 125ms;
-  margin: 1rem;
+  margin-left: 1rem;
 }
 
 input {
@@ -95,6 +95,17 @@ input {
   border-style: solid;
   width: 50%;
   padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+textarea {
+  color: rgb(73, 73, 73);
+  border-radius: 0.30rem;
+  border-width: 0.1em;
+  padding: 1rem;
+  height: 10rem;
+  width: 50%;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 button:hover, input:hover{
@@ -107,14 +118,12 @@ input:focus{
   outline: none;
 }
 
-::-moz-selection { /* Code for Firefox */
-  /* color: red;
-  background: yellow; */
+textarea:hover{
+  border-color: rgb(100, 175, 159);
 }
-
-::selection {
-  /* color: red;
-  background: yellow; */
+textarea:focus{
+  border-color: rgb(100, 175, 159);
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {

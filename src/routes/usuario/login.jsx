@@ -47,8 +47,9 @@ export default function Route(){
   return (
     <div>
         <h1>Login</h1>
-        {nombre ?'Sesión iniciada como '+nombre:
-            <button onClick={handleClick}>Iniciar sesión con Google</button>
+        <div className="g-signin2" data-onsuccess="onSignIn"></div>
+        {nombre ?'Google account: '+nombre:
+            <button onClick={handleClick}>Google Sign-In </button>
         }
     </div>
   )

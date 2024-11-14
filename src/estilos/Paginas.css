@@ -1,6 +1,6 @@
 .titulos{
     padding: 1rem 0rem;
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .contenido{
@@ -11,10 +11,11 @@
     padding-bottom: calc(100vh - 80%);
     padding-left: calc(100vw - 90%);
     padding-right: calc(100vw - 90%);
+    font-size: 2em;
 }
 
 .columnas{
-    font-size: 2rem;
+    font-size: 3rem;
     column-count: 2;
     column-gap: 1rem;
     column-rule-width: 0.1rem;
@@ -23,7 +24,7 @@
 
 .texto{
     text-align: justify;
-    
+    font-size: 1.2em;
 }
 
 .centrar{

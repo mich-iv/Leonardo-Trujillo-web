@@ -5,7 +5,7 @@ import { bd, collection, doc, getDocs, deleteDoc } from '../../../firebase.jsx';
 import { setDoc, updateDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-import { Editor } from '@tinymce/tinymce-react';
+import {EditorTexto} from '../../routes/secciones/EditorTexto.jsx';
 
 import '../../estilos/Menu.css';
 
@@ -15,6 +15,11 @@ import parse from 'bibtex-parser';
 import MostrarTexto from '../../Components/MostrarTexto.jsx';
 
 import {agregar} from '../../Components/opcionesRegistros.js';
+
+import parseReact from 'html-react-parser';
+
+import tinymce from 'tinymce/tinymce.min.js';
+import { set, update } from 'firebase/database';
 
 export default function Route(){
     //obtenemos la ruta actual del url
@@ -30,9 +35,18 @@ export default function Route(){
     var resultMap = {};
 
     const [doiLabel, setDOILabel] = useState("");
+    const [textoDate, setTextoDate] = useState("");
     const [textoYear, setTextoYear] = useState("");
     const [textoMonth, setTextoMonth] = useState("");
     const [textoCampo, setTextoCampo] = useState("");
+
+    const [nombreAlumno, setNombreAlumno] = useState("");
+    const [gradoAlumno, setGradoAlumno] = useState("");
+    const [fechaInicioAlumno, setFechaInicioAlumno] = useState("");
+    const [fechaGraduacionAlumno, setFechaGraduacionAlumno] = useState("");
+    const [tituloTesisAlumno, setTituloTesisAlumno] = useState("");
+    const [programaAlumno, setProgramaAlumno] = useState("");
+    const [institutcionAlumno, setInstitucionAlumno] = useState("");
 
     const [textoExtraido, setTextoExtraido] = useState("");
 
@@ -44,7 +58,7 @@ export default function Route(){
         
         fetch(apiUrl, {
             headers:{
-                "Accept": "application/x-bibtex; style=apa"
+                "Accept": "application/x-bibtex; style=ieee"
             }
         })
             .then(response => {
@@ -57,6 +71,7 @@ export default function Route(){
                     throw new Error('Error en la solicitud');
                 }
                 doiEncontrado = true;
+                
                 // Convertir la respuesta a JSON
                 return response.text();
             })
@@ -68,6 +83,7 @@ export default function Route(){
                 var anio;
                 var fecha;
                 respuesta = parse(data);
+                
                 for (const [key, value] of Object.entries(respuesta)) {
                     for (let [llave, valor] of Object.entries(value)) {
                         if(llave == 'MONTH'){
@@ -93,6 +109,9 @@ export default function Route(){
                 resultMap["DATEADD"] = horaActual;
                 document.getElementById("confirmacion").innerHTML = "DOI found:";
                 document.getElementById("confirmacion").style.color = 'green'; 
+
+                console.log(resultMap);
+                
             })
             .catch(error => {
                 // Manejar errores
@@ -112,23 +131,79 @@ export default function Route(){
     }, []) 
 
     const submit = (e) => {
-        const textoFinal = "";
-        if(doiLabel == '' && (textoYear == '' && textoMonth == '' && textoCampo == '')){
+        if(tinymce.activeEditor != null){
+            var textoEditor = tinymce.activeEditor.getContent("editorTinyMCE");
+        }else{
+            var textoEditor = '';
+        }
+
+        console.log(nombreAlumno + 
+            gradoAlumno + 
+            fechaInicioAlumno + 
+            fechaGraduacionAlumno + 
+            tituloTesisAlumno + 
+            programaAlumno + 
+            institutcionAlumno);
+        
+        
+        const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const fechaNueva = new Date(textoDate);
+        console.log(fechaNueva.getDate());
+        
+        console.log(month[fechaNueva.getMonth()]);
+
+        if(ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books'){
+            if(doiLabel != '' && doiEncontrado == false){
+                console.log(doiEncontrado);
+                console.log("DOI:"+DOI+":");
+                alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
+            }else{
+                resultMap["DOI"] = doiLabel;
+            }
+        }else if(ubicacion == 'students'){
+            if(nombreAlumno == '' || gradoAlumno == '' || fechaInicioAlumno == '' || fechaGraduacionAlumno == '' || tituloTesisAlumno == '' || programaAlumno == '' || institutcionAlumno == ''){
+                alert('There is no information to add');
+            }else{
+                resultMap["NAME"] = nombreAlumno;
+                resultMap["DEGREE"] = gradoAlumno;
+                resultMap["STARTDATE"] = fechaInicioAlumno;
+                resultMap["GRADUATIONDATE"] = fechaGraduacionAlumno;
+                resultMap["THESISTITLE"] = tituloTesisAlumno;
+                resultMap["PROGRAM"] = programaAlumno;
+                resultMap["INSTITUTION"] = institutcionAlumno;
+            }
+
+        }else if(ubicacion == 'code'){
+            if(textoEditor == ''){
+                alert('There is no information to add');
+            }else{
+                resultMap["TEXT"] = textoEditor;
+            }
+        }else{
+
+        }
+
+        if(doiLabel == '' && (textoYear == '' && textoMonth == '' && textoEditor == '')){
             alert('There is no information to add');
-        }else if(doiEncontrado == false){
+        }else if(doiLabel != '' && doiEncontrado == false){
+            console.log(doiEncontrado);
+            console.log("DOI:"+DOI+":");
             alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
-        }else if((textoYear != '' || textoMonth != '' || textoCampo != '') && doiLabel == ''){
+        }else if((textoYear == '' || textoMonth == '' || textoEditor == '') && doiLabel == ''){
             alert('Faltan campos');
         }else{
-            if(textoYear != '' && textoMonth != '' && textoCampo != ''){
+            if(textoYear != '' && textoMonth != '' && textoEditor != ''){
                 var fecha = (textoMonth + " 01, " + textoYear + " 5:00 AM");
                 var fechaFormateada = new Date(fecha);
-                
+
                 resultMap["YEAR"] = textoYear;
                 resultMap["MONTH"] = textoMonth;
-                resultMap["TEXT"] = textoCampo;
-                resultMap["DATE"] = fechaFormateada;
+                resultMap["TEXT"] = textoEditor;
+                resultMap["DATE"] = fechaNueva;
+                resultMap["EDITORTEXT"] = textoEditor;
+                // resultMap["DATE"] = textoDate;
             }
+
             e.preventDefault();
             try{
                 /*
@@ -145,7 +220,7 @@ export default function Route(){
                 }else{
                     setDoc(documento, resultMap
                     ).then(() => {
-                        alert('Updated Information')
+                        alert('Updated information')
                         location.reload();
                     }).catch((error) => {
                         console.error(error);
@@ -182,6 +257,11 @@ export default function Route(){
         // document.getElementById();
     }
 
+    const updateDate = (event) => {
+        setTextoDate(event.target.value);
+        // document.getElementById();
+    }
+
     const updateYear = (event) => {
         setTextoYear(event.target.value);
         // document.getElementById();
@@ -195,6 +275,34 @@ export default function Route(){
         setTextoCampo(event.target.value);
         // document.getElementById();
     }
+
+    const updateNombreAlumno = (event) => {
+        setNombreAlumno(event.target.value);
+    }
+    
+    const updateGradoAlumno = (event) => {
+        setGradoAlumno(event.target.value);
+    }
+    
+    const updateFechaInicioAlumno = (event) => {
+        setFechaInicioAlumno(event.target.value);
+    }
+    
+    const updateFechaGraduacionAlumno = (event) => {
+        setFechaGraduacionAlumno(event.target.value);
+    }
+    
+    const updateTituloTesisAlumno = (event) => {
+        setTituloTesisAlumno(event.target.value);
+    }
+    
+    const updateProgramaAlumno = (event) => {
+        setProgramaAlumno(event.target.value);
+    }
+    
+    const updateInstitucionAlumno = (event) => {
+        setInstitucionAlumno(event.target.value);
+    }
     
     return(
         <div>
@@ -204,8 +312,25 @@ export default function Route(){
                 </h1>
                 
                 <h2>Update information</h2>
-                
-                <a id='urlMostrar'></a>
+
+                {ubicacion == 'code' ? 
+                <>
+                    <EditorTexto/>
+                    <textarea
+                        name='editorTinyMCE'
+                        id="editorTinyMCE"
+                        hidden
+                    />
+                    {/* Date<br/>
+                    <input
+                        type="date"
+                        className="inputTexto" 
+                        id="dateTexto"
+                        onChange={updateDate}
+                        title='Select date'
+                    />
+                    <br/>
+
                     Year<br/>
                     <input
                         className="inputTexto" 
@@ -225,22 +350,11 @@ export default function Route(){
                         placeholder="Month"
                         onChange={updateMonth}
                     />
-                    <br/>
-
-                    Text
-                    <br/>
-                    <textarea
-                        className='inputTexto'
-                        id="campoTexto"
-                        title="Write information without format"
-                        placeholder='Write plain text'
-                        onChange={updateCampoTexto}
-                    />
-
-
-                    
-                    <br/>
-                    <br/>
+                    <br/> */}
+                     
+                </>
+                : ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books' ? 
+                <>
                     DOI
                     <br/>
                     <input
@@ -250,12 +364,81 @@ export default function Route(){
                         placeholder="Search DOI"
                         onChange={updateDOI}
                     />
+                    <label id="prueba"></label> 
+
                     <button className="botonForma" onClick={()=>{if(doiLabel != ''){getFicha(doiLabel)}}} title='Click to get DOI'>Get DOI</button>
                     <br/>
                     <label id="confirmacion" style={{fontWeight: 'bold'}}></label>
-                    <blockquote id='textoMostrar'></blockquote>
-                    {/*Aquí iba el editor de texto, pero ya no se hizo ):*/}
-                    <MostrarTexto></MostrarTexto>
+                </>
+                : ubicacion == 'students' ? 
+                <>
+                    Name<br/>
+                    <input
+                        type="text"
+                        className="inputTexto" 
+                        id="nombreAlumno"
+                        onChange={updateNombreAlumno}
+                        title='Enter name'
+                    />
+                    <br/>
+                    Degree<br/>
+                    <input
+                        type="option"
+                        className="inputTexto" 
+                        id="gradoAlumno"
+                        onChange={updateGradoAlumno}
+                        title='Enter grade'
+                    />
+                    <br/>
+                    Start Date<br/>
+                    <input
+                        type="date"
+                        className="inputTexto" 
+                        id="fechaInicioAlumno"
+                        onChange={updateFechaInicioAlumno}
+                        title='Select start date'
+                    />
+                    <br/>
+                    Graduation Date<br/>
+                    <input
+                        type="date"
+                        className="inputTexto" 
+                        id="graduadoAlumno"
+                        onChange={updateFechaGraduacionAlumno}
+                        title='Select graduation date'
+                    />
+                    <br/>
+                    Thesis Title<br/>
+                    <input
+                        type="text"
+                        className="inputTexto" 
+                        id="tituloTesisAlumno"
+                        onChange={updateTituloTesisAlumno}
+                        title='Enter thesis title'
+                    />
+                    <br/>
+                    Program<br/>
+                    <input
+                        type="text"
+                        className="inputTexto" 
+                        id="programaAlumno"
+                        onChange={updateProgramaAlumno}
+                        title='Enter program'
+                    />
+                    <br/>
+                    Institution<br/>
+                    <input
+                        type="text"
+                        className="inputTexto" 
+                        id="institucionAlumno"
+                        onChange={updateInstitucionAlumno}
+                        title='Enter institution'
+                    />
+                </>
+                : ''}
+                <blockquote id='textoMostrar'></blockquote>
+                
+                <MostrarTexto></MostrarTexto>
                 <a className="listo" onMouseUp={submit} title='Click to add information'><img className="" alt="listo" src="../../listo.svg"/></a>
             </div>
         </div>

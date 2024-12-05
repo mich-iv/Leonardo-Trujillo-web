@@ -81,48 +81,7 @@ const MostrarTexto = () => {
         var anioViejo;
         var anioActual;
         var contenidoAnios = [];
-
-        var hola = "hola";
-        var adios = "adios";
-
-        var urls = '';
-
-        var link = '';
         Object.keys(datos).forEach(clave => {
-
-            // hola, que tal el link es el sighuiente: https://www.bath.ac.uk/ adios!
-
-            // Suponiendo que datos[clave].TEXT es una cadena de texto
-            // const texto = datos[clave].TEXT;
-            // if (texto != undefined) {
-            //     // Expresión regular para encontrar URLs que empiezan por http o https
-            //     const urlRegex = /(https?:\/\/[^\s]+)/g;
-
-            //     // Buscar todas las coincidencias de URLs en el texto
-            //     urls = texto.match(urlRegex);
-
-            //     // Separar el texto en partes antes y después de cada URL
-            //     const partes = texto.split(urlRegex);
-
-            //     // Si encuentras URLs, puedes hacer algo con ellas
-            //     if (urls) {
-            //         urls.forEach(url => {
-            //             console.log(url);
-            //         });
-
-            //         // Mostrar las partes del texto separadas por URLs
-            //         partes.forEach((parte, index) => {
-            //             console.log(`Parte ${index}: ${parte}`);
-            //         });
-            //     } else {
-            //         console.log("No se encontraron URLs en el texto.");
-            //     }
-                
-            //         // Crear enlaces a partir de las URLs encontradas
-            //         const links = urls ? urls.map((url, index) => <a key={index} href={url}>{url}</a>) : null;
-            // }
-            
-            
             anioActual = datos[clave].YEAR;
             // console.log("Entrada - " + anioActual);
             // 2030 == 2030?
@@ -155,7 +114,7 @@ const MostrarTexto = () => {
                         <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                         //desplegamos parrafo con la información acomodada
                         <p onMouseOver={mostrarOpciones} onMouseLeave={mostrarOpciones} onMouseUp={mostrarOpciones} key={value.id} id={value.id}>
-                            <a>{"["+(parseInt(key)+1)+"] "}</a>
+                            <a>{"["+(parseInt(key)+1)+"] "}</a> : 
                             {/* si traemos texto, entonces mostrar primero */}
                             {location.pathname.endsWith('bookChapters') ? 
                             value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -207,6 +166,17 @@ const MostrarTexto = () => {
                                 {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
                                 <i>{value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}</i>
                                 {value.EDITION !== undefined  ? (value.EDITION  + ", ") : ''}
+                                {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
+                                {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
+                                {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
+                            </>
+                            : location.pathname.endsWith('students') ?
+                            value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
+                            <>
+                                {console.log(value.GRADUATIONDATE)}
+                                {value.NAME !== undefined  ? (value.NAME  + ", ") : ''}
+                                <i>{value.GRADUATIONDATE !== undefined  ? ("\"" + value.GRADUATIONDATE + ",\" ") : ''}</i>
+                                {value.THESISTITLE !== undefined  ? (value.THESISTITLE  + ", ") : ''}
                                 {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
                                 {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
                                 {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }

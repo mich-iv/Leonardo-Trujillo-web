@@ -22,6 +22,49 @@
     column-rule-style: solid;
 }
 
+.contenedor-home {
+    display: grid;
+    gap: 50px;
+    grid-template-columns: 40% auto;
+  }
+
+.item-home {
+    border: 0px solid rgba(0, 0, 0, 0.8);
+}
+
+.item-home-links {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.item-home-links-individual {
+    color: rgb(73, 73, 73);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(73, 73, 73);
+    border-radius: 0.30rem;
+    transition: all 0.3s ease;
+}
+.item-home-links-individual-img {
+    text-decoration: none;
+    margin: 0.2rem ;
+    filter: grayscale(100%);
+}
+.item-home-links-individual-texto {
+    text-decoration: none;
+    margin-right: 0.2rem ;
+    /* filter: grayscale(100%); */
+}
+
+.item-home-links-individual:hover {
+    color: rgb(100, 175, 159);
+    border: 1px solid rgb(100, 175, 159);
+    filter: grayscale(0%) sepia(100%) hue-rotate(110deg) saturate(100%) brightness(100%);
+}
+
+
 .texto{
     text-align: justify;
     font-size: 1.2em;

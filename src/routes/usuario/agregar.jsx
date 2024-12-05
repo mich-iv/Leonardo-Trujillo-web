@@ -147,8 +147,8 @@ export default function Route(){
         
         
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        const fechaNueva = new Date(textoDate);
-        console.log(fechaNueva.getDate());
+        const fechaInsertar = new Date();
+        console.log(fechaInsertar);
         
         console.log(month[fechaNueva.getMonth()]);
 
@@ -171,6 +171,7 @@ export default function Route(){
                 resultMap["THESISTITLE"] = tituloTesisAlumno;
                 resultMap["PROGRAM"] = programaAlumno;
                 resultMap["INSTITUTION"] = institutcionAlumno;
+                resultMap["DATE"] = fechaInsertar;
             }
 
         }else if(ubicacion == 'code'){
@@ -183,15 +184,7 @@ export default function Route(){
 
         }
 
-        if(doiLabel == '' && (textoYear == '' && textoMonth == '' && textoEditor == '')){
-            alert('There is no information to add');
-        }else if(doiLabel != '' && doiEncontrado == false){
-            console.log(doiEncontrado);
-            console.log("DOI:"+DOI+":");
-            alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
-        }else if((textoYear == '' || textoMonth == '' || textoEditor == '') && doiLabel == ''){
-            alert('Faltan campos');
-        }else{
+        
             if(textoYear != '' && textoMonth != '' && textoEditor != ''){
                 var fecha = (textoMonth + " 01, " + textoYear + " 5:00 AM");
                 var fechaFormateada = new Date(fecha);
@@ -229,7 +222,6 @@ export default function Route(){
             }catch (error) {
                 console.error(error);
             }
-        }
     }
 
     useEffect (() => {
@@ -372,6 +364,7 @@ export default function Route(){
                 </>
                 : ubicacion == 'students' ? 
                 <>
+                    <br/>
                     Name<br/>
                     <input
                         type="text"
@@ -382,13 +375,13 @@ export default function Route(){
                     />
                     <br/>
                     Degree<br/>
-                    <input
-                        type="option"
-                        className="inputTexto" 
-                        id="gradoAlumno"
-                        onChange={updateGradoAlumno}
-                        title='Enter grade'
-                    />
+                    <select name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno}>
+                        <option value=""></option>
+                        <option value="1">College degree</option>
+                        <option value="2">Master’s degree</option>
+                        <option value="3">Postgraduate degree</option>
+                        <option value="4">PhD</option>
+                    </select>
                     <br/>
                     Start Date<br/>
                     <input

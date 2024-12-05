@@ -108,11 +108,21 @@ textarea {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-button:hover, input:hover{
-  color: rgb(100, 175, 159);
+select {
+  color: rgb(73, 73, 73);
+  border-radius: 0.30rem;
+  border-width: 0.1em;
+  border-style: solid;
+  width: 50%;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+button:hover, input:hover, select:hover {
+  color: #64af9f;
   border-color: rgb(100, 175, 159);
 }
-input:focus{
+input:focus, select:focus {
   color: rgb(100, 175, 159);
   border-color: rgb(100, 175, 159);
   outline: none;

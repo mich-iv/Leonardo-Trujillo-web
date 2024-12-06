@@ -14,7 +14,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 4rem;
+  height: 4.5em;
   width: 100%;
   background-color: rgb(100, 175, 159);
   display: flex;
@@ -23,38 +23,27 @@
 }
 
 .menu {
-  /* z-index: 500; */
-  /* height: auto 3rem; */
   width: 100%;
   max-width: calc(100% - 1px);
   position: fixed;
-  top: 0px;
-
-  /* background-color: rgb(100, 175, 159); */
   display: flex;
-  /* flex-wrap: wrap; */
-  /* overflow: hidden; */
   justify-content: flex-start;
 }
 
 .menu a{
   text-align: center;
-  padding: 1rem 1rem;
-  /* float: left; */
+  padding: 0 0;
   color: #1a1a1a;
-  /* color: #f2f2f2; */
-  
   text-align: center;
-  /* padding: 1rem 1rem; */
   text-decoration: none;
   font-size: 1.25rem;
   transition: 200ms;
-  /* align-items: center; */
+  margin: 0 0 0 0;
 }
 
 .menu a:hover {
-  /* background-color: #ddd; */
   color: rgb(73, 73, 73);
+  text-decoration: none;
 }
 
 .cuerpo {
@@ -66,10 +55,9 @@
 
 a, h2 {
   font-weight: 400;
-  /* color: #cbcbce; */
   text-decoration: inherit;
   scroll-margin-top: 6rem;
-
+  word-wrap: break-word;
 }
 a:hover {
   color: #535bf2;
@@ -108,11 +96,21 @@ textarea {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-button:hover, input:hover{
-  color: rgb(100, 175, 159);
+select {
+  color: rgb(73, 73, 73);
+  border-radius: 0.30rem;
+  border-width: 0.1em;
+  border-style: solid;
+  width: 50%;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+button:hover, input:hover, select:hover {
+  color: #64af9f;
   border-color: rgb(100, 175, 159);
 }
-input:focus{
+input:focus, select:focus {
   color: rgb(100, 175, 159);
   border-color: rgb(100, 175, 159);
   outline: none;
@@ -139,31 +137,3 @@ textarea:focus{
   }
 }
 
-@media all and (max-width: 800px) {
-  .menu, .menuSecciones {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: flex-start;
-    align-items: flex-start;
-    width: auto;
-  }
-
-  .menuSecciones {
-    display:none;
-  }
-
-  .menu-desplegar {
-    /* align-self:self-end; */
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    position: absolute;
-    cursor: pointer;
-    line-height: 3.5;
-  }
-  
-  .logo {
-    margin: 0;
-  }
-}

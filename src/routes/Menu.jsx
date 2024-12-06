@@ -84,7 +84,7 @@ export default function Menu() {
           <Link className="menu-secciones" to="/code">Code</Link>
           
           <div className="derecha">
-            {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
+            {/*POR FIN ENTENDÝ ESTA FUNCIÓN  *ternaria
               ordenemos; condición ? entonces : si no
               - condición: por ejemplo, 10 es mayor que 5?
                 ?

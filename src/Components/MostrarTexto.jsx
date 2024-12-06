@@ -103,6 +103,7 @@ const MostrarTexto = () => {
         });
 
         return[
+            
             <div key={69}>
                 {Object.entries(datos).map(([key, value]) => (
                     [
@@ -114,7 +115,7 @@ const MostrarTexto = () => {
                         <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                         //desplegamos parrafo con la información acomodada
                         <p onMouseOver={mostrarOpciones} onMouseLeave={mostrarOpciones} onMouseUp={mostrarOpciones} key={value.id} id={value.id}>
-                            <a>{"["+(parseInt(key)+1)+"] "}</a> : 
+                            <a>{"["+(parseInt(key)+1)+"] "}</a>
                             {/* si traemos texto, entonces mostrar primero */}
                             {location.pathname.endsWith('bookChapters') ? 
                             value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -191,7 +192,7 @@ const MostrarTexto = () => {
 
                             {/* link del DOI */}
                             {value.TEXT !== undefined ? "" : ""}
-                            <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a key={value.URL} href={value.URL}>{value.URL}</a>
+                            <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a class="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
                         </p>
                     ]
                     ))}

@@ -13,7 +13,7 @@ export default function Route(){
                 Journal Publications
             </h1>
 
-            <div  className='texto'>
+            <div className='texto'>
                 <MostrarTexto/>
             </div>
         </>

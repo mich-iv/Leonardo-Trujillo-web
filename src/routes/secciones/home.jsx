@@ -10,48 +10,61 @@ export default function Route(){
     return(
         <>
             <h1 className='titulos'>
-                Awards
+                Leonardo Trujillo
             </h1>
 
             <div className='contenedor-home'>
                 <div className='item-home'>
-                    <div className='texto'>
-                        <img src='src/assets/perfil.png'/>
-                    </div>
+                    <div className='item-home-contenido'>
+                        <img className='item-home-contenido-img' src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/perfil.jpg'/>
+                    {/* </div> */}
                     <div className='item-home-links'>
                         <a href='https://orcid.org/0000-0003-1812-5736'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='src/assets/iconos/orcid.ico'/>
+                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/orcid.ico'/>
                                 <span className='item-home-links-individual-texto'>ORCID</span>
                             </div>
                         </a>
                         <a href='https://www.researchgate.net/profile/Leonardo-Trujillo-2'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='src/assets/iconos/researchgate.ico'/>
+                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/researchGate.ico'/>
                                 <span className='item-home-links-individual-texto'>Research Gate</span>
                             </div>
                         </a>
                         <a href='https://dblp.org/pid/62/1755.html'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='src/assets/iconos/dblp.ico'/>
+                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/dblp.ico'/>
                                 <span className='item-home-links-individual-texto'>dblp</span>
                             </div>
                         </a>
                         <a href='https://scholar.google.com/citations?user=xXh3xRYAAAAJ'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='src/assets/iconos/googleScholar.ico'/>
+                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/googleScholar.ico'/>
                                 <span className='item-home-links-individual-texto'>Google Scholar</span>
                             </div>
                         </a>
+                        </div>
                     </div>
                 </div>
                 <div className='item-home'>
+                    <div className='titulos'>
+                        Información
+                    </div>
                     <div className='texto'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec ligula nec sem lacinia ultrices. 
                         Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula
                         nec sem lacinia ultrices. Sed euismod, er nec ligula nec sem lacinia ultrices. Sed euismod, erat vel lacinia
                         ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula nec sem lacinia ultrices. Sed euismod, er nec ligula 
                         nec sem lacinia ultrices. Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunc.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        
+                        <br/>Suspendisse nec ligula nec sem lacinia ultrices. 
+                        Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula
+                        nec sem lacinia ultrices. Sed euismod, er nec ligula nec sem lacinia ultrices. Sed euismod, erat vel lacinia
+                        ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula nec sem lacinia ultrices. Sed euismod, er nec ligula 
+                        nec sem lacinia ultrices.
+                        <br/><br/>Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunc.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec ligula nec sem lacinia ultrices. 
                     </div>
                 </div>
             </div>

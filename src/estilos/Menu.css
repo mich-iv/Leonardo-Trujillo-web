@@ -20,21 +20,30 @@
 
 .menu a{
   text-align: center;
-  padding: 1rem 1rem;
+  padding: 0 0.5rem;
   color: #f2f2f2;
   text-align: center;
   text-decoration: none;
   font-size: 1.5em;
   transition: 125ms;
+  margin: 0 0 0 0;
 }
 
 .menu a:hover {
-  /* background-color: #ddd; */
   color: rgb(73, 73, 73);
+  text-decoration: none;
 }
 
 .menu-secciones {
-  margin: 10rem 0;
+  margin: 0 0;
+  padding: 0 0;
+  text-decoration: none;
+  font-size: 4em;
+}
+
+.menu-desplegar {
+  margin: 0 0;
+  text-decoration: none;
 }
 
 .checkbtn {
@@ -65,11 +74,13 @@
     left: -100%;
     text-align: center;
     transition: all 600ms;
+    text-decoration: inherit;
   }
   .menu-secciones {
     display: block;
     margin: 1rem 0;
     line-height: 30px;
+    text-decoration: inherit;
   }
   
   #check:checked~.menu-desplegar {

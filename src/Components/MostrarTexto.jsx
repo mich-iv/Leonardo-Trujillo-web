@@ -58,7 +58,14 @@ const MostrarTexto = () => {
     //esta función se quedó aquí porque aún no sé cómo mandar parámetros
     //a otras partes de React XD
     window.mostrarOpciones = (evento) => {
-        if(location.pathname.startsWith("/agregar/") && evento.target.tagName == 'P'){
+        if(location.pathname.startsWith("/agregar/")){
+            if(evento.target.value === 'editar'){
+                console.log(evento.target.id);
+                console.log(evento.target.value);
+            }else if(evento.target.value === 'eliminar'){
+                eliminar(bd, ubicacion, evento.target.id);
+            }
+
             if(evento.type === 'mouseup'){
                 eliminar(bd, ubicacion, evento.target.id);
             }else if(evento.type === 'mouseleave'){
@@ -114,8 +121,8 @@ const MostrarTexto = () => {
                         (contenidoAnios[key].key.length > 0) ? 
                         <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                         //desplegamos parrafo con la información acomodada
-                        <p onMouseOver={mostrarOpciones} onMouseLeave={mostrarOpciones} onMouseUp={mostrarOpciones} key={value.id} id={value.id}>
-                            <a>{"["+(parseInt(key)+1)+"] "}</a>
+                        <p key={value.id} id={value.id}>
+                            <label>{"["+(parseInt(key)+1)+"] "}</label>
                             {/* si traemos texto, entonces mostrar primero */}
                             {location.pathname.endsWith('bookChapters') ? 
                             value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -134,6 +141,9 @@ const MostrarTexto = () => {
                                 {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
                                 {value.YEAR !== undefined ? (value.YEAR + ", ") : '' }
                                 {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
+                                {/* link del DOI */}
+                                {value.TEXT !== undefined ? "" : ""}
+                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
                             </>
                             : location.pathname.endsWith('journalPublications') ? 
                             value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -148,7 +158,10 @@ const MostrarTexto = () => {
                                 {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ", ") : ''}
                                 {value.MONTH !== undefined ? (value.MONTH.substring(0,3) + " ") : ''}
                                 {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
-                            </>
+                                {/* link del DOI */}
+                                {value.TEXT !== undefined ? "" : ""}
+                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                </>
                             : location.pathname.endsWith('conferencePapers') ? 
                             value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
                             <>
@@ -160,6 +173,9 @@ const MostrarTexto = () => {
                                 {value.LOCATION !== undefined  ? (value.LOCATION  + ", ") : ''}
                                 {value.YEAR !== undefined ? (value.YEAR + ", ") : '' }
                                 {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
+                                {/* link del DOI */}
+                                {value.TEXT !== undefined ? "" : ""}
+                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
                             </>
                             : location.pathname.endsWith('books') ? 
                             value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
@@ -170,6 +186,9 @@ const MostrarTexto = () => {
                                 {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
                                 {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
                                 {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
+                                {/* link del DOI */}
+                                {value.TEXT !== undefined ? "" : ""}
+                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
                             </>
                             : location.pathname.endsWith('students') ?
                             value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
@@ -182,27 +201,45 @@ const MostrarTexto = () => {
                                 {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
                                 {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
                             </>
+                            : location.pathname.endsWith('code') ?
+                            value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
+                            <>
+                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
+                                    {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
+                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
+                                    <div className='columnas-contenido'>
+                                        <div className='informacion-link'>
+                                            <a href={value.GITHUB} className='informacion-link-titulo'>Leonardo-Trujillo-web</a>
+                                            <div className='informacion-link-descripcion'>Sitio web de información relevante de Leonardo Trujillo. Contribute to mich-iv/Leonardo-Trujillo-web development by creating an account on GitHub.</div>
+                                            <a href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGE}`} /></a>
+                                         </div>
+                                    </div>
+                                    {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
+                                    
+                            </>
                             : <>
                                 {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                                {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
-                                {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
-                                {console.log(typeof(Date(value.DATE)))}
-                                {console.log(Date(value.DATE))}
                             </> }
-
-                            {/* link del DOI */}
-                            {value.TEXT !== undefined ? "" : ""}
-                            <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a class="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
-                        </p>
+                            { location.pathname.startsWith("/agregar/") ?
+                                <>
+                                    <br/>
+                                    <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                    <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                </>
+                                : ''
+                            }
+                            
+                        </p>,
                     ]
                     ))}
             </div>,
-            // mostramos sección derecha con navegador por años
+            
         ]
     }
 
     return [
         textoFormateado(),
+        // mostramos sección derecha con navegador por años
         <SeccionesDerecha key={2}/>
     ];
 };

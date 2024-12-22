@@ -60,19 +60,14 @@ export default function Menu() {
   
   return (
     <>
-      
-
       <div className="menu">
-        
         <input type="checkbox" id="check"></input>
-
         <label for="check" className="checkbtn">
           {/* <FontAwesomeIcon icon="bars" /> */}
           <i className="fas fa-bars"></i>
         </label>
 
         <nav className='menu-desplegar'>
-          
           <Link className="menu-secciones" to="/">Home</Link>
           <Link className="menu-secciones" to="/awards">Awards</Link>
           <Link className="menu-secciones" to="/bookChapters">Book Chapters</Link>
@@ -84,7 +79,7 @@ export default function Menu() {
           <Link className="menu-secciones" to="/code">Code</Link>
           
           <div className="derecha">
-            {/*POR FIN ENTENDÝ ESTA FUNCIÓN  *ternaria
+            {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
               ordenemos; condición ? entonces : si no
               - condición: por ejemplo, 10 es mayor que 5?
                 ?

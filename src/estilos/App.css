@@ -110,6 +110,54 @@ button:hover, input:hover, select:hover {
   color: #64af9f;
   border-color: rgb(100, 175, 159);
 }
+
+button:active {
+  color: white;
+  background-color: rgb(100, 175, 159);
+  border-color: rgb(100, 175, 159);
+}
+
+.botonEliminar{
+  background-color: transparent;
+  border-color: rgb(123, 123, 123);
+  border-radius: 0.30rem;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  font-family: inherit;
+  transition: 200ms;
+  margin-left: 1rem;
+}
+.botonEliminar:hover {
+  color: #ff0000;
+  border-color: #ff0000;
+}
+.botonEliminar:active {
+  color: white;
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.botonEditar{
+  background-color: transparent;
+  border-color: rgb(123, 123, 123);
+  border-radius: 0.30rem;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  font-family: inherit;
+  transition: 200ms;
+  margin-left: 0;
+}
+
+.botonEditar:hover {
+  color: #ff9a2f;
+  border-color: #ff9a2f;
+}
+.botonEditar:active {
+  color: white;
+  background-color: #ff9a2f;
+  border-color: #ff9a2f;
+}
+
 input:focus, select:focus {
   color: rgb(100, 175, 159);
   border-color: rgb(100, 175, 159);

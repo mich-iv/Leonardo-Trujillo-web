@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useLoaderData, useLocation, useParams } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc, orderBy, query} from '../../firebase.jsx';
-import {eliminar} from './opcionesRegistros.js';
+import {editar, eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
+import { Link } from 'react-router-dom';
 
 const MostrarTexto = () => {
     const location = useLocation();
@@ -27,6 +28,8 @@ const MostrarTexto = () => {
                 data.id = doc.id;
                 return data;
             })
+            console.log(docs);
+            
             return docs;
         }
         docSnap().then(valor => {
@@ -59,24 +62,38 @@ const MostrarTexto = () => {
     //a otras partes de React XD
     window.mostrarOpciones = (evento) => {
         if(location.pathname.startsWith("/agregar/")){
+            document.getElementById("banderaOpcion").value = null;
+
             if(evento.target.value === 'editar'){
-                console.log(evento.target.id);
-                console.log(evento.target.value);
+                const id = evento.target.id;
+                const data = datos.find(d => d.id === id);
+
+                document.getElementById("id").value = id;
+                console.log(id);
+                
+                
+                let resultMap = {};
+                Object.keys(data).forEach(key => {
+                    resultMap[key] = data[key];
+                });
+
+                if(document.getElementById("banderaOpcion").value === "editar"){
+                    editar(bd, ubicacion, evento.target.id, resultMap);
+                }else{
+                    document.getElementById("nombreAlumno").value = data.nombreAlumno;
+                    document.getElementById("gradoAlumno").value = data.gradoAlumno;
+                    document.getElementById("fechaInicioAlumno").value = data.fechaInicioAlumno;
+                    document.getElementById("fechaGraduacionAlumno").value = data.fechaGraduacionAlumno;
+                    document.getElementById("tituloTesisAlumno").value = data.tituloTesisAlumno;
+                    document.getElementById("programaAlumno").value = data.programaAlumno;
+                    document.getElementById("institucionAlumno").value = data.institucionAlumno;
+                }
+
+                document.getElementById("banderaOpcion").value = "editar";
             }else if(evento.target.value === 'eliminar'){
                 eliminar(bd, ubicacion, evento.target.id);
             }
-
-            if(evento.type === 'mouseup'){
-                eliminar(bd, ubicacion, evento.target.id);
-            }else if(evento.type === 'mouseleave'){
-                evento.target.style.color = 'black';
-                evento.target.style.border = '1px solid transparent';
-            }else if(evento.type === 'mouseover'){
-                evento.target.style.color = 'red';
-                evento.target.style.border = '1px solid';
-            }
         }
-        
     }
 
     //Esta función inicializa año viejo y actual con un dato vacío, para luego
@@ -101,12 +118,9 @@ const MostrarTexto = () => {
                 //FALSO: entonces agrega el nuevo año que está recorriendo; 2029
                 contenidoAnios.push(<h2 key={datos[clave].YEAR} id={"year"+datos[clave].YEAR}>{datos[clave].YEAR}</h2>);
             }
-
             //aqui está el truco; asignamos el año viejo hasta el final para que el forEach al regresar, lea el año viejo y lo compare con el nuevo
             // console.log(contenidoAnios);
-            
             anioViejo = anioActual;
-            
         });
 
         return[
@@ -191,31 +205,29 @@ const MostrarTexto = () => {
                                 <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
                             </>
                             : location.pathname.endsWith('students') ?
-                            value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
                             <>
-                                {console.log(value.GRADUATIONDATE)}
-                                {value.NAME !== undefined  ? (value.NAME  + ", ") : ''}
-                                <i>{value.GRADUATIONDATE !== undefined  ? ("\"" + value.GRADUATIONDATE + ",\" ") : ''}</i>
-                                {value.THESISTITLE !== undefined  ? (value.THESISTITLE  + ", ") : ''}
-                                {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
-                                {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
-                                {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
+                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
                             </>
                             : location.pathname.endsWith('code') ?
                             value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
                             <>
-                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                                    {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
-                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
-                                    <label className='columnas-contenido'>
-                                        <label className='informacion-link'>
-                                            <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
-                                            <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
-                                            <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
-                                         </label>
+                                {/* si no es ninguno de los anteriores, solo muestra el texto*/}
+                                {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
+                                {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
+                                <label className='columnas-contenido'>
+                                    <label className='informacion-link'>
+                                        <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
+                                        <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
+                                        <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
                                     </label>
-                                    {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
-                                    
+                                </label>
+                                {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
                             </>
                             : <>
                                 {/* si no es ninguno de los anteriores, solo muestra el texto*/}
@@ -233,13 +245,12 @@ const MostrarTexto = () => {
                     ]
                     ))}
             </div>,
-            
         ]
     }
 
     return [
         textoFormateado(),
-        // mostramos sección derecha con navegador por años
+        //mostramos sección derecha con navegador por años
         <SeccionesDerecha key={2}/>
     ];
 };

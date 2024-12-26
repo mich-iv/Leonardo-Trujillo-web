@@ -14,7 +14,7 @@ import '../../estilos/Paginas.css';
 import parse from 'bibtex-parser';
 import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
-import {agregar} from '../../Componentes/opcionesRegistros.js';
+import {editar} from '../../Componentes/opcionesRegistros.js';
 
 import parseReact from 'html-react-parser';
 
@@ -48,7 +48,7 @@ export default function Route(){
     const [fechaGraduacionAlumno, setFechaGraduacionAlumno] = useState("");
     const [tituloTesisAlumno, setTituloTesisAlumno] = useState("");
     const [programaAlumno, setProgramaAlumno] = useState("");
-    const [institutcionAlumno, setInstitucionAlumno] = useState("");
+    const [institucionAlumno, setInstitucionAlumno] = useState("");
 
     const [textoExtraido, setTextoExtraido] = useState("");
 
@@ -265,44 +265,32 @@ export default function Route(){
         }else{
             var textoEditor = '';
         }
-
-        console.log(nombreAlumno + 
-            gradoAlumno + 
-            fechaInicioAlumno + 
-            fechaGraduacionAlumno + 
-            tituloTesisAlumno + 
-            programaAlumno + 
-            institutcionAlumno);
-        
         
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         const fechaNueva = new Date();
+        
         console.log(fechaNueva);
-        
         console.log(fechaNueva.getFullYear());
-        
         console.log(month[fechaNueva.getMonth()]);
 
         if(ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books'){
             if(doiLabel != '' && informacionEncontrada == false){
-                console.log(informacionEncontrada);
-                console.log("DOI:"+DOI+":");
                 alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
             }else{
                 resultMap["DOI"] = doiLabel;
             }
         }else if(ubicacion == 'students'){
-            if(nombreAlumno == '' || gradoAlumno == '' || fechaInicioAlumno == '' || fechaGraduacionAlumno == '' || tituloTesisAlumno == '' || programaAlumno == '' || institutcionAlumno == ''){
+            if(nombreAlumno == '' || gradoAlumno == '' || fechaInicioAlumno == '' || fechaGraduacionAlumno == '' || tituloTesisAlumno == '' || programaAlumno == '' || institucionAlumno == ''){
                 alert('There is no information to add');
             }else{
-                resultMap["NAME"] = nombreAlumno;
-                resultMap["DEGREE"] = gradoAlumno;
-                resultMap["STARTDATE"] = fechaInicioAlumno;
-                resultMap["GRADUATIONDATE"] = fechaGraduacionAlumno;
-                resultMap["THESISTITLE"] = tituloTesisAlumno;
-                resultMap["PROGRAM"] = programaAlumno;
-                resultMap["INSTITUTION"] = institutcionAlumno;
-                resultMap["DATE"] = fechaInsertar;
+                resultMap["nombreAlumno"] = nombreAlumno;
+                resultMap["gradoAlumno"] = gradoAlumno;
+                resultMap["fechaInicioAlumno"] = fechaInicioAlumno;
+                resultMap["fechaGraduacionAlumno"] = fechaGraduacionAlumno;
+                resultMap["tituloTesisAlumno"] = tituloTesisAlumno;
+                resultMap["programaAlumno"] = programaAlumno;
+                resultMap["institucionAlumno"] = institucionAlumno;
+                resultMap["DATE"] = fechaNueva;
             }
         }else if(ubicacion == 'code'){
             if(textoEditor == ''){
@@ -346,13 +334,30 @@ export default function Route(){
                 alert('Error al agregar');
                 throw new Error('Error al agregar');
             }else{
-                setDoc(documento, resultMap
-                ).then(() => {
-                    alert('Updated information')
-                    location.reload();
-                }).catch((error) => {
-                    console.error(error);
-                });
+                if(document.getElementById('banderaOpcion').value == 'editar'){
+                    var id = document.getElementById('id').value;
+                    
+                    const documentoActualizado = doc(bd, ubicacion, id);
+                    
+                    delete resultMap["DATE"];
+
+                    updateDoc(documentoActualizado, resultMap)
+                    .then(() => {
+                        alert('Información actualizada');
+                        // location.reload();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+                }else{
+                    setDoc(documento, resultMap
+                    ).then(() => {
+                        alert('Updated information')
+                        location.reload();
+                    }).catch((error) => {
+                        console.error(error);
+                    });
+                }
             }
         }catch (error) {
             console.error(error);
@@ -410,6 +415,8 @@ export default function Route(){
     }
 
     const updateNombreAlumno = (event) => {
+        console.log('ACTUALIZ�OOOO');
+        
         setNombreAlumno(event.target.value);
     }
     
@@ -440,6 +447,9 @@ export default function Route(){
     return(
         <div>
             <div  className='root'>
+                <input id='banderaOpcion' type="hidden"/>
+                <input id='id' type="hidden"/>
+
                 <h1 className='titulos'>
                     Add {ubicacion}
                 </h1>
@@ -523,7 +533,7 @@ export default function Route(){
                     <input
                         type="date"
                         className="inputTexto" 
-                        id="graduadoAlumno"
+                        id="fechaGraduacionAlumno"
                         onChange={updateFechaGraduacionAlumno}
                         title='Select graduation date'
                     />

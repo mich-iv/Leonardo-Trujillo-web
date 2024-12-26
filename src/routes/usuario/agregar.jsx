@@ -12,9 +12,9 @@ import '../../estilos/Menu.css';
 import '../../estilos/Paginas.css';
 
 import parse from 'bibtex-parser';
-import MostrarTexto from '../../Components/MostrarTexto.jsx';
+import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
-import {agregar} from '../../Components/opcionesRegistros.js';
+import {agregar} from '../../Componentes/opcionesRegistros.js';
 
 import parseReact from 'html-react-parser';
 
@@ -55,20 +55,22 @@ export default function Route(){
     var informacionEncontrada = false;
 
     var imagenBase64 = '';
+    var repositoryGH = '';
+    var descriptionGH = '';
+    var urlGH = '';
 
     var respuesta;
 
     String.prototype.hashCode = function() {
-        var hash = 0,
-          i, chr;
+        var hash = 0, i, chr;
         if (this.length === 0) return hash;
         for (i = 0; i < this.length; i++) {
-          chr = this.charCodeAt(i);
-          hash = ((hash << 5) - hash) + chr;
-          hash |= 0; // Convert to 32bit integer
+            chr = this.charCodeAt(i);
+            hash = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
         }
         return hash;
-      }
+    }
 
     const getInfoGitHub = (link) => {
         var usuarioGH = link.split('/')[3];
@@ -81,58 +83,103 @@ export default function Route(){
         // https://opengraph.githubassets.com/
         const apiUrl = `https://opengraph.githubassets.com/${numeroHash}/${usuarioGH}/${repositorioGH}`;
         
+        // URL de la API de GitHub para obtener información del repositorio
+        const repoUrl = `https://api.github.com/repos/${usuarioGH}/${repositorioGH}`;
+
+
         fetch(apiUrl, {
             headers:{
                 "Accept": "image/png"
             }
         })
-            .then(response => {
-                // Verificar si la respuesta es exitosa
-                if (!response.ok) {
-                    setDOILabel('');
-                    document.getElementById("textoMostrar").innerHTML = '';
-                    document.getElementById("confirmacion").style.color = 'red'; 
-                    document.getElementById("confirmacion").innerHTML = "Image not found";
-                throw new Error('Error en la solicitud');
-                }
-                informacionEncontrada = true;
+        .then(response => {
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                setDOILabel('');
+                document.getElementById("textoMostrar").innerHTML = '';
+                document.getElementById("confirmacion").style.color = 'red'; 
+                document.getElementById("confirmacion").innerHTML = "Image not found";
+            throw new Error('Error en la solicitud');
+            }
+            informacionEncontrada = true;
+            
+            // Convertir la respuesta a JSON
+            console.log(response);
+            
+            return response.blob();
+        })
+        .then(blob => {
+            // Convertir el blob a base64
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                let base64data = reader.result;
                 
-                // Convertir la respuesta a JSON
-                console.log(response);
+                // Mostrar la imagen en el elemento con id "imagenMostrar"
+                const imgElement = document.createElement("img");
+                imgElement.src = base64data;
+                imgElement.alt = "Fetched Image";
+                imgElement.style.maxWidth = "100%";
                 
-                return response.blob();
-            })
-            .then(blob => {
-                // Convertir el blob a base64
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    let base64data = reader.result;
-                    
-                    // Mostrar la imagen en el elemento con id "imagenMostrar"
-                    const imgElement = document.createElement("img");
-                    imgElement.src = base64data;
-                    imgElement.alt = "Fetched Image";
-                    imgElement.style.maxWidth = "100%";
-                    
-                    const imagenMostrar = document.getElementById("imagenMostrar");
-                    imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
-                    imagenMostrar.appendChild(imgElement);
+                const imagenMostrar = document.getElementById("imagenMostrar");
+                imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
+                imagenMostrar.appendChild(imgElement);
 
-                    // Eliminar el prefijo "data:image/png;base64,"
-                    base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
-        
-                    imagenBase64 = base64data;
-                    // resultMap["IMAGE"] = base64data;
-                    
-                    document.getElementById("confirmacion").innerHTML = "Image found:";
-                    document.getElementById("confirmacion").style.color = 'green';
-                };
-                reader.readAsDataURL(blob);
-            })
-            .catch(error => {
-                // Manejar errores
-                console.error('Error:', error);
-            });
+                // Eliminar el prefijo "data:image/png;base64,"
+                base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
+    
+                imagenBase64 = base64data;
+                // resultMap["IMAGE"] = base64data;
+                
+                document.getElementById("confirmacion").innerHTML = "Image found:";
+                document.getElementById("confirmacion").style.color = 'green';
+            };
+            reader.readAsDataURL(blob);
+        })
+        .catch(error => {
+            // Manejar errores
+            console.error('Error:', error);
+        });
+
+        // Fetch para obtener la información del repositorio
+        fetch(repoUrl, {
+            headers: {
+                "Accept": "application/vnd.github.v3+json"
+            }
+        })
+        .then(response => {
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                throw new Error('Error en la solicitud');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+
+            // Mostrar la información del repositorio en el elemento con id "textoMostrar"
+            const textoMostrar = document.getElementById("textoMostrar");
+            textoMostrar.innerHTML = `
+                <p><strong>Repository Name:</strong> ${data.name}</p>
+                <p><strong>Description:</strong> ${data.description}</p>
+                <p><strong>Stars:</strong> ${data.stargazers_count}</p>
+                <p><strong>Forks:</strong> ${data.forks_count}</p>
+                <p><strong>Open Issues:</strong> ${data.open_issues_count}</p>
+                <p><strong>URL:</strong> <a href="${data.html_url}" target="_blank">${data.html_url}</a></p>
+            `;
+
+            // Guardar la información en variables globales
+            repositoryGH = data.name;
+            descriptionGH = data.description;
+            urlGH = data.html_url;
+            // resultMap["STARS"] = data.stargazers_count;
+            // resultMap["FORKS"] = data.forks_count;
+            // resultMap["ISSUES"] = data.open_issues_count;
+
+        })
+        .catch(error => {
+            // Manejar errores
+            console.error('Error:', error);
+        });
     }
     
     const getFicha = (doi) => {
@@ -257,59 +304,59 @@ export default function Route(){
                 resultMap["INSTITUTION"] = institutcionAlumno;
                 resultMap["DATE"] = fechaInsertar;
             }
-
         }else if(ubicacion == 'code'){
             if(textoEditor == ''){
                 alert('There is no information to add');
             }else{
                 resultMap["DATE"] = fechaNueva;
                 resultMap["YEAR"] = fechaNueva.getFullYear();
-                resultMap["GITHUB"] = linkLabel;
                 resultMap["EDITORTEXT"] = textoEditor;
-                resultMap["IMAGE"] = imagenBase64;
+                resultMap["REPOSITORYGH"] = repositoryGH;
+                resultMap["DESCRIPTIONGH"] = descriptionGH;
+                resultMap["URLGH"] = urlGH;
+                resultMap["IMAGEGH"] = imagenBase64;
             }
         }else{
 
         }
-
         
-            if(textoYear != '' && textoMonth != '' && textoEditor != ''){
-                var fecha = (textoMonth + " 01, " + textoYear + " 5:00 AM");
-                var fechaFormateada = new Date(fecha);
+        if(textoYear != '' && textoMonth != '' && textoEditor != ''){
+            var fecha = (textoMonth + " 01, " + textoYear + " 5:00 AM");
+            var fechaFormateada = new Date(fecha);
 
-                resultMap["YEAR"] = textoYear;
-                resultMap["MONTH"] = textoMonth;
-                resultMap["TEXT"] = textoEditor;
-                resultMap["DATE"] = fechaNueva;
-                resultMap["EDITORTEXT"] = textoEditor;
-                // resultMap["DATE"] = textoDate;
-            }
+            resultMap["YEAR"] = textoYear;
+            resultMap["MONTH"] = textoMonth;
+            resultMap["TEXT"] = textoEditor;
+            resultMap["DATE"] = fechaNueva;
+            resultMap["EDITORTEXT"] = textoEditor;
+            // resultMap["DATE"] = textoDate;
+        }
 
-            e.preventDefault();
-            try{
-                /*
-                - aquí el truco está en "bd, UBICACION", donde
-                ubicación es la ruta que le da el nombre de 
-                la colección, para así no generar un .jsx para
-                cada sección.
-                - Además, el id lo obtenemos de la base para actualizar el mismo registro
-                */
-                const documento = doc(collection(bd, ubicacion));
-                if(Object.keys(resultMap).length === 0){
-                    alert('Error al agregar');
-                    throw new Error('Error al agregar');
-                }else{
-                    setDoc(documento, resultMap
-                    ).then(() => {
-                        alert('Updated information')
-                        location.reload();
-                    }).catch((error) => {
-                        console.error(error);
-                    });
-                }
-            }catch (error) {
-                console.error(error);
+        e.preventDefault();
+        try{
+            /*
+            - aquí el truco está en "bd, UBICACION", donde
+            ubicación es la ruta que le da el nombre de 
+            la colección, para así no generar un .jsx para
+            cada sección.
+            - Además, el id lo obtenemos de la base para actualizar el mismo registro
+            */
+            const documento = doc(collection(bd, ubicacion));
+            if(Object.keys(resultMap).length === 0){
+                alert('Error al agregar');
+                throw new Error('Error al agregar');
+            }else{
+                setDoc(documento, resultMap
+                ).then(() => {
+                    alert('Updated information')
+                    location.reload();
+                }).catch((error) => {
+                    console.error(error);
+                });
             }
+        }catch (error) {
+            console.error(error);
+        }
     }
 
     useEffect (() => {

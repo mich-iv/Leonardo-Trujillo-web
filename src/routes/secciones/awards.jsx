@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../estilos/Paginas.css';
 
-import MostrarTexto from '../../Components/MostrarTexto.jsx';
+import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 export default function Route(){
 

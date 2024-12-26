@@ -207,13 +207,13 @@ const MostrarTexto = () => {
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
                                     {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
                                     {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
-                                    <div className='columnas-contenido'>
-                                        <div className='informacion-link'>
-                                            <a href={value.GITHUB} className='informacion-link-titulo'>Leonardo-Trujillo-web</a>
-                                            <div className='informacion-link-descripcion'>Sitio web de información relevante de Leonardo Trujillo. Contribute to mich-iv/Leonardo-Trujillo-web development by creating an account on GitHub.</div>
-                                            <a href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGE}`} /></a>
-                                         </div>
-                                    </div>
+                                    <label className='columnas-contenido'>
+                                        <label className='informacion-link'>
+                                            <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
+                                            <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
+                                            <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
+                                         </label>
+                                    </label>
                                     {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
                                     
                             </>

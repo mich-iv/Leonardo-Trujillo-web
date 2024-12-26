@@ -15,6 +15,8 @@ import Login from './routes/usuario/login.jsx'
 import Agregar from './routes/usuario/agregar.jsx'
 import App from './App.jsx'
 
+import { HelmetProvider } from 'react-helmet-async';
+
 const router = createHashRouter([
   {
     path:'/',
@@ -69,7 +71,11 @@ const router = createHashRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('raiz')).render(
-  <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
+  <HelmetProvider>
+    <React.StrictMode>
+      <RouterProvider router={router}/>
+    </React.StrictMode>
+  </HelmetProvider>,
 )
+
+

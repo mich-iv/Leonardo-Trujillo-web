@@ -12,6 +12,10 @@
     "host": "vite --host"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@tinymce/tinymce-react": "^5.0.1",
     "bibtex-parser": "^0.0.0",
@@ -23,6 +27,8 @@
     "html-react-parser": "^5.1.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.22.1",
     "react-router-hash-link": "^2.4.3",
     "tinymce": "^7.0.1"

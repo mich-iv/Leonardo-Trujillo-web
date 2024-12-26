@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import '../../estilos/Paginas.css';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../../firebase.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faOrcid, faResearchgate, faGoogleScholar } from '@fortawesome/free-brands-svg-icons';
 
 export default function Route(){
     var temporal = '';
@@ -21,13 +23,14 @@ export default function Route(){
                     <div className='item-home-links'>
                         <a href='https://orcid.org/0000-0003-1812-5736'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/orcid.ico'/>
+                                {/* <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/orcid.ico'/> */}
+                                <FontAwesomeIcon className='item-home-links-individual-img' icon={faOrcid} />
                                 <span className='item-home-links-individual-texto'>ORCID</span>
                             </div>
                         </a>
                         <a href='https://www.researchgate.net/profile/Leonardo-Trujillo-2'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/researchGate.ico'/>
+                                <FontAwesomeIcon className='item-home-links-individual-img' icon={faResearchgate} />
                                 <span className='item-home-links-individual-texto'>Research Gate</span>
                             </div>
                         </a>
@@ -39,8 +42,8 @@ export default function Route(){
                         </a>
                         <a href='https://scholar.google.com/citations?user=xXh3xRYAAAAJ'>
                             <div className='item-home-links-individual'>
-                                <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/googleScholar.ico'/>
-                                <span className='item-home-links-individual-texto'>Google Scholar</span>
+                            <FontAwesomeIcon className='item-home-links-individual-img' icon={faGoogleScholar} />
+                            <span className='item-home-links-individual-texto'>Google Scholar</span>
                             </div>
                         </a>
                         </div>

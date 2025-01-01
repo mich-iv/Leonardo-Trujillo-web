@@ -19,6 +19,8 @@ export default function Menu() {
 
   const [mostrarBoton, setMostrarBoton] = useState(false);
 
+  // Para mostrar el botón de inicio de sesión, presiona Ctrl + Shift + Insert o toca la pantalla con 5 dedos
+
   const handleKeyboard = ({ repeat, metaKey, ctrlKey, shiftKey , key, KeyM }) => {
     if (repeat) return
   
@@ -32,6 +34,36 @@ export default function Menu() {
     // Important to remove the listeners.
     return () => document.removeEventListener('keydown', handleKeyboard)
   })
+
+  useEffect(() => {
+    let touchStartTime = 0;
+    let touchCount = 0;
+
+    const handleTouchStart = (event) => {
+      if (event.touches.length === 5) {
+        touchStartTime = Date.now();
+        touchCount++;
+      }
+    };
+
+    const handleTouchEnd = (event) => {
+      if (event.touches.length === 0 && touchCount === 5) {
+        const touchDuration = Date.now() - touchStartTime;
+        if (touchDuration < 500) {
+          setMostrarBoton(prev => !prev);
+        }
+        touchCount = 0;
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
 
   // Obtiene los datos del usuario al iniciar sesión
   useEffect(() => {
@@ -47,7 +79,7 @@ export default function Menu() {
     // Limpia el effect cuando se desmonta el componente
     return () => unsubscribe();
   }, [sesion]); // Dependencia de effect: solo se ejecuta si cambia la sesión
-  //Es decir si la sesion cambia cambia el componente xd
+  //Es decir si la sesion cambia, cambia el componente xd
 
   const location = useLocation(); // Obtiene la ubicación actual
 
@@ -57,6 +89,12 @@ export default function Menu() {
       document.getElementById('check').checked = false;
       });
   });
+
+  document.querySelectorAll('.menu-secciones-derecha').forEach(item => {
+    item.addEventListener('click', () => {
+        document.getElementById('check').checked = false;
+        });
+    });
   
   return (
     <>
@@ -101,7 +139,7 @@ export default function Menu() {
                 <p>Log out</p>
               </button>
             ) : (
-              <Link className="menu-secciones" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
+              <Link className="menu-secciones-derecha" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
             )}
           {/* </div> */}
           {
@@ -110,7 +148,7 @@ export default function Menu() {
             // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
             !token ? '':
             !location.pathname.startsWith('/agregar/') ? 
-            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'>+</p></Link> :
+            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='' title='Agregar información'><i className="fa-solid fa-pen-to-square"></i></p></Link> :
             habilitar = false
           }
         </nav>

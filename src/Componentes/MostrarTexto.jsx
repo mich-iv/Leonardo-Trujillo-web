@@ -124,7 +124,6 @@ const MostrarTexto = () => {
         });
 
         return[
-            
             <div key={69}>
                 {Object.entries(datos).map(([key, value]) => (
                     [

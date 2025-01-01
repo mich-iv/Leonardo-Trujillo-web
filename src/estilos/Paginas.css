@@ -4,7 +4,7 @@
 }
 
 .contenido{
-    /* padding: 2rem 10rem; */
+    padding: 2rem 10rem;
     height: 1em;
     margin: auto;
     padding-top: 5%;
@@ -23,12 +23,12 @@
   }
 
 .item-home {
-    border: 1px solid rgba(31, 231, 20, 0.8);
+    /* border: 1px solid rgba(31, 231, 20, 0.8); */
     display: block;
 }
 
 .item-home-contenido {
-    border: 1px solid rgba(255, 0, 187, 0.8);
+    /* border: 1px solid rgba(255, 0, 187, 0.8); */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,7 +42,7 @@
 }
 
 .item-home-links {
-    border: 1px solid rgba(64, 0, 255, 0.8);
+    /* border: 1px solid rgba(64, 0, 255, 0.8); */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -119,7 +119,7 @@
 
 .imagenGithub{
     max-width: 600px;
-    border: 1px solid rgb(255, 98, 0);
+    /* border: 1px solid rgb(255, 98, 0); */
     object-fit:cover;
 }
 
@@ -156,7 +156,7 @@ a {
     .item-home-links{
         width: 80%;
         display: flex;
-        border: 1px solid rgb(255, 98, 0);
+        /* border: 1px solid rgb(255, 98, 0); */
         flex-direction: column;
         grid-template-columns: auto;
         gap: auto;

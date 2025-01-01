@@ -15,13 +15,14 @@
 
 .menu a{
   /* display: block; */
-  padding: 0 0.5rem;
+  /* padding: 0 0.5rem; */
   color: #f2f2f2;
   text-align: left;
   text-decoration: none;
   font-size: 1.5em;
   transition: 500ms;
   margin: 0 0 0 0;
+
 }
 
 .menu a:hover {
@@ -29,8 +30,23 @@
   text-decoration: none;
 }
 
+nav{
+  display: block;
+  justify-content: space-between;
+  gap: 1em;
+  width: 100%;
+}
+
 .menu-secciones {
+  padding-left: 0.5rem;
   font-size: 4em;
+  width: 100%;
+}
+
+.menu-secciones-derecha {
+  float: right;
+  font-size: 40em;
+  padding-right: 1rem;
 }
 
 .menu-desplegar {
@@ -53,13 +69,11 @@
   display: none;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 850px) {
   .checkbtn {
     display: block;
   }
-  .menu a{
-    margin: 0 0.1em;
-  }
+
   .menu-desplegar {
     position: fixed;
     margin:  0;
@@ -71,13 +85,24 @@
     transition: ease-in-out 500ms;
     text-decoration: inherit;
   }
-  .menu-secciones {
+  .menu-secciones{
     display: block;
     line-height: 2.5em;
     text-decoration: inherit;
     text-align: left;
-    border-bottom: 1px solid #f2f2f2;
-    border-image: linear-gradient(to right, #f2f2f2 1em, transparent 1em) 100% 1;
+    width: 100%;
+    margin: 1rem;
+    /* border-bottom: 1px solid #f2f2f2; */
+    /* border-image: linear-gradient(to right, #f2f2f2 10em, transparent 10em) 100% 1; */
+  }
+
+  .menu-secciones-derecha {
+    line-height: 2.5em;
+    text-decoration: inherit;
+    text-align: right;
+    
+    /* border-bottom: 1px solid #f2f2f2; */
+    /* border-image: linear-gradient(to right, #f2f2f2 10em, transparent 10em) 100% 1; */
   }
   
   #check:checked~.menu-desplegar {

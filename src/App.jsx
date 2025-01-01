@@ -17,10 +17,16 @@ import Projects from './routes/secciones/projects.jsx'
 
 // import './estilos/App.css';
 // import './estilos/Menu.css';
+import { useEffect } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 
-function App() {
+// window.addEventListener("touchstart", (event) => {
+//   if (event.touches.length === 3) {
+//     alert('3-finger touch detected');
+//   }
+// });
 
+function App() {
   return(
     <HelmetProvider>
       <div className='secciones'>
@@ -29,6 +35,9 @@ function App() {
         </div>
 
         <div className='cuerpo2'>
+          <br/>
+          <br/>
+          <br/>
           <Outlet/>
         </div>
 

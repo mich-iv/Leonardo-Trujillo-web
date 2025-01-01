@@ -78,7 +78,7 @@ export default function Menu() {
           <Link className="menu-secciones" to="/students">Students</Link>
           <Link className="menu-secciones" to="/code">Code</Link>
           
-          <div className="derecha">
+          {/* <div className="derecha"> */}
             {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
               ordenemos; condición ? entonces : si no
               - condición: por ejemplo, 10 es mayor que 5?
@@ -101,9 +101,9 @@ export default function Menu() {
                 <p>Log out</p>
               </button>
             ) : (
-              <Link className='derecha' to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
+              <Link className="menu-secciones" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
             )}
-          </div>
+          {/* </div> */}
           {
             // mostrar el botón solo si la ruta es diferente de "agregar"
             // porque de no evaluar, podríamos entrar en un loop de

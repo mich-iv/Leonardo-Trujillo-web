@@ -21,6 +21,7 @@ const router = createHashRouter([
   {
     path:'/',
     element: <App style={"secciones"}/>,
+    errorElement: <div>404 ERRORRRRRR!!!!!!!!!!!!!!!!!</div>,
     children: [
       {
         path:'/',

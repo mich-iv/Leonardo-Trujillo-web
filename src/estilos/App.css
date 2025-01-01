@@ -1,20 +1,15 @@
 .secciones {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 }
 
 .cabecera {
-  z-index: 500;
-  margin: 0;
-  padding: 0;
-  position: fixed;
   top: 0;
   left: 0;
-  height: 4.5em;
+  height: 3em;
   width: 100%;
   background-color: rgb(100, 175, 159);
   display: flex;
@@ -22,28 +17,16 @@
   text-decoration: none;
 }
 
-.menu {
+.cabecera2{
   width: 100%;
-  max-width: calc(100% - 1px);
-  position: fixed;
-  display: flex;
-  justify-content: flex-start;
+  background-color: rgb(100, 175, 159);
 }
 
-.menu a{
-  text-align: center;
-  padding: 0 0;
-  color: #1a1a1a;
-  text-align: center;
-  text-decoration: none;
-  font-size: 1.25rem;
-  transition: 200ms;
-  margin: 0 0 0 0;
-}
-
-.menu a:hover {
-  color: rgb(73, 73, 73);
-  text-decoration: none;
+.cuerpo2{
+  width: 100%;
+  height: 100%;
+  /* padding-top: 3rem; */
+  /* background-color: #213547; */
 }
 
 .cuerpo {
@@ -57,7 +40,7 @@ a, h2 {
   font-weight: 400;
   text-decoration: inherit;
   scroll-margin-top: 6rem;
-  word-wrap: break-word;
+  /* word-wrap: break-word; */
 }
 a:hover {
   color: #535bf2;

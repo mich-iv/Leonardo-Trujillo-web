@@ -15,7 +15,8 @@ import JournalPublications from './routes/secciones/journalPublications.jsx'
 import ConferencePapers from './routes/secciones/conferencePapers.jsx'
 import Projects from './routes/secciones/projects.jsx'
 
-import './estilos/App.css';
+// import './estilos/App.css';
+// import './estilos/Menu.css';
 import { HelmetProvider } from 'react-helmet-async'
 
 function App() {
@@ -23,16 +24,16 @@ function App() {
   return(
     <HelmetProvider>
       <div className='secciones'>
-        <div className='cabecera'>
+        <div className='cabecera2'>
           <Menu/>
         </div>
 
-        <div className='cuerpo'>
+        <div className='cuerpo2'>
           <Outlet/>
         </div>
 
         <div className='pie'>
-
+          {/* <p>Footer</p> */}
         </div>
       </div>
     </HelmetProvider>

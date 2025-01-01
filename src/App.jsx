@@ -16,23 +16,26 @@ import ConferencePapers from './routes/secciones/conferencePapers.jsx'
 import Projects from './routes/secciones/projects.jsx'
 
 import './estilos/App.css';
+import { HelmetProvider } from 'react-helmet-async'
 
 function App() {
 
   return(
-    <div className='secciones'>
-      <div className='cabecera'>
-        <Menu/>
-      </div>
+    <HelmetProvider>
+      <div className='secciones'>
+        <div className='cabecera'>
+          <Menu/>
+        </div>
 
-      <div className='cuerpo'>
-        <Outlet/>
-      </div>
+        <div className='cuerpo'>
+          <Outlet/>
+        </div>
 
-      <div className='pie'>
+        <div className='pie'>
 
+        </div>
       </div>
-    </div>
+    </HelmetProvider>
   )
 }
 

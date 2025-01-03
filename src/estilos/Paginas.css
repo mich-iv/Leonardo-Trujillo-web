@@ -61,6 +61,7 @@
     transition: all 0.3s ease;
 }
 .item-home-links-individual-img {
+    z-index: 0;
     text-decoration: none;
     margin: 0.2rem ;
     filter: grayscale(100%);

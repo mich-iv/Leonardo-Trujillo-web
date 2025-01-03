@@ -83,19 +83,60 @@ export default function Menu() {
 
   const location = useLocation(); // Obtiene la ubicación actual
 
-  //cada que se haga click en un link, se cerrará el menú
-  document.querySelectorAll('.menu-secciones').forEach(item => {
-  item.addEventListener('click', () => {
-      document.getElementById('check').checked = false;
-      });
-  });
+  //cada que se haga click en un link o fuera del menú desplegable, este se cerrará
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     const menu = document.querySelector('.menu-desplegable');
+  //     const checkbox = document.getElementById('check');
+  //     if (menu && checkbox && !menu.contains(event.target)) {
+  //       checkbox.checked = false;
+  //     }
+  //   };
 
-  document.querySelectorAll('.menu-secciones-derecha').forEach(item => {
-    item.addEventListener('click', () => {
-        document.getElementById('check').checked = false;
-        });
-    });
+  //   document.addEventListener('click', handleClickOutside);
+
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutside);
+  //   };
+  // }, []);
+
+  // document.querySelectorAll('.menu-secciones').forEach(item => {
+  //   item.addEventListener('click', () => {
+  //     document.getElementById('check').checked = false;
+  //   });
+  // });
+
+  // document.querySelectorAll('.menu-secciones-derecha').forEach(item => {
+  //   item.addEventListener('click', () => {
+  //     document.getElementById('check').checked = false;
+  //   });
+  // });
   
+  // document.querySelectorAll('.cuerpo2').forEach(item => {
+  //   item.addEventListener('click', () => {
+  //     document.getElementById('check').checked = false;
+  //   });
+  // });
+
+  useEffect(() => {
+    const handleClick = () => {
+      document.getElementById('check').checked = false;
+    };
+
+    const menuItems = document.querySelectorAll('.menu-secciones, .menu-secciones-derecha, .cuerpo2');
+    menuItems.forEach(item => {
+      item.addEventListener('click', handleClick);
+    });
+
+    return () => {
+      menuItems.forEach(item => {
+        item.removeEventListener('click', handleClick);
+      });
+    };
+  }, []);
+
+  
+    
   return (
     <>
       <div className="menu">
@@ -127,7 +168,7 @@ export default function Menu() {
             {/* Botón de inicio de sesión/cierre de sesión */}
             {token ? (
               <button
-                className='derecha'
+                className='menu-secciones-derecha-boton'
                 type="submit"
                 id="cerrarSesion"
                 onClick={() => {
@@ -135,8 +176,8 @@ export default function Menu() {
                   window.location.reload(); // Recarga la página al cerrar sesión
                 }}
               >
-                <img alt="foto" referrerPolicy="no-referrer" src={foto} />
-                <p>Log out</p>
+                <img className='menu-secciones-derecha-boton-imagen' alt="foto" referrerPolicy="no-referrer" src={foto} />
+                Log out
               </button>
             ) : (
               <Link className="menu-secciones-derecha" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
@@ -148,7 +189,7 @@ export default function Menu() {
             // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
             !token ? '':
             !location.pathname.startsWith('/agregar/') ? 
-            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='' title='Agregar información'><i className="fa-solid fa-pen-to-square"></i></p></Link> :
+            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
             habilitar = false
           }
         </nav>

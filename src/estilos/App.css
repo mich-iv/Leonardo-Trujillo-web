@@ -22,7 +22,7 @@
   background-color: rgb(100, 175, 159);
 }
 
-.cuerpo2{
+.cuerpo2viejo{
   /* width: 100%; */
   /* height: 100%; */
   padding: 0 7rem;
@@ -30,9 +30,9 @@
   /* background-color: #213547; */
 }
 
-.cuerpo {
+.cuerpo2 {
   top: 1rem;
-  padding-top: 3rem;
+  /* padding-top: 3rem; */
   padding-left: 10%;
   padding-right: 10%;
 }

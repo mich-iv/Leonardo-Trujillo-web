@@ -198,10 +198,42 @@ export default function Menu() {
             </div>
           </div>
           
-          
-          
+          {/* <div className="derecha"> */}
+            {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
+              ordenemos; condición ? entonces : si no
+              - condición: por ejemplo, 10 es mayor que 5?
+                ?
+              - entonces: si condición es verdad (true), entonces haz //lo que sea
+                :
+              - si no: si condición es falso (false), entonces haz //otra cosa */}
+            {/* Botón de inicio de sesión/cierre de sesión */}
+            {token ? (
+              <button
+                className='menu-secciones-derecha-boton'
+                type="submit"
+                id="cerrarSesion"
+                onClick={() => {
+                  signOut(sesion);
+                  window.location.reload(); // Recarga la página al cerrar sesión
+                }}
+              >
+                <img className='menu-secciones-derecha-boton-imagen' alt="foto" referrerPolicy="no-referrer" src={foto} />
+                Log out
+              </button>
+            ) : (
+              <Link className="menu-secciones-derecha" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
+            )}
+          {/* </div> */}
+          {
+            // mostrar el botón solo si la ruta es diferente de "agregar"
+            // porque de no evaluar, podríamos entrar en un loop de
+            // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
+            !token ? '':
+            !location.pathname.startsWith('/agregar/') ? 
+            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
+            habilitar = false
+          }
         </div>
-
       </div>
     </>
   );

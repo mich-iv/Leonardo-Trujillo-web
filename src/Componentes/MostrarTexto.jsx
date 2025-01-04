@@ -15,13 +15,23 @@ const MostrarTexto = () => {
     const [datos, setDatos]= useState({});
     let val = [];
 
+    //obtenemos la ubicación actual para saber qué colección de la base de datos leer.
     ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
     useEffect (() => {
         async function docSnap(){
-            const coleccion = collection(bd, ubicacion)
-            const ordenarPor = query(coleccion, orderBy("DATE","desc"));
-            
+            const coleccion = collection(bd, ubicacion);
+            var ordenarPor;
+
+            if(ubicacion === "students"){
+                //si caemos en estudiantes, entonces ordenar por grado
+                ordenarPor = query(coleccion, orderBy("gradoAlumno", "desc"));
+            }else{
+                //si no, entonces ordenar por fecha
+                ordenarPor = query(coleccion, orderBy("DATE","desc"));
+            }
+
+            //obtenemos los documentos de la colección 
             const response = await getDocs(ordenarPor);
             const docs = response.docs.map((doc) => {
                 const data = doc.data();
@@ -205,13 +215,62 @@ const MostrarTexto = () => {
                             </>
                             : location.pathname.endsWith('students') ?
                             <>
-                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "4" ? 
+                                    <>
+                                        <div> 
+                                            <h1>PhD</h1>
+                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                        </div>
+                                    </>
+                                : '' : ''}
+                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "3" ? 
+                                    <>
+                                        <div>
+                                            <h1>Postgraduate degree</h1>
+                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                        </div>
+                                    </> 
+                                : '' : ''}
+                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "2" ? 
+                                    <>
+                                        <div>
+                                            <h1>Master’s degree</h1>
+                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                        </div>
+                                    </> 
+                                : '' : ''}
+                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "1" ? 
+                                    <>
+                                        <div>
+                                            <h1>College degree</h1>
+                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                        </div>
+                                    </> 
+                                : '' : ''}
                             </>
                             : location.pathname.endsWith('code') ?
                             value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :

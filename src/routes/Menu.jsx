@@ -146,53 +146,62 @@ export default function Menu() {
           <i className="fas fa-bars"></i>
         </label>
 
-        <nav className='menu-desplegar'>
-          <Link className="menu-secciones" to="/">Home</Link>
-          <Link className="menu-secciones" to="/awards">Awards</Link>
-          <Link className="menu-secciones" to="/bookChapters">Book Chapters</Link>
-          <Link className="menu-secciones" to="/journalPublications">Journal Publications</Link>
-          <Link className="menu-secciones" to="/conferencePapers">Select Conference Papers</Link>
-          <Link className="menu-secciones" to="/projects">Projects</Link>
-          <Link className="menu-secciones" to="/books">Books</Link>
-          <Link className="menu-secciones" to="/students">Students</Link>
-          <Link className="menu-secciones" to="/code">Code</Link>
+        <div className='menu-desplegar'>
+          <div className='menu-secciones'>
+            <div className='menu-secciones-izquierda'>
+              <Link className="menu-secciones-izquierda-links" to="/">Home</Link>
+              <Link className="menu-secciones-izquierda-links" to="/awards">Awards</Link>
+              <Link className="menu-secciones-izquierda-links" to="/bookChapters">Book Chapters</Link>
+              <Link className="menu-secciones-izquierda-links" to="/journalPublications">Journal Publications</Link>
+              <Link className="menu-secciones-izquierda-links" to="/conferencePapers">Select Conference Papers</Link>
+              <Link className="menu-secciones-izquierda-links" to="/projects">Projects</Link>
+              <Link className="menu-secciones-izquierda-links" to="/books">Books</Link>
+              <Link className="menu-secciones-izquierda-links" to="/students">Students</Link>
+              <Link className="menu-secciones-izquierda-links" to="/code">Code</Link>
+            </div>
+            <div className='menu-secciones-derecha'>
+              {/* <div className="derecha"> */}
+                {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
+                  ordenemos; condición ? entonces : si no
+                  - condición: por ejemplo, 10 es mayor que 5?
+                    ?
+                  - entonces: si condición es verdad (true), entonces haz //lo que sea
+                    :
+                  - si no: si condición es falso (false), entonces haz //otra cosa */}
+                {/* Botón de inicio de sesión/cierre de sesión */}
+                {token ? (
+                  <button
+                    className='menu-secciones-derecha-boton'
+                    type="submit"
+                    id="cerrarSesion"
+                    onClick={() => {
+                      signOut(sesion);
+                      window.location.reload(); // Recarga la página al cerrar sesión
+                    }}
+                  >
+                    <img className='menu-secciones-derecha-boton-imagen' alt="foto" referrerPolicy="no-referrer" src={foto} />
+                    Log out
+                  </button>
+                ) : (
+                  <Link className="menu-secciones-derecha" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
+                )}
+              {/* </div> */}
+              {
+                // mostrar el botón solo si la ruta es diferente de "agregar"
+                // porque de no evaluar, podríamos entrar en un loop de
+                // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
+                !token ? '':
+                !location.pathname.startsWith('/agregar/') ? 
+                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
+                habilitar = false
+              }
+            </div>
+          </div>
           
-          {/* <div className="derecha"> */}
-            {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
-              ordenemos; condición ? entonces : si no
-              - condición: por ejemplo, 10 es mayor que 5?
-                ?
-              - entonces: si condición es verdad (true), entonces haz //lo que sea
-                :
-              - si no: si condición es falso (false), entonces haz //otra cosa */}
-            {/* Botón de inicio de sesión/cierre de sesión */}
-            {token ? (
-              <button
-                className='menu-secciones-derecha-boton'
-                type="submit"
-                id="cerrarSesion"
-                onClick={() => {
-                  signOut(sesion);
-                  window.location.reload(); // Recarga la página al cerrar sesión
-                }}
-              >
-                <img className='menu-secciones-derecha-boton-imagen' alt="foto" referrerPolicy="no-referrer" src={foto} />
-                Log out
-              </button>
-            ) : (
-              <Link className="menu-secciones-derecha" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
-            )}
-          {/* </div> */}
-          {
-            // mostrar el botón solo si la ruta es diferente de "agregar"
-            // porque de no evaluar, podríamos entrar en un loop de
-            // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
-            !token ? '':
-            !location.pathname.startsWith('/agregar/') ? 
-            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
-            habilitar = false
-          }
-        </nav>
+          
+          
+        </div>
+
       </div>
     </>
   );

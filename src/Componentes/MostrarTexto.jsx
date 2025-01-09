@@ -6,7 +6,7 @@ import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
 
-const MostrarTexto = () => {
+export function MostrarTexto (props) {
     const location = useLocation();
     let { ubicacion } = "";
     
@@ -16,7 +16,12 @@ const MostrarTexto = () => {
     let val = [];
 
     //obtenemos la ubicación actual para saber qué colección de la base de datos leer.
-    ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    // ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
+    //obtenemos la ubicacion  con el parametro que se le pasa
+    ubicacion = props.ubicacion;
+
+    console.log(props.ubicacion);
 
     useEffect (() => {
         async function docSnap(){
@@ -133,179 +138,221 @@ const MostrarTexto = () => {
             anioViejo = anioActual;
         });
 
-        return[
-            <div key={69} id='69'>
-                {Object.entries(datos).map(([key, value]) => (
-                    [
-                        /* añadimos el titulo por año
-                        si el arreglo trae el año repetido (''), entonces no muestres nada */,
 
-                        // si trae datos (cualquier año), entonces muestra el h2 con el año
-                        (contenidoAnios[key].key.length > 0) ? 
-                        <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
-                        //desplegamos parrafo con la información acomodada
-                        <p key={value.id} id={value.id}>
-                            <label>{"["+(parseInt(key)+1)+"] "}</label>
-                            {/* si traemos texto, entonces mostrar primero */}
-                            {location.pathname.endsWith('bookChapters') ? 
-                            value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
-                            <>
-                                {/* 
-                                si valor(value.TITLE) es diferente de vacío o undefined, entonces ("?")
-                                muestra lo que trae,
-                                si no (else, o dos puntos ":"), no muestres nada ('') 
-                                */}
-                                {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, ' }
-                                {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
-                                {value.BOOKTITLE !== undefined || value.JOURNAL !== undefined ? ("in ") : ''}
-                                {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
-                                <i>{value.BOOKTITLE !== undefined  ? (value.BOOKTITLE  + ", ") : value.JOURNAL !== undefined  ? (value.JOURNAL  + ", ") : ''}</i>
-                                {value.EDITION !== undefined  ? (value.EDITION  + ". ") : ''}
-                                {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
-                                {value.YEAR !== undefined ? (value.YEAR + ", ") : '' }
-                                {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
-                                {/* link del DOI */}
-                                {value.TEXT !== undefined ? "" : ""}
-                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
-                            </>
-                            : location.pathname.endsWith('journalPublications') ? 
-                            value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
-                            <>
-                                {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
-                                {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
-                                {value.JOURNAL !== undefined || value.BOOKTITLE !== undefined ? ("in ") : ''}
-                                {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
-                                <i>{value.JOURNAL !== undefined  ? (value.JOURNAL  + ", ") : value.BOOKTITLE !== undefined  ? (value.BOOKTITLE  + ", ") : ''}</i>
-                                {value.VOLUME !== undefined ? ("vol. " + value.VOLUME + ", ") : ''}
-                                {value.ISSUE !== undefined ? (value.ISSUE + ", ") : '' }
-                                {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ", ") : ''}
-                                {value.MONTH !== undefined ? (value.MONTH.substring(0,3) + " ") : ''}
-                                {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
-                                {/* link del DOI */}
-                                {value.TEXT !== undefined ? "" : ""}
-                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
-                                </>
-                            : location.pathname.endsWith('conferencePapers') ? 
-                            value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
-                            <>
-                                {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
-                                {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
-                                {value.BOOKTITLE !== undefined || value.JOURNAL !== undefined ? ("in ") : ''}
-                                {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
-                                <i>{value.BOOKTITLE !== undefined  ? (value.BOOKTITLE  + ", ") : value.JOURNAL !== undefined  ? (value.JOURNAL  + ", ") : ''}</i> 
-                                {value.LOCATION !== undefined  ? (value.LOCATION  + ", ") : ''}
-                                {value.YEAR !== undefined ? (value.YEAR + ", ") : '' }
-                                {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
-                                {/* link del DOI */}
-                                {value.TEXT !== undefined ? "" : ""}
-                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
-                            </>
-                            : location.pathname.endsWith('books') ? 
-                            value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
-                            <>
-                                {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
-                                <i>{value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}</i>
-                                {value.EDITION !== undefined  ? (value.EDITION  + ", ") : ''}
-                                {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
-                                {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
-                                {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
-                                {/* link del DOI */}
-                                {value.TEXT !== undefined ? "" : ""}
-                                <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
-                            </>
-                            : location.pathname.endsWith('students') ?
-                            <>
-                                <div className='texto-columnas'>
-                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "4" ? 
-                                    <>
-                                        <div className=''> 
-                                            <h1>PhD</h1>
-                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                        </div>
-                                    </>
-                                : '' : ''}
-                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "3" ? 
-                                    <>
-                                        <div>
-                                            <h1>Postgraduate degree</h1>
-                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                        </div>
-                                    </> 
-                                : '' : ''}
-                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "2" ? 
-                                    <>
-                                        <div>
-                                            <h1>Master’s degree</h1>
-                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                        </div>
-                                    </> 
-                                : '' : ''}
-                                {value.gradoAlumno !== undefined  ? value.gradoAlumno == "1" ? 
-                                    <>
-                                        <div>
-                                            <h1>College degree</h1>
-                                            {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                            {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                            {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                            {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                            {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                            {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                            {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                        </div>
-                                    </> 
-                                : '' : ''}
+        if (ubicacion === "students") {
+            const grados = {
+                "4": "PhD",
+                "3": "Postgraduate degree",
+                "2": "Master’s degree",
+                "1": "College degree"
+            };
+        
+            const alumnosPorGrado = Object.entries(datos).reduce((acc, [key, value]) => {
+                if (value.gradoAlumno !== undefined) {
+                    if (!acc[value.gradoAlumno]) {
+                        acc[value.gradoAlumno] = [];
+                    }
+                    acc[value.gradoAlumno].push(value);
+                }
+                return acc;
+            }, {});
+        
+            return (
+                <>
+                    {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
+                        <div className='texto-columnas-bloque' key={grado}>
+                            <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                            {alumnos.map((alumno, index) => (
+                                <div key={index} className='texto-columnas-bloque-contenido'>
+                                    {alumno.nombreAlumno !== undefined ? <p><b>{alumno.nombreAlumno}</b></p> : ''}
+                                    {/* {alumno.gradoAlumno !== undefined ? <p><b>Name: </b>{"Degree: " + alumno.gradoAlumno}</p>: ''} */}
+                                    {alumno.fechaInicioAlumno !== undefined ? <p><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                    {alumno.graduadoAlumno !== undefined ? <p><b>Graduation date: </b>{alumno.graduadoAlumno}</p> : ''}
+                                    {alumno.tituloTesisAlumno !== undefined ? <p><b>Thesis title: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                    {alumno.programaAlumno !== undefined ? <p><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                    {alumno.institucionAlumno !== undefined ? <p><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                <div className='texto-columnas-bloque-contenido-separador'/>
                                 </div>
-                            </>
-                            : location.pathname.endsWith('code') ?
-                            value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
-                            <>
-                                {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                                {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
-                                {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
-                                <label className='columnas-contenido'>
-                                    <label className='informacion-link'>
-                                        <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
-                                        <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
-                                        <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
-                                    </label>
-                                </label>
-                                {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
-                            </>
-                            : <>
-                                {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                            </> }
-                            { location.pathname.startsWith("/agregar/") ?
-                                <>
-                                    <br/>
-                                    <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                    <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
-                                </>
-                                : ''
-                            }
-                            
-                        </p>,
-                    ]
+                            ))}
+                        </div>
                     ))}
-            </div>,
-        ]
+                </>
+            );
+        }else{
+            return[
+                <div key={69} id='69'>
+                    {Object.entries(datos).map(([key, value]) => (
+                        [
+                            /* añadimos el titulo por año
+                            si el arreglo trae el año repetido (''), entonces no muestres nada */,
+
+                            // si trae datos (cualquier año), entonces muestra el h2 con el año
+                            (contenidoAnios[key].key.length > 0) ? 
+                            <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
+                            //desplegamos parrafo con la información acomodada
+                            <p key={value.id} id={value.id}>
+                                <label>{"["+(parseInt(key)+1)+"] "}</label>
+                                {/* si traemos texto, entonces mostrar primero */}
+                                {location.pathname.endsWith('bookChapters') ? 
+                                value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
+                                <>
+                                    {/* 
+                                    si valor(value.TITLE) es diferente de vacío o undefined, entonces ("?")
+                                    muestra lo que trae,
+                                    si no (else, o dos puntos ":"), no muestres nada ('') 
+                                    */}
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, ' }
+                                    {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
+                                    {value.BOOKTITLE !== undefined || value.JOURNAL !== undefined ? ("in ") : ''}
+                                    {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
+                                    <i>{value.BOOKTITLE !== undefined  ? (value.BOOKTITLE  + ", ") : value.JOURNAL !== undefined  ? (value.JOURNAL  + ", ") : ''}</i>
+                                    {value.EDITION !== undefined  ? (value.EDITION  + ". ") : ''}
+                                    {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
+                                    {value.YEAR !== undefined ? (value.YEAR + ", ") : '' }
+                                    {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
+                                    {/* link del DOI */}
+                                    {value.TEXT !== undefined ? "" : ""}
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                </>
+                                : location.pathname.endsWith('journalPublications') ? 
+                                value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
+                                <>
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
+                                    {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
+                                    {value.JOURNAL !== undefined || value.BOOKTITLE !== undefined ? ("in ") : ''}
+                                    {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
+                                    <i>{value.JOURNAL !== undefined  ? (value.JOURNAL  + ", ") : value.BOOKTITLE !== undefined  ? (value.BOOKTITLE  + ", ") : ''}</i>
+                                    {value.VOLUME !== undefined ? ("vol. " + value.VOLUME + ", ") : ''}
+                                    {value.ISSUE !== undefined ? (value.ISSUE + ", ") : '' }
+                                    {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ", ") : ''}
+                                    {value.MONTH !== undefined ? (value.MONTH.substring(0,3) + " ") : ''}
+                                    {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
+                                    {/* link del DOI */}
+                                    {value.TEXT !== undefined ? "" : ""}
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                    </>
+                                : location.pathname.endsWith('conferencePapers') ? 
+                                value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
+                                <>
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
+                                    {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
+                                    {value.BOOKTITLE !== undefined || value.JOURNAL !== undefined ? ("in ") : ''}
+                                    {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
+                                    <i>{value.BOOKTITLE !== undefined  ? (value.BOOKTITLE  + ", ") : value.JOURNAL !== undefined  ? (value.JOURNAL  + ", ") : ''}</i> 
+                                    {value.LOCATION !== undefined  ? (value.LOCATION  + ", ") : ''}
+                                    {value.YEAR !== undefined ? (value.YEAR + ", ") : '' }
+                                    {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
+                                    {/* link del DOI */}
+                                    {value.TEXT !== undefined ? "" : ""}
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                </>
+                                : location.pathname.endsWith('books') ? 
+                                value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
+                                <>
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
+                                    <i>{value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}</i>
+                                    {value.EDITION !== undefined  ? (value.EDITION  + ", ") : ''}
+                                    {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
+                                    {value.PUBLISHER !== undefined  ? (value.PUBLISHER + ", ") : ''}
+                                    {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
+                                    {/* link del DOI */}
+                                    {value.TEXT !== undefined ? "" : ""}
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                </>
+                                : location.pathname.endsWith('students') ?
+                                <>
+                                    <div className='texto-columnas'>
+                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "4" ? 
+                                        <>
+                                            <div className=''> 
+                                                <h1>PhD</h1>
+                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                            </div>
+                                        </>
+                                    : '' : ''}
+                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "3" ? 
+                                        <>
+                                            <div>
+                                                <h1>Postgraduate degree</h1>
+                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                            </div>
+                                        </> 
+                                    : '' : ''}
+                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "2" ? 
+                                        <>
+                                            <div>
+                                                <h1>Master’s degree</h1>
+                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                            </div>
+                                        </> 
+                                    : '' : ''}
+                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "1" ? 
+                                        <>
+                                            <div>
+                                                <h1>College degree</h1>
+                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
+                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
+                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
+                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
+                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
+                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
+                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
+                                            </div>
+                                        </> 
+                                    : '' : ''}
+                                    </div>
+                                </>
+                                : location.pathname.endsWith('code') ?
+                                value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
+                                <>
+                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
+                                    {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
+                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
+                                    <label className='columnas-contenido'>
+                                        <label className='informacion-link'>
+                                            <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
+                                            <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
+                                            <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
+                                        </label>
+                                    </label>
+                                    {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
+                                </>
+                                : <>
+                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
+                                </> }
+                                { location.pathname.startsWith("/agregar/") ?
+                                    <>
+                                        <br/>
+                                        <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                        <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                    </>
+                                    : ''
+                                }
+                                
+                            </p>,
+                        ]
+                        ))}
+                </div>,
+            ]
+        }
     }
 
     return [

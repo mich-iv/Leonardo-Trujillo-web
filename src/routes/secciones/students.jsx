@@ -7,14 +7,15 @@ import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 export default function Route(){
 
+    var ubicacion = "students";
     return(
         <>
             <h1 className='titulos'>
                 Students
             </h1>
 
-            <div  className='texto'>
-                <MostrarTexto/>
+            <div  className='texto-columnas'>
+                <MostrarTexto ubicacion={ubicacion}/>
             </div>
         </>
     )

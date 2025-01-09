@@ -21,12 +21,18 @@ export default function Menu() {
 
   // Para mostrar el botón de inicio de sesión, presiona Ctrl + Shift + Insert o toca la pantalla con 5 dedos
 
-  const handleKeyboard = ({ repeat, metaKey, ctrlKey, shiftKey , key, KeyM }) => {
-    if (repeat) return
-  
-    // Handle both, `ctrl` and `meta`.
-    if (((metaKey || ctrlKey) && shiftKey) && key === 'Insert') setMostrarBoton(prev => !prev)
-  }
+  const handleKeyboard = ({ repeat, metaKey, ctrlKey, shiftKey, key }) => {
+    // Si la tecla se mantiene presionada y el evento se repite, no hacer nada
+    if (repeat) return;
+
+    // Verificar si se presionan las teclas `meta` (⌘ en Mac) o `ctrl` (en Windows/Linux) junto con `shift` y `Insert`
+    if (((metaKey || ctrlKey) && shiftKey) && key === 'Insert') {
+      // Alternar el estado de `mostrarBoton`
+      setMostrarBoton(prev => !prev);
+    }
+  };
+
+
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyboard)
@@ -183,7 +189,7 @@ export default function Menu() {
                     Log out
                   </button>
                 ) : (
-                  <Link className="menu-secciones-derecha" style={{float: 'right'}} to="/login" hidden={!mostrarBoton}>Login</Link> // Enlace a la página de inicio de sesión si no hay token
+                  <Link className="menu-secciones-derecha" style={{float: 'right', display: mostrarBoton ? 'flex' : 'none'}} to="/login">Login</Link> // Enlace a la página de inicio de sesión si no hay token
                 )}
               {/* </div> */}
               {

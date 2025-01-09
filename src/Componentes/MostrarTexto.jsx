@@ -134,7 +134,7 @@ const MostrarTexto = () => {
         });
 
         return[
-            <div key={69}>
+            <div key={69} id='69'>
                 {Object.entries(datos).map(([key, value]) => (
                     [
                         /* añadimos el titulo por año
@@ -215,9 +215,10 @@ const MostrarTexto = () => {
                             </>
                             : location.pathname.endsWith('students') ?
                             <>
+                                <div className='texto-columnas'>
                                 {value.gradoAlumno !== undefined  ? value.gradoAlumno == "4" ? 
                                     <>
-                                        <div> 
+                                        <div className=''> 
                                             <h1>PhD</h1>
                                             {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
                                             {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
@@ -271,6 +272,7 @@ const MostrarTexto = () => {
                                         </div>
                                     </> 
                                 : '' : ''}
+                                </div>
                             </>
                             : location.pathname.endsWith('code') ?
                             value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :

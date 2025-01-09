@@ -137,6 +137,14 @@
     width: 100%;
 }
 
+.texto-columnas{
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    font-size: 1.2em;
+    width: 100%;
+}
+
 .centrar{
     margin: auto;
     width: 50%;

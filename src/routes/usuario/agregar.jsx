@@ -512,8 +512,8 @@ export default function Route(){
                     />
                     <br/>
                     Degree<br/>
-                    <select name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno}>
-                        <option value=""></option>
+                    <select name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
+                        <option value="" selected disabled hidden>Select degree</option>
                         <option value="1">College degree</option>
                         <option value="2">Master’s degree</option>
                         <option value="3">Postgraduate degree</option>

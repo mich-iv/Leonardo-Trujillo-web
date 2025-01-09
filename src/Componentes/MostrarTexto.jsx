@@ -161,19 +161,22 @@ export function MostrarTexto (props) {
                 <>
                     {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
                         <div className='texto-columnas-bloque' key={grado}>
-                            <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
-                            {alumnos.map((alumno, index) => (
-                                <div key={index} className='texto-columnas-bloque-contenido'>
-                                    {alumno.nombreAlumno !== undefined ? <p><b>{alumno.nombreAlumno}</b></p> : ''}
-                                    {/* {alumno.gradoAlumno !== undefined ? <p><b>Name: </b>{"Degree: " + alumno.gradoAlumno}</p>: ''} */}
-                                    {alumno.fechaInicioAlumno !== undefined ? <p><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
-                                    {alumno.graduadoAlumno !== undefined ? <p><b>Graduation date: </b>{alumno.graduadoAlumno}</p> : ''}
-                                    {alumno.tituloTesisAlumno !== undefined ? <p><b>Thesis title: </b>{alumno.tituloTesisAlumno}</p> : ''}
-                                    {alumno.programaAlumno !== undefined ? <p><b>Program: </b>{alumno.programaAlumno}</p> : ''}
-                                    {alumno.institucionAlumno !== undefined ? <p><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                <div className='texto-columnas-bloque-contenido-separador'/>
-                                </div>
-                            ))}
+                            {/* aqui se cambió el color de fondo y bordes de los bloques de texto */}
+                            <div style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}}>
+                                <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                                {alumnos.map((alumno, index) => (
+                                    <div key={index} className='texto-columnas-bloque-contenido'>
+                                        {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                        {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                        {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                        {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                        {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                        {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                        
+                                        <div className='texto-columnas-bloque-contenido-separador'/>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     ))}
                 </>

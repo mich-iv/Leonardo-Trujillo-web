@@ -38,14 +38,24 @@ export default function SeccionesDerecha(){
     
     return(
         <div>
+            <div className='menu-navegador'>
+            <div className='menu-navegador-boton'>
+            <i className="fas fa-bookmark"></i>
+              <div className="menu-navegador-boton-contenido">
+                {marcadores}
+              </div>
+            </div>
+          </div>
+          
             <div>
                 <div className='seccionDerecha'>
                     {/* si hay marcadores de años, entonces muestralos */}
-                    {marcadores.length > 0 ? 
+                    {/* {marcadores.length > 0 ? 
                         <div key={"1"} id="tituloMarcadores">Years</div> :
                         ''
-                    }
-                    {marcadores} {/* años a mostrar */}
+                    } */}
+                    {/* años a mostrar */}
+                    {/* {marcadores}  */}
                 </div>
             </div>
         </div>

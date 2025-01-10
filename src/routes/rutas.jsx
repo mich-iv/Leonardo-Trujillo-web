@@ -13,13 +13,14 @@ import Code from './secciones/code.jsx'
 import Login from './usuario/login.jsx'
 import Agregar from './usuario/agregar.jsx'
 import App from '../App.jsx'
+import Error from './secciones/error.jsx'
 
 export default function Rutas(){
     const router = createHashRouter([
     {
         path:'/',
         element: <App style={"secciones"}/>,
-        errorElement: <div>404</div>,
+        errorElement: <Error/>,
         children: [
         {
             path:'/',

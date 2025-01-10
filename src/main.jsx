@@ -14,6 +14,7 @@ import Code from './routes/secciones/code.jsx'
 import Login from './routes/usuario/login.jsx'
 import Agregar from './routes/usuario/agregar.jsx'
 import App from './App.jsx'
+import Error from './routes/secciones/error.jsx'
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -21,7 +22,7 @@ const router = createHashRouter([
   {
     path:'/',
     element: <App style={"secciones"}/>,
-    errorElement: <div>404 ERRORRRRRR!!!!!!!!!!!!!!!!!</div>,
+    errorElement: <Error/>,
     children: [
       {
         path:'/',

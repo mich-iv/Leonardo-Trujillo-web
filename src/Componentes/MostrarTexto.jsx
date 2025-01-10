@@ -16,12 +16,12 @@ export function MostrarTexto (props) {
     let val = [];
 
     //obtenemos la ubicación actual para saber qué colección de la base de datos leer.
-    // ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
     //obtenemos la ubicacion  con el parametro que se le pasa
-    ubicacion = props.ubicacion;
+    // ubicacion = props.ubicacion;
 
-    console.log(props.ubicacion);
+    // console.log(props.ubicacion);
 
     useEffect (() => {
         async function docSnap(){
@@ -361,7 +361,7 @@ export function MostrarTexto (props) {
     return [
         textoFormateado(),
         //mostramos sección derecha con navegador por años
-        <SeccionesDerecha key={2}/>
+        <SeccionesDerecha key={2} ubicacion={ubicacion}/>
     ];
 };
 

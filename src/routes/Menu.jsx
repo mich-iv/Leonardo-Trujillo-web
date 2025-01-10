@@ -166,6 +166,7 @@ export default function Menu() {
               <Link className="menu-secciones-izquierda-links" to="/code">Code</Link>
             </div>
             <div className='menu-secciones-derecha'>
+              
               {/* <div className="derecha"> */}
                 {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
                   ordenemos; condición ? entonces : si no
@@ -212,6 +213,17 @@ export default function Menu() {
             <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
             habilitar = false
           }
+        </div>
+
+        <div className='menu-navegador'>
+          <div className='menu-navegador-boton'>
+            Go to
+            <div class="menu-navegador-boton-contenido">
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+            </div>
+          </div>
         </div>
       </div>
     </>

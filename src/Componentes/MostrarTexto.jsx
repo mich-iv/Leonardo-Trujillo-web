@@ -84,14 +84,18 @@ export function MostrarTexto (props) {
                 const data = datos.find(d => d.id === id);
 
                 document.getElementById("id").value = id;
-                console.log(id);
-                
                 
                 let resultMap = {};
                 Object.keys(data).forEach(key => {
                     resultMap[key] = data[key];
                 });
 
+                console.log(resultMap);
+
+                if(data == resultMap){
+                    console.log("iguales");
+                }
+                
                 if(document.getElementById("banderaOpcion").value === "editar"){
                     editar(bd, ubicacion, evento.target.id, resultMap);
                 }else{
@@ -160,24 +164,65 @@ export function MostrarTexto (props) {
             return (
                 <>
                     {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
-                        <div className='texto-columnas-bloque' key={grado}>
-                            {/* aqui se cambió el color de fondo y bordes de los bloques de texto */}
-                            <div style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}}>
-                                <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
-                                {alumnos.map((alumno, index) => (
-                                    <div key={index} className='texto-columnas-bloque-contenido'>
-                                        {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
-                                        {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
-                                        {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
-                                        {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
-                                        {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
-                                        {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                        
-                                        <div className='texto-columnas-bloque-contenido-separador'/>
-                                    </div>
-                                ))}
+                        <div>
+                        { location.pathname.startsWith("/agregar/") ?
+                            
+                        
+                            <>
+                            {alumnos.map((alumno, index) => (
+                                <div>
+                                            {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                            {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                            {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                            {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                            {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                            {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                            { location.pathname.startsWith("/agregar/") ?
+                                                <>
+                                                    <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                                    <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                                    <br/><br/>
+                                                </>
+                                                : ''
+                                            }
+                                            <div className='texto-columnas-bloque-contenido-separador'/>
+                                        </div>
+                                    ))}
+                            
+                                <br/>
+                                <button className="botonEditar" key={"editar"} id={alumnos.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                <button className="botonEliminar" key={"eliminar"} id={alumnos.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                            </>
+                            : 
+                        
+                            <div className='texto-columnas-bloque' key={grado}>
+                                {/* aqui se cambió el color de fondo y bordes de los bloques de texto */}
+                                <div style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}}>
+                                    <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                                    {alumnos.map((alumno, index) => (
+                                        <div key={index} className='texto-columnas-bloque-contenido'>
+                                            {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                            {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                            {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                            {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                            {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                            {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                            { location.pathname.startsWith("/agregar/") ?
+                                                <>
+                                                    <br/>
+                                                    <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                                    <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                                </>
+                                                : ''
+                                            }
+                                            <div className='texto-columnas-bloque-contenido-separador'/>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
+                        }       
                         </div>
+                        
                     ))}
                 </>
             );

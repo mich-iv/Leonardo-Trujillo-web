@@ -21,6 +21,7 @@ import parseReact from 'html-react-parser';
 import tinymce from 'tinymce/tinymce.min.js';
 import { set, update } from 'firebase/database';
 // import { randomInt } from 'firebase-tools/lib/utils.js';
+import OpcionesRegistros from '../../Componentes/OpcionesRegistros.jsx';
 
 export default function Route(){
     //obtenemos la ruta actual del url
@@ -259,7 +260,9 @@ export default function Route(){
         })
     }, []) 
 
+    // Función para enviar la información a la base de datos
     const submit = (e) => {
+        // Obtener el contenido del editor de texto
         if(tinymce.activeEditor != null){
             var textoEditor = tinymce.activeEditor.getContent("editorTinyMCE");
         }else{
@@ -269,30 +272,48 @@ export default function Route(){
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         const fechaNueva = new Date();
         
-        console.log(fechaNueva);
-        console.log(fechaNueva.getFullYear());
-        console.log(month[fechaNueva.getMonth()]);
+        // console.log(fechaNueva);
+        // console.log(fechaNueva.getFullYear());
+        // console.log(month[fechaNueva.getMonth()]);
 
-        if(ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books'){
+        if(ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books'){ 
+            // si la ubicación es diferente de code y students
+            
+            // si el doi es diferenete de vacío y no se ha encontrado la información,
+            // entonces se muestra un mensaje de error
             if(doiLabel != '' && informacionEncontrada == false){
                 alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
             }else{
                 resultMap["DOI"] = doiLabel;
             }
-        }else if(ubicacion == 'students'){
-            if(nombreAlumno == '' || gradoAlumno == '' || fechaInicioAlumno == '' || fechaGraduacionAlumno == '' || tituloTesisAlumno == '' || programaAlumno == '' || institucionAlumno == ''){
-                alert('There is no information to add');
-            }else{
-                resultMap["nombreAlumno"] = nombreAlumno;
-                resultMap["gradoAlumno"] = gradoAlumno;
-                resultMap["fechaInicioAlumno"] = fechaInicioAlumno;
-                resultMap["fechaGraduacionAlumno"] = fechaGraduacionAlumno;
-                resultMap["tituloTesisAlumno"] = tituloTesisAlumno;
-                resultMap["programaAlumno"] = programaAlumno;
-                resultMap["institucionAlumno"] = institucionAlumno;
-                resultMap["DATE"] = fechaNueva;
+        }else if(ubicacion == 'students'){ 
+            // si la bandera es editar, entonces se actualiza la información
+            if (document.getElementById('banderaOpcion').value === 'editar') {
+                resultMap["nombreAlumno"] = document.getElementById('nombreAlumno').value;
+                resultMap["gradoAlumno"] = document.getElementById('gradoAlumno').value;
+                resultMap["fechaInicioAlumno"] = document.getElementById('fechaInicioAlumno').value;
+                resultMap["fechaGraduacionAlumno"] = document.getElementById('fechaGraduacionAlumno').value;
+                resultMap["tituloTesisAlumno"] = document.getElementById('tituloTesisAlumno').value;
+                resultMap["programaAlumno"] = document.getElementById('programaAlumno').value;
+                resultMap["institucionAlumno"] = document.getElementById('institucionAlumno').value;
+            }else{ 
+                // si no, se obtiene la información de los campos
+                // si alguno de los campos está vacío, entonces se muestra un mensaje de error
+                if(nombreAlumno == '' || gradoAlumno == '' || fechaInicioAlumno == '' || fechaGraduacionAlumno == '' || tituloTesisAlumno == '' || programaAlumno == '' || institucionAlumno == ''){
+                    alert('There is no information to add');
+                }else{
+                    resultMap["nombreAlumno"] = nombreAlumno;
+                    resultMap["gradoAlumno"] = gradoAlumno;
+                    resultMap["fechaInicioAlumno"] = fechaInicioAlumno;
+                    resultMap["fechaGraduacionAlumno"] = fechaGraduacionAlumno;
+                    resultMap["tituloTesisAlumno"] = tituloTesisAlumno;
+                    resultMap["programaAlumno"] = programaAlumno;
+                    resultMap["institucionAlumno"] = institucionAlumno;
+                    resultMap["DATE"] = fechaNueva;
+                }
             }
         }else if(ubicacion == 'code'){
+            // si la ubicación es code y no se ha encontrado la información, entonces se muestra un mensaje de error
             if(textoEditor == ''){
                 alert('There is no information to add');
             }else{
@@ -307,20 +328,9 @@ export default function Route(){
         }else{
 
         }
-        
-        if(textoYear != '' && textoMonth != '' && textoEditor != ''){
-            var fecha = (textoMonth + " 01, " + textoYear + " 5:00 AM");
-            var fechaFormateada = new Date(fecha);
 
-            resultMap["YEAR"] = textoYear;
-            resultMap["MONTH"] = textoMonth;
-            resultMap["TEXT"] = textoEditor;
-            resultMap["DATE"] = fechaNueva;
-            resultMap["EDITORTEXT"] = textoEditor;
-            // resultMap["DATE"] = textoDate;
-        }
+        e.preventDefault(); // Evitar que se recargue la página
 
-        e.preventDefault();
         try{
             /*
             - aquí el truco está en "bd, UBICACION", donde
@@ -329,9 +339,12 @@ export default function Route(){
             cada sección.
             - Además, el id lo obtenemos de la base para actualizar el mismo registro
             */
+
             const documento = doc(collection(bd, ubicacion));
+
+            // si no hay información, entonces se muestra un mensaje de error
             if(Object.keys(resultMap).length === 0){
-                alert('Error al agregar');
+                // alert('Error al agregar');
                 throw new Error('Error al agregar');
             }else{
                 if(document.getElementById('banderaOpcion').value == 'editar'){
@@ -343,7 +356,7 @@ export default function Route(){
 
                     updateDoc(documentoActualizado, resultMap)
                     .then(() => {
-                        alert('Información actualizada');
+                        alert('Updated information');
                         // location.reload();
                     })
                     .catch((error) => {
@@ -353,7 +366,7 @@ export default function Route(){
                     setDoc(documento, resultMap
                     ).then(() => {
                         alert('Updated information')
-                        location.reload();
+                        // location.reload();
                     }).catch((error) => {
                         console.error(error);
                     });
@@ -415,8 +428,6 @@ export default function Route(){
     }
 
     const updateNombreAlumno = (event) => {
-        console.log('ACTUALIZ�OOOO');
-        
         setNombreAlumno(event.target.value);
     }
     
@@ -513,7 +524,7 @@ export default function Route(){
                     <br/>
                     Degree<br/>
                     <select name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
-                        <option value="" selected disabled hidden>Select degree</option>
+                        <option value="" defaultValue disabled hidden>Select degree</option>
                         <option value="1">College degree</option>
                         <option value="2">Master’s degree</option>
                         <option value="3">Postgraduate degree</option>
@@ -569,6 +580,7 @@ export default function Route(){
                 <blockquote id='textoMostrar'></blockquote>
                 
                 <MostrarTexto></MostrarTexto>
+                
                 <a className="listo" onMouseUp={submit} title='Click to add information'><img className="" alt="listo" src="../../listo.svg"/></a>
             </div>
         </div>

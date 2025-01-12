@@ -14,7 +14,7 @@ export default function Route(){
                 Students
             </h1>
 
-            <div  className='texto-columnas'>
+            <div  className='textos-columnas'>
                 <MostrarTexto ubicacion={ubicacion}/>
             </div>
         </>

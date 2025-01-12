@@ -43,7 +43,7 @@ export function MostrarTexto (props) {
                 data.id = doc.id;
                 return data;
             })
-            console.log(docs);
+            // console.log(docs);
             
             return docs;
         }
@@ -90,7 +90,7 @@ export function MostrarTexto (props) {
                     resultMap[key] = data[key];
                 });
 
-                console.log(resultMap);
+                // console.log(resultMap);
 
                 if(data == resultMap){
                     console.log("iguales");
@@ -143,7 +143,7 @@ export function MostrarTexto (props) {
         });
 
 
-        if (ubicacion === "students") {
+        if (location.pathname.endsWith('students')) {
             const grados = {
                 "4": "PhD",
                 "3": "Postgraduate degree",
@@ -162,43 +162,49 @@ export function MostrarTexto (props) {
             }, {});
         
             return (
+                
                 <>
+                <div  className='texto-columnas'>
                     {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
-                        <div>
-                        { location.pathname.startsWith("/agregar/") ?
-                            
-                        
+                        <>
+                            {console.log("ubicacion pathname:"+ubicacion.pathname)}
+                            {console.log("ubicacion:"+ubicacion)}
+                            { location.pathname.startsWith("/agregar/") ?
                             <>
+                            <div style={{display:'flex'}}  className='texto-columnas-bloque' key={grado}>
+                            <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
                             {alumnos.map((alumno, index) => (
-                                <div>
-                                            {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
-                                            {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
-                                            {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
-                                            {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
-                                            {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
-                                            {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                            { location.pathname.startsWith("/agregar/") ?
-                                                <>
-                                                    <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                                    <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
-                                                    <br/><br/>
-                                                </>
-                                                : ''
-                                            }
-                                            <div className='texto-columnas-bloque-contenido-separador'/>
+                                <>
+                                <div key={index} className='texto-columnas-bloque-contenido'>
+                                    {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                    {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                    {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                    {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                    {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                    {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                    { location.pathname.startsWith("/agregar/") ?
+                                        <>
+                                        <div style={{display:'flex'}}>
+                                            <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                            <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                            <br/><br/>
                                         </div>
-                                    ))}
-                            
-                                <br/>
-                                <button className="botonEditar" key={"editar"} id={alumnos.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                <button className="botonEliminar" key={"eliminar"} id={alumnos.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
-                            </>
+                                        </>
+                                        : ''
+                                    }
+                                    <div className='texto-columnas-bloque-contenido-separador'/>
+                                    </div>
+                                </>
+                                
+                            ))}
+                            </div>
+                                </>
                             : 
                         
                             <div className='texto-columnas-bloque' key={grado}>
                                 {/* aqui se cambió el color de fondo y bordes de los bloques de texto */}
                                 <div style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}}>
-                                    <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                                    <h2 key={"titulos"+grados[grado].split(" ").join("")} id={"titulo"+grados[grado].split(" ").join("")} className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
                                     {alumnos.map((alumno, index) => (
                                         <div key={index} className='texto-columnas-bloque-contenido'>
                                             {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
@@ -207,23 +213,23 @@ export function MostrarTexto (props) {
                                             {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
                                             {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
                                             {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                            { location.pathname.startsWith("/agregar/") ?
+                                            {/* { location.pathname.startsWith("/agregar/") ?
                                                 <>
                                                     <br/>
                                                     <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
                                                     <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
                                                 </>
                                                 : ''
-                                            }
+                                            } */}
                                             <div className='texto-columnas-bloque-contenido-separador'/>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                        }       
-                        </div>
-                        
+                        }
+                        </>
                     ))}
+                    </div>
                 </>
             );
         }else{
@@ -236,7 +242,7 @@ export function MostrarTexto (props) {
 
                             // si trae datos (cualquier año), entonces muestra el h2 con el año
                             (contenidoAnios[key].key.length > 0) ? 
-                            <h2 key={value.YEAR} id={"year"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
+                            <h2 key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
                             <p key={value.id} id={value.id}>
                                 <label>{"["+(parseInt(key)+1)+"] "}</label>
@@ -309,64 +315,7 @@ export function MostrarTexto (props) {
                                 </>
                                 : location.pathname.endsWith('students') ?
                                 <>
-                                    <div className='texto-columnas'>
-                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "4" ? 
-                                        <>
-                                            <div className=''> 
-                                                <h1>PhD</h1>
-                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                            </div>
-                                        </>
-                                    : '' : ''}
-                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "3" ? 
-                                        <>
-                                            <div>
-                                                <h1>Postgraduate degree</h1>
-                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                            </div>
-                                        </> 
-                                    : '' : ''}
-                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "2" ? 
-                                        <>
-                                            <div>
-                                                <h1>Master’s degree</h1>
-                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                            </div>
-                                        </> 
-                                    : '' : ''}
-                                    {value.gradoAlumno !== undefined  ? value.gradoAlumno == "1" ? 
-                                        <>
-                                            <div>
-                                                <h1>College degree</h1>
-                                                {value.nombreAlumno !== undefined  ? (value.nombreAlumno  + ", ") : ''}
-                                                {value.gradoAlumno !== undefined  ? (value.gradoAlumno + ", ") : ''}
-                                                {value.fechaInicioAlumno !== undefined  ? (value.fechaInicioAlumno  + ", ") : ''}
-                                                {value.graduadoAlumno !== undefined  ? (value.graduadoAlumno  + ": ") : ''}
-                                                {value.tituloTesisAlumno !== undefined  ? (value.tituloTesisAlumno + ", ") : ''}
-                                                {value.programaAlumno !== undefined  ? (value.programaAlumno + ", ") : ''}
-                                                {value.institucionAlumno !== undefined  ? (value.institucionAlumno + "") : ''}
-                                            </div>
-                                        </> 
-                                    : '' : ''}
-                                    </div>
+                                    {/* no mostrar nada */}
                                 </>
                                 : location.pathname.endsWith('code') ?
                                 value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :

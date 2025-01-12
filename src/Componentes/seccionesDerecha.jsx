@@ -14,7 +14,7 @@ export default function SeccionesDerecha(){
 
     useEffect(()=>{
             try{
-                /* obtener los elementos del HTML con la etiqueta <a>, pues desde el editor de texto
+                /* obtener los elementos del HTML con la etiqueta <h2>, pues desde el editor de texto
                 se agregan los marcadores a los años correspondientes con la etiqueta <a>
                 y un id con el año que se marcó */
                 setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 500);
@@ -24,13 +24,28 @@ export default function SeccionesDerecha(){
     }, [])
 
     let marcadores = [];
+    // console.log(ubicacion.pathname);
+    
     for (let i = 0; i < campos.length; i++) {
         nombre = campos[i].id;
-        if(nombre.startsWith("year")){
+
+        //quitamos espacios de los campos
+        // nombre = nombre.split(" ").join("");
+        
+        console.log(nombre);
+        
+        // console.log(nombre.split("_"));
+        // titulo = nombre.split("_")[1];
+        
+        
+        if(nombre.startsWith("titulo")){
             nombreKey = "marcador"+i;
             //antes era slice(4, 8), pero se adaptó en el caso de que esta página llegue al año 10000 o más jkaskja
-            nombreFiltrado = nombre.slice(4, nombre.length);
-            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion.pathname+"#year"+nombreFiltrado}>
+            // nombreFiltrado = nombre.slice(4, nombre.length);
+            nombreFiltrado = nombre.slice(6, nombre.length);
+            console.log(nombreFiltrado);
+            
+            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion.pathname+"#titulo"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
                 marcadores.push(<br key={nombreKey+"br"}/>);
         }

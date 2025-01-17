@@ -147,7 +147,7 @@ export default function Menu() {
     <>
       <div className="menu">
         <input type="checkbox" id="check"></input>
-        <label for="check" className="checkbtn">
+        <label htmlFor="check" className="checkbtn">
           {/* <FontAwesomeIcon icon="bars" /> */}
           <i className="fas fa-bars"></i>
         </label>
@@ -199,7 +199,7 @@ export default function Menu() {
                 // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
                 !token ? '':
                 !location.pathname.startsWith('/agregar/') ? 
-                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
+                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i className="fas fa-pen"></i></p></Link> :
                 habilitar = false
               }
             </div>
@@ -210,7 +210,7 @@ export default function Menu() {
             // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
             !token ? '':
             !location.pathname.startsWith('/agregar/') ? 
-            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i class="fas fa-pen"></i></p></Link> :
+            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i className="fas fa-pen"></i></p></Link> :
             habilitar = false
           }
 

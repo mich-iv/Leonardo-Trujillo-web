@@ -92,7 +92,7 @@
 .columnas-contenido{
     display: flex;
     flex-direction: column;
-    margin-bottom: 3rem;
+    margin-top: 3rem;
 }
 
 .informacion-texto{

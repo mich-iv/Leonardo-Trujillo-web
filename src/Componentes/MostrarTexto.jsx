@@ -5,6 +5,7 @@ import {editar, eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
+import { Editor, EditorCommands } from 'tinymce';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -79,6 +80,7 @@ export function MostrarTexto (props) {
         if(location.pathname.startsWith("/agregar/")){
             document.getElementById("banderaOpcion").value = null;
 
+            //si el valor del botón es editar, entonces muestra los datos en los campos
             if(evento.target.value === 'editar'){
                 const id = evento.target.id;
                 const data = datos.find(d => d.id === id);
@@ -89,8 +91,6 @@ export function MostrarTexto (props) {
                 Object.keys(data).forEach(key => {
                     resultMap[key] = data[key];
                 });
-                
-                // document.getElementById("DOI").value = data.DOI;
 
                 if(ubicacion === "students"){
                     document.getElementById("nombreAlumno").value = data.nombreAlumno;
@@ -103,10 +103,18 @@ export function MostrarTexto (props) {
                 }else if(parent.document.getElementById('DOI')){
                     console.log("hay DOI");
                     document.getElementById("DOI").value = data.DOI;
+                } else if(ubicacion === "code"){
+                    console.log(data.EDITORTEXT);
+                    
+                    document.getElementById("githubLink").value = data.URLGH;
+                    if(data.EDITORTEXT !== ""){
+                        tinymce.activeEditor.setContent(parse(data.EDITORTEXT));
+                    }
                 }
                 
-                
+                // marcamos la bandera para editar
                 document.getElementById("banderaOpcion").value = "editar";
+
             }else if(evento.target.value === 'eliminar'){
                 eliminar(bd, ubicacion, evento.target.id);
             }
@@ -311,7 +319,7 @@ export function MostrarTexto (props) {
                                 value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
                                 <>
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                                    {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''}
+                                    {/* {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''} */}
                                     {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
                                     <label className='columnas-contenido'>
                                         <label className='informacion-link'>

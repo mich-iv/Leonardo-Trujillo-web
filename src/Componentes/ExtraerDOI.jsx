@@ -25,14 +25,14 @@ const ExtraerTexto = (doi) => {
                         resultMap.set(llave, valor);
                     }
                 }
-                //console.log(resultMap);
+                console.log(resultMap);
             } catch (error) {
                 console.error("Falló:"+error);
             }
         })
     //},[id]);
 
-    console.log(resultMap);
+    console.log("SAAS"+resultMap);
     return textoExtraido;
 }
 

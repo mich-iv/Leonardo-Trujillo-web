@@ -14,38 +14,39 @@ export default function SeccionesDerecha(){
 
     useEffect(()=>{
             try{
-                /* obtener los elementos del HTML con la etiqueta <a>, pues desde el editor de texto
+                /* obtener los elementos del HTML con la etiqueta <h2>, pues desde el editor de texto
                 se agregan los marcadores a los años correspondientes con la etiqueta <a>
                 y un id con el año que se marcó */
-                setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 500);
+                setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 1000);
             }catch(error){
                 throw new Error("No hay datos", error);
             }
     }, [])
 
     let marcadores = [];
+    // console.log(ubicacion.pathname);
+    
     for (let i = 0; i < campos.length; i++) {
         nombre = campos[i].id;
-        if(nombre.startsWith("year")){
+        
+        if(nombre.startsWith("titulo")){
             nombreKey = "marcador"+i;
             //antes era slice(4, 8), pero se adaptó en el caso de que esta página llegue al año 10000 o más jkaskja
-            nombreFiltrado = nombre.slice(4, nombre.length);
-            marcadores.push(<HashLink name="marcador" key={nombreKey} smooth to={ubicacion.pathname+"#year"+nombreFiltrado}>
+            nombreFiltrado = nombre.slice(6, nombre.length);
+            
+            marcadores.push(<HashLink name={nombreKey} key={nombreKey} id={nombreKey} smooth to={ubicacion.pathname+"#titulo"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
-                marcadores.push(<br key={nombreKey+"br"}/>);
         }
     }
     
     return(
         <div>
-            <div>
-                <div className='seccionDerecha'>
-                    {/* si hay marcadores de años, entonces muestralos */}
-                    {marcadores.length > 0 ? 
-                        <div key={"1"} id="tituloMarcadores">Years</div> :
-                        ''
-                    }
-                    {marcadores} {/* años a mostrar */}
+            <div className='menu-navegador'>
+                <div className='menu-navegador-boton'>
+                    <i className="fas fa-bookmark"></i>
+                    <div className="menu-navegador-boton-contenido">
+                        {marcadores}
+                    </div>
                 </div>
             </div>
         </div>

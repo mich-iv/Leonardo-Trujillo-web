@@ -8,7 +8,7 @@ export default function Route(){
     return(
         <>
             <h1 className='titulos'>
-                Awards
+                Error 404
             </h1>
 
             <div  className='texto'>

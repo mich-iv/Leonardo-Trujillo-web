@@ -3,7 +3,7 @@ import '../../estilos/Paginas.css';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../../firebase.jsx';
 
-import MostrarTexto from '../../Components/MostrarTexto.jsx';
+import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 export default function Route(){
 
@@ -13,7 +13,7 @@ export default function Route(){
                 Journal Publications
             </h1>
 
-            <div  className='texto'>
+            <div className='texto'>
                 <MostrarTexto/>
             </div>
         </>

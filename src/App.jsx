@@ -15,24 +15,37 @@ import JournalPublications from './routes/secciones/journalPublications.jsx'
 import ConferencePapers from './routes/secciones/conferencePapers.jsx'
 import Projects from './routes/secciones/projects.jsx'
 
-import './estilos/App.css';
+// import './estilos/App.css';
+// import './estilos/Menu.css';
+import { useEffect } from 'react'
+import { HelmetProvider } from 'react-helmet-async'
+
+// window.addEventListener("touchstart", (event) => {
+//   if (event.touches.length === 3) {
+//     alert('3-finger touch detected');
+//   }
+// });
 
 function App() {
-
   return(
-    <div className='secciones'>
-      <div className='cabecera'>
-        <Menu/>
-      </div>
+    <HelmetProvider>
+      <div className='secciones'>
+        <div className='cabecera2'>
+          <Menu/>
+        </div>
 
-      <div className='cuerpo'>
-        <Outlet/>
-      </div>
+        <div className='cuerpo2'>
+          <br/>
+          <br/>
+          <br/>
+          <Outlet/>
+        </div>
 
-      <div className='pie'>
-
+        <div className='pie'>
+          {/* <p>Footer</p> */}
+        </div>
       </div>
-    </div>
+    </HelmetProvider>
   )
 }
 

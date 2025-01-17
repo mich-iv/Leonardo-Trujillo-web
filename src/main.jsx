@@ -14,11 +14,15 @@ import Code from './routes/secciones/code.jsx'
 import Login from './routes/usuario/login.jsx'
 import Agregar from './routes/usuario/agregar.jsx'
 import App from './App.jsx'
+import Error from './routes/secciones/error.jsx'
+
+import { HelmetProvider } from 'react-helmet-async';
 
 const router = createHashRouter([
   {
     path:'/',
     element: <App style={"secciones"}/>,
+    errorElement: <Error/>,
     children: [
       {
         path:'/',
@@ -69,7 +73,11 @@ const router = createHashRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('raiz')).render(
-  <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
+  <HelmetProvider>
+    <React.StrictMode>
+      <RouterProvider router={router}/>
+    </React.StrictMode>
+  </HelmetProvider>,
 )
+
+

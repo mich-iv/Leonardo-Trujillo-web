@@ -281,6 +281,12 @@ export default function Route(){
             
             // si el doi es diferenete de vacío y no se ha encontrado la información,
             // entonces se muestra un mensaje de error
+            if(document.getElementById('banderaOpcion').value === 'editar'){
+                resultMap["DOI"] = document.getElementById('DOI').value;
+            }else{
+
+            }
+
             if(doiLabel != '' && informacionEncontrada == false){
                 alert('A DOI was entered, but it was not found or the button to obtain it has not been clicked');
             }else{

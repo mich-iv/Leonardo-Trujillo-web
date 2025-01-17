@@ -89,16 +89,10 @@ export function MostrarTexto (props) {
                 Object.keys(data).forEach(key => {
                     resultMap[key] = data[key];
                 });
-
-                // console.log(resultMap);
-
-                if(data == resultMap){
-                    console.log("iguales");
-                }
                 
-                if(document.getElementById("banderaOpcion").value === "editar"){
-                    editar(bd, ubicacion, evento.target.id, resultMap);
-                }else{
+                // document.getElementById("DOI").value = data.DOI;
+
+                if(ubicacion === "students"){
                     document.getElementById("nombreAlumno").value = data.nombreAlumno;
                     document.getElementById("gradoAlumno").value = data.gradoAlumno;
                     document.getElementById("fechaInicioAlumno").value = data.fechaInicioAlumno;
@@ -106,8 +100,12 @@ export function MostrarTexto (props) {
                     document.getElementById("tituloTesisAlumno").value = data.tituloTesisAlumno;
                     document.getElementById("programaAlumno").value = data.programaAlumno;
                     document.getElementById("institucionAlumno").value = data.institucionAlumno;
+                }else if(parent.document.getElementById('DOI')){
+                    console.log("hay DOI");
+                    document.getElementById("DOI").value = data.DOI;
                 }
-
+                
+                
                 document.getElementById("banderaOpcion").value = "editar";
             }else if(evento.target.value === 'eliminar'){
                 eliminar(bd, ubicacion, evento.target.id);
@@ -164,35 +162,34 @@ export function MostrarTexto (props) {
             return (
                 
                 <>
-                <div  className='texto-columnas'>
+                <div id={"id"+Math.random()} key={"key"+Math.random()} className='texto-columnas'>
                     {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
+                        <React.Fragment key={grado}>
                         <>
-                            {console.log("ubicacion pathname:"+ubicacion.pathname)}
-                            {console.log("ubicacion:"+ubicacion)}
                             { location.pathname.startsWith("/agregar/") ?
                             <>
-                            <div style={{display:'flex'}}  className='texto-columnas-bloque' key={grado}>
-                            <h2 className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                            <div style={{display:'flex'}} className='texto-columnas-bloque' id={'columna'+grado} key={'columna'+grado}>
+                            <h2 id={"titulo"+grados[grado]} key={`titulo${grado}`} className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
                             {alumnos.map((alumno, index) => (
                                 <>
-                                <div key={index} className='texto-columnas-bloque-contenido'>
-                                    {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
-                                    {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
-                                    {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
-                                    {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
-                                    {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
-                                    {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                <div id={`contenido${alumno.id}`} key={`contenido${alumno.id}`} className='texto-columnas-bloque-contenido'>
+                                    {alumno.nombreAlumno !== undefined ? <h3 id={'nombre'+grado} key={'nombre'+grado} className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                    {alumno.fechaInicioAlumno !== undefined ? <p id={'fechaInicio'+grado} key={'fechaInicio'+grado} className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                    {alumno.fechaGraduacionAlumno !== undefined ? <p id={'fechaGraduacion'+grado} key={'fechaGraduacion'+grado} className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                    {alumno.tituloTesisAlumno !== undefined ? <p id={'tituloTesis'+grado} key={'tituloTesis'+grado} className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                    {alumno.programaAlumno !== undefined ? <p id={'programa'+grado} key={'programa'+grado} className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                    {alumno.institucionAlumno !== undefined ? <p id={'institucion'+grado} key={'institucion'+grado} className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
                                     { location.pathname.startsWith("/agregar/") ?
                                         <>
-                                        <div style={{display:'flex'}}>
-                                            <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                            <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                        <div style={{display:'flex'}} key={`opciones${alumno.id}`}>
+                                            <button className="botonEditar" key={`editar${alumno.id}`} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                            <button className="botonEliminar" key={`eliminar${alumno.id}`} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
                                             <br/><br/>
                                         </div>
                                         </>
-                                        : ''
+                                        : null
                                     }
-                                    <div className='texto-columnas-bloque-contenido-separador'/>
+                                    <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/>
                                     </div>
                                 </>
                                 
@@ -201,33 +198,26 @@ export function MostrarTexto (props) {
                                 </>
                             : 
                         
-                            <div className='texto-columnas-bloque' key={grado}>
+                            <div id={'columna'+grado} key={'columna'+grado} className='texto-columnas-bloque'>
                                 {/* aqui se cambió el color de fondo y bordes de los bloques de texto */}
-                                <div style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}}>
-                                    <h2 key={"titulos"+grados[grado].split(" ").join("")} id={"titulo"+grados[grado].split(" ").join("")} className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                                <div id={`bloque${grado}`} key={`bloque${grado}`} style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}} >
+                                    <h2 id={"titulo"+grados[grado]} key={`titulo${grado}`} className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
                                     {alumnos.map((alumno, index) => (
-                                        <div key={index} className='texto-columnas-bloque-contenido'>
-                                            {alumno.nombreAlumno !== undefined ? <h3 className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
-                                            {alumno.fechaInicioAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
-                                            {alumno.fechaGraduacionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
-                                            {alumno.tituloTesisAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
-                                            {alumno.programaAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
-                                            {alumno.institucionAlumno !== undefined ? <p className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                            {/* { location.pathname.startsWith("/agregar/") ?
-                                                <>
-                                                    <br/>
-                                                    <button className="botonEditar" key={"editar"} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                                    <button className="botonEliminar" key={"eliminar"} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
-                                                </>
-                                                : ''
-                                            } */}
-                                            <div className='texto-columnas-bloque-contenido-separador'/>
+                                        <div id={`contenido${alumno.id}`} key={`contenido${alumno.id}`} className='texto-columnas-bloque-contenido'>
+                                            {alumno.nombreAlumno !== undefined ? <h3 id={alumno.nombreAlumno} key={`nombre${alumno.id}`} className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                            {alumno.fechaInicioAlumno !== undefined ? <p id={alumno.fechaInicioAlumno} key={`fechaInicio${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                            {alumno.fechaGraduacionAlumno !== undefined ? <p id={alumno.fechaGraduacionAlumno} key={`fechaGraduacion${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                            {alumno.tituloTesisAlumno !== undefined ? <p id={alumno.tituloTesisAlumno} key={`tituloTesis${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                            {alumno.programaAlumno !== undefined ? <p id={alumno.programaAlumno} key={`programa${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                            {alumno.institucionAlumno !== undefined ? <p id={alumno.institucionAlumno} key={`institucion${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                            <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         }
                         </>
+                        </React.Fragment>
                     ))}
                     </div>
                 </>
@@ -355,7 +345,7 @@ export function MostrarTexto (props) {
     return [
         textoFormateado(),
         //mostramos sección derecha con navegador por años
-        <SeccionesDerecha key={2} ubicacion={ubicacion}/>
+        <SeccionesDerecha key={2453636} ubicacion={ubicacion}/>
     ];
 };
 

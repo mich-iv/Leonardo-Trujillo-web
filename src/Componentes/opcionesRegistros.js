@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 // Funciones para editar, eliminar y agregar registros
 
 export function editar(bd, ubicacion, id, resultMap) {
+    console.log("entró?");
+    
     const documento = doc(bd, ubicacion, id);
 
     const updatedFields = {};

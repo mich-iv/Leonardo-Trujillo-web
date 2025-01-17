@@ -69,10 +69,10 @@ input {
   width: 50%;
   padding: 1rem;
   margin-bottom: 0.5rem;
+  -webkit-box-sizing:content-box;
   -ms-box-sizing:content-box;
   -moz-box-sizing:content-box;
   box-sizing:content-box;
-  -webkit-box-sizing:content-box;
 }
 
 textarea {
@@ -95,8 +95,8 @@ select {
   margin-bottom: 0.5rem;
   -ms-box-sizing:content-box;
   -moz-box-sizing:content-box;
-  box-sizing:content-box;
   -webkit-box-sizing:content-box;
+  box-sizing:content-box;
 }
 
 button:hover, input:hover, select:hover {

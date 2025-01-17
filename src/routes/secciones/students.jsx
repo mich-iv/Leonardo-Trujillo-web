@@ -14,8 +14,8 @@ export default function Route(){
                 Students
             </h1>
 
-            <div  className='textos-columnas'>
-                <MostrarTexto ubicacion={ubicacion}/>
+            <div id={'asddas'} key={Math.random()} className='textos-columnas'>
+                <MostrarTexto key={2823542} ubicacion={ubicacion}/>
             </div>
         </>
     )

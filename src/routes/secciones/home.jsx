@@ -51,7 +51,7 @@ export default function Route(){
                 </div>
                 <div className='item-home'>
                     <div className='titulos'>
-                        Información
+                        Information
                     </div>
                     <div className='texto'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec ligula nec sem lacinia ultrices. 

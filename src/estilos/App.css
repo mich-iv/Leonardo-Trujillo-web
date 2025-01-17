@@ -19,7 +19,7 @@
 
 .cabecera2{
   width: 100%;
-  background-color: rgb(100, 175, 159);
+  background-color: #64af9f;
 }
 
 .cuerpo2viejo{
@@ -38,13 +38,14 @@
 }
 
 a, h2 {
+  color: #368fb2;
   /* font-weight: 400; */
   text-decoration: inherit;
   scroll-margin-top: 6rem;
   /* word-wrap: break-word; */
 }
 a:hover {
-  color: #535bf2;
+  /* color: #535bf2; */
 }
 
 
@@ -59,6 +60,7 @@ button {
   font-family: inherit;
   transition: 125ms;
   margin-left: 1rem;
+  transition: all 200ms ease-in-out;
 }
 
 input {
@@ -73,6 +75,7 @@ input {
   -ms-box-sizing:content-box;
   -moz-box-sizing:content-box;
   box-sizing:content-box;
+  transition: all 200ms ease-in-out;
 }
 
 textarea {
@@ -83,6 +86,7 @@ textarea {
   height: 10rem;
   width: 50vh;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: all 200ms ease-in-out;
 }
 
 select {
@@ -97,6 +101,7 @@ select {
   -moz-box-sizing:content-box;
   -webkit-box-sizing:content-box;
   box-sizing:content-box;
+  transition: all 200ms ease-in-out;
 }
 
 button:hover, input:hover, select:hover {

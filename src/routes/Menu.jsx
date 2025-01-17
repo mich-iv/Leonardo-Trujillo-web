@@ -204,21 +204,7 @@ export default function Menu() {
               }
             </div>
           </div>
-          {
-            // mostrar el botón solo si la ruta es diferente de "agregar"
-            // porque de no evaluar, podríamos entrar en un loop de
-            // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
-            !token ? '':
-            !location.pathname.startsWith('/agregar/') ? 
-            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i className="fas fa-pen"></i></p></Link> :
-            habilitar = false
-          }
-
-          
-
         </div>
-
-        
       </div>
     </>
   );

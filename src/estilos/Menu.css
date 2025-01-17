@@ -9,23 +9,23 @@
   justify-content: space-between;
   background-color: rgb(100, 175, 159);
   transition: all 500ms;
-  z-index: 1000;
+  z-index: 3;
   box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.1);
   -webkit-tap-highlight-color: transparent;
 }
 .menu-navegador{
   position: fixed;
   display: inline-block;
-  /* padding: 1em; */
   bottom: 1rem;
   left: 1rem;
+  border-radius: 50%;
 }
 .menu-navegador-boton{
+  border-radius: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgb(100, 175, 159);
-  border-radius: 100%;
   color: #f2f2f2;
   padding: 1em;
   font-size: 1rem;
@@ -33,6 +33,7 @@
   cursor: pointer;
   width: 1rem;
   height: 1rem;
+  transition: 200ms;
 }
 .menu-navegador-boton-contenido{
   display: none;
@@ -42,8 +43,7 @@
   bottom: 100%;
   left: 0;
   box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.2);
-  /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
-  z-index: 400;
+  z-index: 4;
   
 }
 .menu-navegador-boton-contenido a{
@@ -66,30 +66,19 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.menu-navegador:hover .menu-navegador-boton {
-  background-color: rgb(100, 165, 159);
+.fas.fa-bookmark{
+  color: #f2f2f2;
+  font-size: 1.25em;
+  transition: 200ms;
+}
+.fas.fa-bookmark:hover{
+  color: rgb(73, 73, 73);
   -webkit-tap-highlight-color: transparent;
 }
-
-/* .menu a{
-  color: #f2f2f2;
-  text-align: left;
-  text-decoration: none;
-  font-size: 1.5em;
-  transition: 500ms;
-  margin: 0 0 0 0;
-} */
 
 .menu a:hover {
   color: rgb(73, 73, 73);
   text-decoration: none;
-}
-
-nav{
-  display: block;
-  justify-content: space-between;
-  gap: 1em;
-  width: 100%;
 }
 
 .menu-secciones {
@@ -99,7 +88,6 @@ nav{
   padding-left: 1rem;
   padding-right: 1rem;
   font-size: 1.2em;
-  /* width: 100%; */
   flex-shrink: 0;
   justify-content: space-between;
 }
@@ -109,8 +97,6 @@ nav{
   align-items: center;
   justify-content: start;
   gap: 1em;
-  /* width: 95%; */
-  /* flex-shrink: 0; */
 }
 
 .menu-secciones-izquierda-links, .menu-secciones-derecha{
@@ -121,12 +107,6 @@ nav{
   align-items: center;
   display: flex;
   flex-basis: content;
-}
-
-.menu-secciones-derecha {
-  /* color: #f2f2f2; */
-  /* display: flex; */
-  /* flex-basis: content; */
 }
 
 .menu-secciones-derecha-boton {
@@ -167,6 +147,7 @@ nav{
   margin-left: 30px;
   cursor: pointer;
   display: none;
+  transition: 200ms;
 }
 
 #check {
@@ -202,8 +183,6 @@ nav{
     text-align: left;
     width: 100%;
     margin: 1rem;
-    /* border-bottom: 1px solid #f2f2f2; */
-    /* border-image: linear-gradient(to right, #f2f2f2 10em, transparent 10em) 100% 1; */
   }
 
   .menu-secciones-izquierda {
@@ -213,19 +192,13 @@ nav{
     text-align: left;
     flex-direction: column;
     align-items: left;
-    
-    /* border-bottom: 1px solid #f2f2f2; */
-    /* border-image: linear-gradient(to right, #f2f2f2 10em, transparent 10em) 100% 1; */
   }
 
   .menu-secciones-derecha {
     margin: 0;
-    
-    /* display: block; */
     line-height: 2.5em;
     text-decoration: inherit;
     text-align: left;
-    /* flex-direction: column; */
     align-items: left;
   }
 
@@ -234,13 +207,16 @@ nav{
   }
 
   .menu-secciones-izquierda-links {
-    
     display: flex;
     text-align: left;
     align-items: left;
     text-decoration: none;
     color: #f2f2f2;
     transition: 500ms;
+  }
+
+  .checkbtn:hover {
+    color: rgb(73, 73, 73);
   }
   
   #check:checked~.menu-desplegar {
@@ -295,9 +271,6 @@ nav{
   background-color: rgb(100, 175, 159);
   width: 3rem;
   height: 3rem;
-  display:flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .agregarMas {
@@ -310,19 +283,19 @@ nav{
   font-family: Arial, Helvetica, sans-serif;
   align-items: center;
   justify-content: center;
-
 }
 
 .fas.fa-pen {
   position: absolute;
   color: #f2f2f2;
-  font-size: 50%; 
+  font-size: 40%; 
   transition: color 200ms;
 }
 
-/* .fas.fa-pen:hover {
+.fas.fa-pen:hover{
   color: rgb(73, 73, 73);
-} */
+  -webkit-tap-highlight-color: transparent;
+}
 
 .listo {
   position: fixed;
@@ -330,11 +303,21 @@ nav{
   right: 1rem;
   border-radius: 100%;
   background-color: rgb(100, 175, 159);
-  width: 5em;
-  height: 5em;
-  display:flex;
-  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.fas.fa-check {
+  color: #f2f2f2;
+  font-size: 1.75em;
+  transition: 200ms;
+}
+.fas.fa-check:hover{
+  color: rgb(73, 73, 73);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .DOI {

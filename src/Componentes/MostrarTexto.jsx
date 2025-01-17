@@ -77,6 +77,7 @@ export function MostrarTexto (props) {
     //esta función se quedó aquí porque aún no sé cómo mandar parámetros
     //a otras partes de React XD
     window.mostrarOpciones = (evento) => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         if(location.pathname.startsWith("/agregar/")){
             document.getElementById("banderaOpcion").value = null;
 
@@ -137,11 +138,11 @@ export function MostrarTexto (props) {
             if(anioViejo == anioActual){
                 // console.log("TRUE - " + anioViejo +":"+ anioActual);
                 //VERDADERO: entonces no agregues nada, porque al desplegar años nos saldrían dos h2 de 2030, cuando los queremos AGRUPADOS.
-                contenidoAnios.push(<h2 key={""} id={""}>{""}</h2>);
+                contenidoAnios.push(<h2 className="subtitulos" key={""} id={""}>{""}</h2>);
             }else{//2030 == 2029?
                 // console.log("FALSE - " + anioViejo +":"+ anioActual);
                 //FALSO: entonces agrega el nuevo año que está recorriendo; 2029
-                contenidoAnios.push(<h2 key={datos[clave].YEAR} id={"year"+datos[clave].YEAR}>{datos[clave].YEAR}</h2>);
+                contenidoAnios.push(<h2 className="subtitulos" key={datos[clave].YEAR} id={"year"+datos[clave].YEAR}>{datos[clave].YEAR}</h2>);
             }
             //aqui está el truco; asignamos el año viejo hasta el final para que el forEach al regresar, lea el año viejo y lo compare con el nuevo
             // console.log(contenidoAnios);
@@ -240,10 +241,10 @@ export function MostrarTexto (props) {
 
                             // si trae datos (cualquier año), entonces muestra el h2 con el año
                             (contenidoAnios[key].key.length > 0) ? 
-                            <h2 key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
+                            <h2 className="subtitulos" key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
                             <p key={value.id} id={value.id}>
-                                <label>{"["+(parseInt(key)+1)+"] "}</label>
+                                {location.pathname.endsWith('code') ? '' : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
                                 {location.pathname.endsWith('bookChapters') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -320,8 +321,9 @@ export function MostrarTexto (props) {
                                 <>
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
                                     {/* {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''} */}
-                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
+                                    
                                     <label className='columnas-contenido'>
+                                        <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}</label>
                                         <label className='informacion-link'>
                                             <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
                                             <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>

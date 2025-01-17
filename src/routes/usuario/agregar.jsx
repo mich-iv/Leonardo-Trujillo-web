@@ -507,7 +507,7 @@ export default function Route(){
                     <button className="botonForma" onClick={()=>{if(linkLabel != ''){getInfoGitHub(linkLabel)}}} title='Click to get information from GitHub'>Get information</button>
                     <br/>
                     <label id="confirmacion" style={{scale: '50%'}}></label>
-                    <blockquote id='imagenMostrar'></blockquote>
+                    <blockquote style={{scale: '50%'}} id='imagenMostrar'></blockquote>
                     <br/>
                     Adittional information
                     <EditorTexto/>
@@ -605,7 +605,7 @@ export default function Route(){
                 
                 <MostrarTexto></MostrarTexto>
                 
-                <a className="listo" onMouseUp={submit} title='Click to add information'><img className="" alt="listo" src="../../listo.svg"/></a>
+                <a className="listo" onMouseUp={submit} title='Click to add information'><i class="fas fa-check"/></a>
             </div>
         </div>
     )

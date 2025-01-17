@@ -105,8 +105,6 @@ export default function Route(){
             informacionEncontrada = true;
             
             // Convertir la respuesta a JSON
-            console.log(response);
-            
             return response.blob();
         })
         .then(blob => {
@@ -155,8 +153,6 @@ export default function Route(){
             return response.json();
         })
         .then(data => {
-            console.log(data);
-
             // Mostrar la información del repositorio en el elemento con id "textoMostrar"
             const textoMostrar = document.getElementById("textoMostrar");
             textoMostrar.innerHTML = `
@@ -279,12 +275,12 @@ export default function Route(){
         if(ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books'){ 
             // si la ubicación es diferente de code y students
             
-            // si el doi es diferenete de vacío y no se ha encontrado la información,
+            // si el doi es diferente de vacío y no se ha encontrado la información,
             // entonces se muestra un mensaje de error
             if(document.getElementById('banderaOpcion').value === 'editar'){
                 resultMap["DOI"] = document.getElementById('DOI').value;
             }else{
-
+                console.log("agregar informacion está fallando");
             }
 
             if(doiLabel != '' && informacionEncontrada == false){
@@ -320,16 +316,35 @@ export default function Route(){
             }
         }else if(ubicacion == 'code'){
             // si la ubicación es code y no se ha encontrado la información, entonces se muestra un mensaje de error
-            if(textoEditor == ''){
-                alert('There is no information to add');
+            
+            //si la bandera es editar, no es necesario obtener la información de GitHub o el texto introducido
+             // si la bandera no es editar, entonces preguntamos si el link de GitHub no está vacío y si se encontró la información
+            if(document.getElementById('banderaOpcion').value === 'editar'){
+                if(linkLabel != '' && informacionEncontrada == false){
+                    // si el link de GitHub no está vacío y no se encontró la información
+                    alert('A GitHub link was entered, but it was not found or the button to obtain it has not been clicked');
+                }else if(linkLabel != '' && informacionEncontrada == true){
+                    // si el link de GitHub no está vacío y se encontró la información
+                    resultMap["REPOSITORYGH"] = repositoryGH;
+                    resultMap["DESCRIPTIONGH"] = descriptionGH;
+                    resultMap["URLGH"] = urlGH;
+                    resultMap["IMAGEGH"] = imagenBase64;
+                    textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+                }else{
+                    textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+                }
             }else{
-                resultMap["DATE"] = fechaNueva;
-                resultMap["YEAR"] = fechaNueva.getFullYear();
-                resultMap["EDITORTEXT"] = textoEditor;
-                resultMap["REPOSITORYGH"] = repositoryGH;
-                resultMap["DESCRIPTIONGH"] = descriptionGH;
-                resultMap["URLGH"] = urlGH;
-                resultMap["IMAGEGH"] = imagenBase64;
+                if(linkLabel != '' && informacionEncontrada == false){
+                    alert('A GitHub link was entered, but it was not found or the button to obtain it has not been clicked');
+                }else if(linkLabel != '' && informacionEncontrada == true){
+                    resultMap["DATE"] = fechaNueva;
+                    resultMap["YEAR"] = fechaNueva.getFullYear();
+                    textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+                    resultMap["REPOSITORYGH"] = repositoryGH;
+                    resultMap["DESCRIPTIONGH"] = descriptionGH;
+                    resultMap["URLGH"] = urlGH;
+                    resultMap["IMAGEGH"] = imagenBase64;
+                }
             }
         }else{
 
@@ -350,13 +365,16 @@ export default function Route(){
 
             // si no hay información, entonces se muestra un mensaje de error
             if(Object.keys(resultMap).length === 0){
-                // alert('Error al agregar');
+                alert('There is no information to add');
                 throw new Error('Error al agregar');
             }else{
                 if(document.getElementById('banderaOpcion').value == 'editar'){
                     var id = document.getElementById('id').value;
                     
                     const documentoActualizado = doc(bd, ubicacion, id);
+
+                    console.log(resultMap.length);
+                    
                     
                     delete resultMap["DATE"];
 
@@ -371,7 +389,7 @@ export default function Route(){
                 }else{
                     setDoc(documento, resultMap
                     ).then(() => {
-                        alert('Updated information')
+                        alert('Information added')
                         // location.reload();
                     }).catch((error) => {
                         console.error(error);
@@ -494,8 +512,8 @@ export default function Route(){
                     Adittional information
                     <EditorTexto/>
                     <textarea
-                        name='editorTinyMCE'
-                        id="editorTinyMCE"
+                        name='editorMCE'
+                        id="editorMCE"
                         hidden
                     />
                 </>

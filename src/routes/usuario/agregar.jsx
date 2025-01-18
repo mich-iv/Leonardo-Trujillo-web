@@ -346,8 +346,11 @@ export default function Route(){
                     resultMap["IMAGEGH"] = imagenBase64;
                 }
             }
-        }else{
-
+        }else if(ubicacion == 'home'){
+            // si la ubicación es home, entonces se obtiene la información del editor de texto
+            console.log(textoEditor);
+            
+            resultMap["EDITORTEXT"] = textoEditor;
         }
 
         e.preventDefault(); // Evitar que se recargue la página
@@ -372,9 +375,6 @@ export default function Route(){
                     var id = document.getElementById('id').value;
                     
                     const documentoActualizado = doc(bd, ubicacion, id);
-
-                    console.log(resultMap.length);
-                    
                     
                     delete resultMap["DATE"];
 
@@ -600,6 +600,15 @@ export default function Route(){
                         title='Enter institution'
                     />
                 </>
+                : ubicacion == 'home' ?
+                <>
+                    <EditorTexto/>
+                    <textarea
+                        name='editorMCE'
+                        id="editorMCE"
+                        hidden
+                    />
+                </> 
                 : ''}
                 <blockquote id='textoMostrar'></blockquote>
                 

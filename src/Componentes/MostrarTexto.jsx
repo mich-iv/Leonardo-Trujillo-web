@@ -19,10 +19,32 @@ export function MostrarTexto (props) {
     //obtenemos la ubicación actual para saber qué colección de la base de datos leer.
     ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
-    //obtenemos la ubicacion  con el parametro que se le pasa
+    ubicacion == '' ? ubicacion = 'home' : ubicacion = ubicacion;
+    
+
+    //obtenemos la ubicacion con el parametro que se le pasa
     // ubicacion = props.ubicacion;
 
-    // console.log(props.ubicacion);
+    //saber si tinymce está inicializado
+    useEffect(() => {
+        if(location.pathname.startsWith("/agregar/home")){
+            const interval = setInterval(() => {
+                if (tinymce.activeEditor && tinymce.activeEditor.initialized) {
+                  console.log("tinymce está inicializado");
+                  tinymce.activeEditor.setContent(temporal[0].EDITORTEXT);
+                  document.getElementById("id").value = temporal[0].id;
+                  document.getElementById('banderaOpcion').value = 'editar';
+                  clearInterval(interval); // Detener la verificación una vez que el contenido se ha cargado
+                } else {
+                  console.log("tinymce no está inicializado");
+                }
+              }, 500); // Verificar cada 500ms
+          
+              // Limpiar el intervalo al desmontar el componente
+              return () => clearInterval(interval);
+        }
+    }, [temporal]);
+
 
     useEffect (() => {
         async function docSnap(){
@@ -32,9 +54,14 @@ export function MostrarTexto (props) {
             if(ubicacion === "students"){
                 //si caemos en estudiantes, entonces ordenar por grado
                 ordenarPor = query(coleccion, orderBy("gradoAlumno", "desc"));
+            }else if (ubicacion === "home"){
+                //si caemos en la página principal
+                //solo mostramos la informacion completa
+                ordenarPor = coleccion;
             }else{
-                //si no, entonces ordenar por fecha
-                ordenarPor = query(coleccion, orderBy("DATE","desc"));
+                //si caemos en cualquier otra página, entonces ordenar por año
+                ordenarPor = query(coleccion, orderBy("YEAR", "desc"));
+
             }
 
             //obtenemos los documentos de la colección 
@@ -44,7 +71,6 @@ export function MostrarTexto (props) {
                 data.id = doc.id;
                 return data;
             })
-            // console.log(docs);
             
             return docs;
         }
@@ -88,6 +114,9 @@ export function MostrarTexto (props) {
 
                 document.getElementById("id").value = id;
                 
+                console.log(data);
+                
+
                 let resultMap = {};
                 Object.keys(data).forEach(key => {
                     resultMap[key] = data[key];
@@ -105,11 +134,15 @@ export function MostrarTexto (props) {
                     console.log("hay DOI");
                     document.getElementById("DOI").value = data.DOI;
                 } else if(ubicacion === "code"){
-                    console.log(data.EDITORTEXT);
-                    
                     document.getElementById("githubLink").value = data.URLGH;
                     if(data.EDITORTEXT !== ""){
                         tinymce.activeEditor.setContent(parse(data.EDITORTEXT));
+                    }
+                } else if(ubicacion === "home"){
+                    console.log(data.EDITORTEXT);
+                    
+                    if(data.EDITORTEXT !== ""){
+                        tinymce.activeEditor.setContent((data.EDITORTEXT));
                     }
                 }
                 
@@ -231,6 +264,32 @@ export function MostrarTexto (props) {
                     </div>
                 </>
             );
+        }else if(ubicacion == "home"){
+            return(
+                <>
+                    <h2>
+                        Information
+                    </h2>
+
+                    <div className='texto'>
+                        {Object.entries(datos).map(([key, value]) => (
+                            <div key={value.id} id={value.id}>
+                                {value.EDITORTEXT !== undefined ? (parse(value.EDITORTEXT)) : null}
+                                { location.pathname.startsWith("/agregar/") ?
+                                    <>
+                                    <div style={{display:'flex'}} key={`opciones${value.id}`}>
+                                        <button className="botonEditar" key={`editar${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                        <button className="botonEliminar" key={`eliminar${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                        <br/><br/>
+                                    </div>
+                                    </>
+                                    : null
+                                }
+                            </div>
+                        ))}
+                    </div>
+                </>
+            );
         }else{
             return[
                 <div key={69} id='69'>
@@ -335,13 +394,13 @@ export function MostrarTexto (props) {
                                 : <>
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
                                 </> }
-                                { location.pathname.startsWith("/agregar/") ?
+                                { location.hash.includes("/agregar/") ?
                                     <>
                                         <br/>
                                         <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
                                         <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
                                     </>
-                                    : ''
+                                    : null
                                 }
                                 
                             </p>,

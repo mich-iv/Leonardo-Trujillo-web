@@ -4,6 +4,7 @@ import { useLoaderData, useLocation } from 'react-router-dom';
 import {bd, collection, getDocs, doc, getDoc} from '../../../firebase.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faOrcid, faResearchgate, faGoogleScholar } from '@fortawesome/free-brands-svg-icons';
+import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 export default function Route(){
     var temporal = '';
@@ -50,25 +51,7 @@ export default function Route(){
                     </div>
                 </div>
                 <div className='item-home'>
-                    <div className='titulos'>
-                        Information
-                    </div>
-                    <div className='texto'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec ligula nec sem lacinia ultrices. 
-                        Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula
-                        nec sem lacinia ultrices. Sed euismod, er nec ligula nec sem lacinia ultrices. Sed euismod, erat vel lacinia
-                        ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula nec sem lacinia ultrices. Sed euismod, er nec ligula 
-                        nec sem lacinia ultrices. Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunc.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        
-                        <br/>Suspendisse nec ligula nec sem lacinia ultrices. 
-                        Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula
-                        nec sem lacinia ultrices. Sed euismod, er nec ligula nec sem lacinia ultrices. Sed euismod, erat vel lacinia
-                        ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunce nec ligula nec sem lacinia ultrices. Sed euismod, er nec ligula 
-                        nec sem lacinia ultrices.
-                        <br/><br/>Sed euismod, erat vel lacinia ultricies, est purus aliquam purus, nec volutpat magna nunc nec nunc.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec ligula nec sem lacinia ultrices. 
-                    </div>
+                    <MostrarTexto></MostrarTexto>
                 </div>
             </div>
         </>

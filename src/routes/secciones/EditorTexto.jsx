@@ -15,29 +15,28 @@ import 'tinymce/models/dom';
 import 'tinymce/skins/ui/oxide/skin.min.css';
 
 // importing the plugin js.
-// import 'tinymce/plugins/advlist';
-// import 'tinymce/plugins/accordion';
-// import 'tinymce/plugins/autolink';
-// import 'tinymce/plugins/link';
-// import 'tinymce/plugins/image';
-// import 'tinymce/plugins/lists';
-// import 'tinymce/plugins/charmap';
-// import 'tinymce/plugins/anchor';
-// import 'tinymce/plugins/searchreplace';
+import 'tinymce/plugins/advlist';
+import 'tinymce/plugins/accordion';
+import 'tinymce/plugins/autolink';
+import 'tinymce/plugins/link';
+import 'tinymce/plugins/image';
+import 'tinymce/plugins/lists';
+import 'tinymce/plugins/charmap';
+import 'tinymce/plugins/anchor';
+import 'tinymce/plugins/searchreplace';
 import 'tinymce/plugins/wordcount';
-// import 'tinymce/plugins/code';
-// import 'tinymce/plugins/fullscreen';
-// import 'tinymce/plugins/insertdatetime';
-// import 'tinymce/plugins/media';
-// import 'tinymce/plugins/nonbreaking';
-// import 'tinymce/plugins/table';
+import 'tinymce/plugins/code';
+import 'tinymce/plugins/fullscreen';
+import 'tinymce/plugins/insertdatetime';
+import 'tinymce/plugins/media';
+import 'tinymce/plugins/nonbreaking';
+import 'tinymce/plugins/table';
 import 'tinymce/plugins/help/';
 import 'tinymce/plugins/help/plugin.js';
 import 'tinymce/plugins/help/js/i18n/keynav/en.js';
-// import 'tinymce/plugins/help/js/i18n/keynav/es_MX.js';
-// import 'tinymce/plugins/visualblocks';
-// import 'tinymce/plugins/preview';
-// import 'tinymce/plugins/save';
+import 'tinymce/plugins/visualblocks';
+import 'tinymce/plugins/preview';
+import 'tinymce/plugins/save';
 
 import '../../estilos/Paginas.css';
 
@@ -54,7 +53,7 @@ export function EditorTexto({initialValue}) {
             onInit={(evt, editor) => editorRef.current = editor}
             init={{
                 selector: "textarea#editorMCE",
-                forced_root_block: 'texto',
+                // forced_root_block: 'texto',
                 promotion: false,
                 content_css: "tinymce/skins/content/default/content.min.css, tinymce/skins/ui/oxide/content.min.css",
                 object_resizing: true,

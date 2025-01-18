@@ -346,8 +346,11 @@ export default function Route(){
                     resultMap["IMAGEGH"] = imagenBase64;
                 }
             }
-        }else{
-
+        }else if(ubicacion == 'home'){
+            // si la ubicación es home, entonces se obtiene la información del editor de texto
+            console.log(textoEditor);
+            
+            resultMap["EDITORTEXT"] = textoEditor;
         }
 
         e.preventDefault(); // Evitar que se recargue la página
@@ -372,9 +375,6 @@ export default function Route(){
                     var id = document.getElementById('id').value;
                     
                     const documentoActualizado = doc(bd, ubicacion, id);
-
-                    console.log(resultMap.length);
-                    
                     
                     delete resultMap["DATE"];
 
@@ -507,7 +507,7 @@ export default function Route(){
                     <button className="botonForma" onClick={()=>{if(linkLabel != ''){getInfoGitHub(linkLabel)}}} title='Click to get information from GitHub'>Get information</button>
                     <br/>
                     <label id="confirmacion" style={{scale: '50%'}}></label>
-                    <blockquote id='imagenMostrar'></blockquote>
+                    <blockquote style={{scale: '50%'}} id='imagenMostrar'></blockquote>
                     <br/>
                     Adittional information
                     <EditorTexto/>
@@ -600,12 +600,21 @@ export default function Route(){
                         title='Enter institution'
                     />
                 </>
+                : ubicacion == 'home' ?
+                <>
+                    <EditorTexto/>
+                    <textarea
+                        name='editorMCE'
+                        id="editorMCE"
+                        hidden
+                    />
+                </> 
                 : ''}
                 <blockquote id='textoMostrar'></blockquote>
                 
                 <MostrarTexto></MostrarTexto>
                 
-                <a className="listo" onMouseUp={submit} title='Click to add information'><img className="" alt="listo" src="../../listo.svg"/></a>
+                <a className="listo" onMouseUp={submit} title='Click to add information'><i class="fas fa-check"/></a>
             </div>
         </div>
     )

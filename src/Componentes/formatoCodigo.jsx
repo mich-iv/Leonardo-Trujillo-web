@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Highlight from 'react-highlight';
 import 'highlight.js/styles/github.css'
 
-class HighLight extends Component {
+class Highlight extends Component {
     componentDidMount() {
         this.updateCodeSyntaxHighlighting();
     }
@@ -10,7 +9,6 @@ class HighLight extends Component {
     componentDidUpdate() {
         this.updateCodeSyntaxHighlighting();
     }
-
 
     updateCodeSyntaxHighlighting = () => {
         document.querySelectorAll("pre code").forEach(block => {
@@ -29,4 +27,4 @@ class HighLight extends Component {
     }
 }
 
-export default HighLight;
+export default Highlight;

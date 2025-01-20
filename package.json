@@ -30,7 +30,6 @@
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^2.0.5",
-    "react-highlight": "^0.15.0",
     "react-router-dom": "^6.28.2",
     "react-router-hash-link": "^2.4.3",
     "tinymce": "^7.6.0"

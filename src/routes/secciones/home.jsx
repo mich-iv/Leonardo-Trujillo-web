@@ -50,8 +50,8 @@ export default function Route(){
                         </div>
                     </div>
                 </div>
-                <div className='item-home'>
-                    <MostrarTexto></MostrarTexto>
+                <div key={99898} className='item-home'>
+                    <MostrarTexto key={73841234}></MostrarTexto>
                 </div>
             </div>
         </>

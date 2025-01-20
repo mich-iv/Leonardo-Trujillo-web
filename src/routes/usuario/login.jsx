@@ -19,6 +19,8 @@ export default function Route(){
             const credential = GoogleAuthProvider.credentialFromResult(data);
             setToken(credential.accessToken); //guardamos los datos obtenidos
             setNombre(data.user);
+        }).catch((error)=>{
+            console.log(error);
         })
     }
 
@@ -40,7 +42,7 @@ export default function Route(){
 
     //existe un token? entonces, redirecciona al inicio
     if(token){
-        navigate('/')
+        navigate(-1);
         //window.location.reload();
     }
     

@@ -6,6 +6,10 @@ import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
 import { Editor, EditorCommands } from 'tinymce';
+import hljs from 'highlight.js';
+// import HighLight from './formatoCodigo.jsx';
+import Highlight from 'react-highlight';
+import 'highlight.js/styles/github.css';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -25,16 +29,27 @@ export function MostrarTexto (props) {
     //obtenemos la ubicacion con el parametro que se le pasa
     // ubicacion = props.ubicacion;
 
+    // useEffect(() => {
+    //     document.querySelectorAll('pre').forEach((block) => {
+    //         hljs.highlightElement(block);
+    //     });
+    // }, [datos]);
+
     //saber si tinymce está inicializado
     useEffect(() => {
         if(location.pathname.startsWith("/agregar/home")){
             const interval = setInterval(() => {
                 if (tinymce.activeEditor && tinymce.activeEditor.initialized) {
-                  console.log("tinymce está inicializado");
-                  tinymce.activeEditor.setContent(temporal[0].EDITORTEXT);
-                  document.getElementById("id").value = temporal[0].id;
-                  document.getElementById('banderaOpcion').value = 'editar';
-                  clearInterval(interval); // Detener la verificación una vez que el contenido se ha cargado
+                    console.log("tinymce está inicializado");
+                    tinymce.activeEditor.setContent(temporal[0].EDITORTEXT);
+                    document.getElementById("id").value = temporal[0].id;
+                    document.getElementById('banderaOpcion').value = 'editar';
+                    tinymce.activeEditor.addButton('addpretag', { text: 'Add PRE tag',   onclick: function () {
+                        var text = tinyMCE.activeEditor.selection.getContent();
+                        tinyMCE.execCommand('mceReplaceContent', false, "<pre>" + text + "</pre>");
+                        }
+                    });
+                    clearInterval(interval); // Detener la verificación una vez que el contenido se ha cargado
                 } else {
                   console.log("tinymce no está inicializado");
                 }
@@ -113,9 +128,6 @@ export function MostrarTexto (props) {
                 const data = datos.find(d => d.id === id);
 
                 document.getElementById("id").value = id;
-                
-                console.log(data);
-                
 
                 let resultMap = {};
                 Object.keys(data).forEach(key => {
@@ -123,6 +135,7 @@ export function MostrarTexto (props) {
                 });
 
                 if(ubicacion === "students"){
+                    // no encontré una mejor forma de hacerlo, pero aquí se asignan los valores a los campos
                     document.getElementById("nombreAlumno").value = data.nombreAlumno;
                     document.getElementById("gradoAlumno").value = data.gradoAlumno;
                     document.getElementById("fechaInicioAlumno").value = data.fechaInicioAlumno;
@@ -133,17 +146,12 @@ export function MostrarTexto (props) {
                 }else if(parent.document.getElementById('DOI')){
                     console.log("hay DOI");
                     document.getElementById("DOI").value = data.DOI;
-                } else if(ubicacion === "code"){
-                    document.getElementById("githubLink").value = data.URLGH;
-                    if(data.EDITORTEXT !== ""){
-                        tinymce.activeEditor.setContent(parse(data.EDITORTEXT));
-                    }
-                } else if(ubicacion === "home"){
+                } else if(ubicacion === "code" || ubicacion === "home"){
                     console.log(data.EDITORTEXT);
                     
-                    if(data.EDITORTEXT !== ""){
-                        tinymce.activeEditor.setContent((data.EDITORTEXT));
-                    }
+                    // si es la página de código, entonces mostrar los datos
+                    data.URLGH !== "" ? document.getElementById("githubLink").value = data.URLGH : document.getElementById("githubLink").value = "";
+                    data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent(parse(data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
                 }
                 
                 // marcamos la bandera para editar
@@ -267,19 +275,19 @@ export function MostrarTexto (props) {
         }else if(ubicacion == "home"){
             return(
                 <>
-                    <h2>
+                    <h2 key={82613135}>
                         Information
                     </h2>
 
-                    <div className='texto'>
+                    <div key={8213135} className='texto'>
                         {Object.entries(datos).map(([key, value]) => (
-                            <div key={value.id} id={value.id}>
+                            <div key={`key-${value.id}`} id={value.id}>
                                 {value.EDITORTEXT !== undefined ? (parse(value.EDITORTEXT)) : null}
                                 { location.pathname.startsWith("/agregar/") ?
                                     <>
-                                    <div style={{display:'flex'}} key={`opciones${value.id}`}>
-                                        <button className="botonEditar" key={`editar${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                        <button className="botonEliminar" key={`eliminar${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                    <div style={{display:'flex'}} key={`opcione-s${value.id}`}>
+                                        <button className="botonEditar" key={`edita-r${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                        <button className="botonEliminar" key={`eliminar-${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
                                         <br/><br/>
                                     </div>
                                     </>
@@ -302,7 +310,7 @@ export function MostrarTexto (props) {
                             (contenidoAnios[key].key.length > 0) ? 
                             <h2 className="subtitulos" key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
-                            <p key={value.id} id={value.id}>
+                            <div key={value.id} id={value.id}>
                                 {location.pathname.endsWith('code') ? '' : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
                                 {location.pathname.endsWith('bookChapters') ? 
@@ -382,7 +390,7 @@ export function MostrarTexto (props) {
                                     {/* {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''} */}
                                     
                                     <label className='columnas-contenido'>
-                                        <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}</label>
+                                        <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? <Highlight innerHTML={true}>{value.EDITORTEXT}</Highlight>  : null}</label>
                                         <label className='informacion-link'>
                                             <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
                                             <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
@@ -394,7 +402,7 @@ export function MostrarTexto (props) {
                                 : <>
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
                                 </> }
-                                { location.hash.includes("/agregar/") ?
+                                { location.pathname.startsWith("/agregar/") ?
                                     <>
                                         <br/>
                                         <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
@@ -403,7 +411,7 @@ export function MostrarTexto (props) {
                                     : null
                                 }
                                 
-                            </p>,
+                            </div>,
                         ]
                         ))}
                 </div>,

@@ -92,7 +92,6 @@
 .columnas-contenido{
     display: flex;
     flex-direction: column;
-    margin-top: 3rem;
 }
 
 .informacion-texto{
@@ -216,6 +215,13 @@
 
 a {
     scroll-margin-top: 6rem;
+}
+
+pre code.hljs {
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    /* max-width: 450px; */
+    overflow: visible;
 }
 
 @media all and (max-width: 890px) {

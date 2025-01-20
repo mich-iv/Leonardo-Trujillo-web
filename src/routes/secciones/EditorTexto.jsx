@@ -1,6 +1,8 @@
 import React, { useEffect, useState , useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
+import parse from 'html-react-parser';
+
 // TinyMCE so the global var exists
 /* eslint-disable-next-line no-unused-vars */
 import tinymce from 'tinymce/tinymce.min.js';
@@ -42,7 +44,7 @@ import '../../estilos/Paginas.css';
 
 export function EditorTexto({initialValue}) {
     const editorRef = useRef(null);
-    
+
     return (
       <>
         <Editor className='root'
@@ -54,6 +56,8 @@ export function EditorTexto({initialValue}) {
             init={{
                 selector: "textarea#editorMCE",
                 // forced_root_block: 'texto',
+                newline_behavior: 'linebreak',
+                contextmenu: 'link image table',
                 promotion: false,
                 content_css: "tinymce/skins/content/default/content.min.css, tinymce/skins/ui/oxide/content.min.css",
                 object_resizing: true,
@@ -108,14 +112,29 @@ export function EditorTexto({initialValue}) {
                     'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion' 
                 ],
                 toolbar:[
-                    { name: 'Historial', items: [ 'undo', 'redo' ] },
+                    { name: 'Historial', items: [ 'customCodeButton', 'redo' ] },
                     { name: 'Formato', items: [ 'styles', 'fontsizeinput', 'bold', 'italic', 'forecolor', 'backcolor' ] },
                     { name: 'Insertar', items: [ 'link', 'image', 'table', 'accordion' ] },
                     { name: 'Alinear', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                     { name: 'Listas', items: [ 'bullist', 'numlist', 'checklist' ] },
                     { name: 'Sangría', items: [ 'outdent', 'indent' ] },
                     { name: 'Opciones', items: [ 'removeformat', 'help' ] }
-                ]
+                ],
+                formats: {
+                    pre: { block: 'pre', classes: 'wrappretext' }
+                },
+                setup: (editor) => {
+                    editor.ui.registry.addButton('customCodeButton', {
+                        text: 'Code',
+                        onAction: () => {
+                            const selectedContent = tinymce.activeEditor.selection.getContent( {format: 'text'} );
+                            console.log('Selected Content:', selectedContent); // Debugging line
+                            const wrappedContent = `<pre><code>${parse(selectedContent)}</code></pre>`;
+                            console.log('Wrapped Content:', parse(wrappedContent)); // Debugging line
+                            editor.selection.setContent(wrappedContent);
+                        }
+                    });
+                }
             }}
         /> 
       </>

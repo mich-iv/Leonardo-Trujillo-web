@@ -45,6 +45,8 @@ import '../../estilos/Paginas.css';
 export function EditorTexto({initialValue}) {
     const editorRef = useRef(null);
 
+    var contenido = "import React, { useEffect, useState } from 'react' import '../../estilos/Paginas.css'; import MostrarTexto from '../../Componentes/MostrarTexto.jsx';export default function Route(){ return( <> <h1 className='titulos'> Awards </h1> <div  className='texto'>                    <MostrarTexto/> </div> </> ) }";
+
     return (
       <>
         <Editor className='root'
@@ -123,14 +125,17 @@ export function EditorTexto({initialValue}) {
                 formats: {
                     pre: { block: 'pre', classes: 'wrappretext' }
                 },
+                valid_elements : '+*[*]',
                 setup: (editor) => {
                     editor.ui.registry.addButton('customCodeButton', {
                         text: 'Code',
                         onAction: () => {
-                            const selectedContent = tinymce.activeEditor.selection.getContent( {format: 'text'} );
+                            const selectedContent = tinymce.activeEditor.selection.getContent( );
                             console.log('Selected Content:', selectedContent); // Debugging line
-                            const wrappedContent = `<pre><code>${parse(selectedContent)}</code></pre>`;
-                            console.log('Wrapped Content:', parse(wrappedContent)); // Debugging line
+                            console.log("parseado "+parse(contenido));
+                            const formateoFinal = selectedContent.replace(/&#39/g, '&apos').replace(/&amp;/g, '&');
+                            console.log("formateoFinal "+formateoFinal);
+                            const wrappedContent = `<pre><code>${(formateoFinal)}</code></pre>`;
                             editor.selection.setContent(wrappedContent);
                         }
                     });

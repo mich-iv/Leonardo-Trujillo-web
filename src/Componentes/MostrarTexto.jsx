@@ -7,9 +7,8 @@ import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
 import { Editor, EditorCommands } from 'tinymce';
 import hljs from 'highlight.js';
-// import HighLight from './formatoCodigo.jsx';
-import Highlight from 'react-highlight';
-import 'highlight.js/styles/github.css';
+import Highlight from './formatoCodigo.jsx';
+import 'highlight.js/styles/github-dark-dimmed.css';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -29,11 +28,11 @@ export function MostrarTexto (props) {
     //obtenemos la ubicacion con el parametro que se le pasa
     // ubicacion = props.ubicacion;
 
-    // useEffect(() => {
-    //     document.querySelectorAll('pre').forEach((block) => {
-    //         hljs.highlightElement(block);
-    //     });
-    // }, [datos]);
+    useEffect(() => {
+        document.querySelectorAll('code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    }, [datos]);
 
     //saber si tinymce está inicializado
     useEffect(() => {
@@ -151,7 +150,7 @@ export function MostrarTexto (props) {
                     
                     // si es la página de código, entonces mostrar los datos
                     data.URLGH !== "" ? document.getElementById("githubLink").value = data.URLGH : document.getElementById("githubLink").value = "";
-                    data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent(parse(data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
+                    data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent((data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
                 }
                 
                 // marcamos la bandera para editar
@@ -390,7 +389,7 @@ export function MostrarTexto (props) {
                                     {/* {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''} */}
                                     
                                     <label className='columnas-contenido'>
-                                        <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? <Highlight innerHTML={true}>{value.EDITORTEXT}</Highlight>  : null}</label>
+                                        <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? <pre>{parse(value.EDITORTEXT)}</pre> : null}</label>
                                         <label className='informacion-link'>
                                             <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
                                             <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>

@@ -120,6 +120,7 @@ button:active {
   font-family: inherit;
   transition: 200ms;
   margin-left: 0;
+  width: 25%;
 }
 .botonEliminar:hover {
   color: #ff0000;
@@ -140,6 +141,7 @@ button:active {
   font-family: inherit;
   transition: 200ms;
   margin-left: 0;
+  width: 25%;
 }
 
 .botonEditar:hover {

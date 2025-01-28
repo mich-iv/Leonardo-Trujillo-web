@@ -280,8 +280,8 @@ export function MostrarTexto (props) {
                                 { location.pathname.startsWith("/agregar/") ?
                                     <>
                                     <div style={{display:'flex'}} key={`opcione-s${value.id}`}>
-                                        <button className="botonEditar" key={`edita-r${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                        <button className="botonEliminar" key={`eliminar-${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                        <button className="botonEditar" key={`edita-r${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
+                                        <button className="botonEliminar" key={`eliminar-${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
                                         <br/><br/>
                                     </div>
                                     </>
@@ -383,7 +383,7 @@ export function MostrarTexto (props) {
                                     <label className='columnas-contenido'>
                                         <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}</label>
                                         <label className='informacion-link'>
-                                            <a href={value.URLGH} target="_blank" className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
+                                            <a href={value.URLGH} title="Click to view on GitHub" target="_blank" className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
                                             <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
                                             <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
                                         </label>
@@ -395,8 +395,8 @@ export function MostrarTexto (props) {
                                 </> }
                                 { location.pathname.startsWith("/agregar/") ?
                                     <div className='opciones' key={`opciones${value.id}`}>
-                                        <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                        <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                        <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
+                                        <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
                                     </div>
                                     : null
                                 }

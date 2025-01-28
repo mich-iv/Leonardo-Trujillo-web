@@ -57,9 +57,8 @@ export function EditorTexto({initialValue}) {
             onInit={(evt, editor) => editorRef.current = editor}
             init={{
                 selector: "textarea#editorMCE",
-                // forced_root_block: 'texto',
+                forced_root_block: 'texto',
                 newline_behavior: 'linebreak',
-                contextmenu: 'link image table',
                 promotion: false,
                 content_css: "tinymce/skins/content/default/content.min.css, tinymce/skins/ui/oxide/content.min.css",
                 object_resizing: true,
@@ -114,32 +113,14 @@ export function EditorTexto({initialValue}) {
                     'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion' 
                 ],
                 toolbar:[
-                    { name: 'Historial', items: [ 'customCodeButton', 'redo' ] },
+                    { name: 'Historial', items: [ 'undo', 'redo' ] },
                     { name: 'Formato', items: [ 'styles', 'fontsizeinput', 'bold', 'italic', 'forecolor', 'backcolor' ] },
                     { name: 'Insertar', items: [ 'link', 'image', 'table', 'accordion' ] },
                     { name: 'Alinear', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                     { name: 'Listas', items: [ 'bullist', 'numlist', 'checklist' ] },
                     { name: 'Sangría', items: [ 'outdent', 'indent' ] },
                     { name: 'Opciones', items: [ 'removeformat', 'help' ] }
-                ],
-                formats: {
-                    pre: { block: 'pre', classes: 'wrappretext' }
-                },
-                valid_elements : '+*[*]',
-                setup: (editor) => {
-                    editor.ui.registry.addButton('customCodeButton', {
-                        text: 'Code',
-                        onAction: () => {
-                            const selectedContent = tinymce.activeEditor.selection.getContent( );
-                            console.log('Selected Content:', selectedContent); // Debugging line
-                            console.log("parseado "+parse(contenido));
-                            const formateoFinal = selectedContent.replace(/&#39/g, '&apos').replace(/&amp;/g, '&');
-                            console.log("formateoFinal "+formateoFinal);
-                            const wrappedContent = `<pre><code>${(formateoFinal)}</code></pre>`;
-                            editor.selection.setContent(wrappedContent);
-                        }
-                    });
-                }
+                ]
             }}
         /> 
       </>

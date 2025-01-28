@@ -18,6 +18,18 @@
     font-size: 2em;
 }
 
+.opciones{
+    max-width: 450px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 .contenedor-home {
     display: grid;
     gap: 1rem;
@@ -92,6 +104,7 @@
 .columnas-contenido{
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
 }
 
 .informacion-texto{
@@ -107,7 +120,7 @@
     max-width: 450px;
     background-color: #f2f2f2;
     border-radius: 0.50rem;
-    border-bottom: 10px solid #64af9f;
+    border-bottom: 0.5rem solid #64af9f;
 }
 .informacion-link-titulo{
     text-align: left;

@@ -140,8 +140,6 @@ export default function Menu() {
       });
     };
   }, []);
-
-  
     
   return (
     <>
@@ -166,8 +164,6 @@ export default function Menu() {
               <Link className="menu-secciones-izquierda-links" to="/code">Code</Link>
             </div>
             <div className='menu-secciones-derecha'>
-              
-              {/* <div className="derecha"> */}
                 {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
                   ordenemos; condición ? entonces : si no
                   - condición: por ejemplo, 10 es mayor que 5?

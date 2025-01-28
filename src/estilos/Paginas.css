@@ -1,6 +1,7 @@
 .titulos{
     padding-top: 0rem;
     font-size: 3em;
+    word-wrap: break-word;
 }
 
 .subtitulos{
@@ -23,11 +24,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
     gap: 1rem;
     margin-bottom: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
 }
 
 .contenedor-home {
@@ -35,11 +33,9 @@
     gap: 1rem;
     gap: 1rem;
     grid-template-columns: 40% auto;
-    /* border: 1px solid rgba(0, 0, 0, 0.8); */
   }
 
 .item-home {
-    /* border: 1px solid rgba(31, 231, 20, 0.8); */
     display: block;
 }
 
@@ -146,7 +142,8 @@
 .texto{
     text-align: justify;
     font-size: 1.2em;
-    width: 100%;
+    /* width: 100%; */
+    padding: 0 1rem;
 }
 
 .texto-link {
@@ -157,25 +154,8 @@
     text-decoration: none;
     position: relative;
 }
-
-.texto-link::after {
+.texto-link:hover {
     color: #25627a;
-    content: '';
-    position: absolute;
-    /* bottom: 0; */
-    width: 0;
-    height: 0.1rem;
-    display: block;
-    margin-top: 0;
-    left: 0;
-    background: linear-gradient(to right, #64af9f, #368fb2);
-    transition: width 100ms ease, right 100ms ease;
-}
-
-.texto-link:hover::after {
-    color: #25627a;
-    width: 100%;
-    right: 0;
 }
 
 .texto-columnas{
@@ -257,7 +237,7 @@ pre code.hljs {
 
     .texto-columnas{
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
     }
     .texto-columnas-bloque{

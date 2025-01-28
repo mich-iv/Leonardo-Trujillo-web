@@ -12,15 +12,19 @@ export default function Route(){
     const [nombre, setNombre] = useState('');
     const [foto, setFoto] = useState("");
     const [token, setToken] = useState('');
+    
 
     //asignamos una variable con el método para el popup de Google
     const handleClick =()=>{
         signInWithPopup(auth, provider).then((data)=>{
             const credential = GoogleAuthProvider.credentialFromResult(data);
             setToken(credential.accessToken); //guardamos los datos obtenidos
-            setNombre(data.user);
+            setNombre(data.displayName);
         }).catch((error)=>{
             console.log(error);
+        }).then(()=>{
+            // navigate(-1);
+            //window.location.reload();
         })
     }
 
@@ -42,17 +46,28 @@ export default function Route(){
 
     //existe un token? entonces, redirecciona al inicio
     if(token){
-        navigate(-1);
+        // navigate(-1);
         //window.location.reload();
     }
     
-  return (
+return (
     <div>
-        <h1>Login</h1>
-        <div className="g-signin2" data-onsuccess="onSignIn"></div>
-        {nombre ?'Google account: '+nombre:
-            <button onClick={handleClick}>Google Sign-In </button>
-        }
+            <h1 className='titulos'>
+                    Login
+            </h1>
+            
+            {/* un h2 para decir que la cuenta está iniciada */}
+            <h2>Signed in as</h2>
+            <div className='texto' style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem', padding: '0', textAlign: 'start'}}>
+                <div className="g-signin2" data-onsuccess="onSignIn"></div>
+                {nombre ?
+                    <>
+                        <img src={foto} alt={nombre}/>{nombre}
+                    </>
+                :
+                    <button onClick={handleClick}>Google Sign-In</button>
+                }
+            </div>
     </div>
-  )
+)
 }

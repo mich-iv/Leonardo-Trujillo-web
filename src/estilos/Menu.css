@@ -8,71 +8,9 @@
   align-items: center;
   justify-content: space-between;
   background-color: rgb(100, 175, 159);
-  transition: all 500ms;
+  transition: 500ms;
   z-index: 3;
   box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.1);
-  -webkit-tap-highlight-color: transparent;
-}
-.menu-navegador{
-  position: fixed;
-  display: inline-block;
-  bottom: 1rem;
-  left: 1rem;
-  border-radius: 50%;
-}
-.menu-navegador-boton{
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(100, 175, 159);
-  color: #f2f2f2;
-  padding: 1em;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  width: 1rem;
-  height: 1rem;
-  transition: 200ms;
-}
-.menu-navegador-boton-contenido{
-  display: none;
-  position: absolute;
-  text-decoration: none;
-  background-color: #f1f1f1;
-  bottom: 100%;
-  left: 0;
-  box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.2);
-  z-index: 4;
-  
-}
-.menu-navegador-boton-contenido a{
-  color: black;
-  padding: 1rem;
-  text-decoration: none;
-  display: block;
-  transition: 200ms;
-}
-.menu-navegador-boton-contenido a:hover {
-  background-color: #ddd;
-}
-
-.menu-navegador-boton-contenido a:active {
-  background-color: rgb(100, 175, 159);
-}
-
-.menu-navegador:hover .menu-navegador-boton-contenido {
-  display: block;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.fas.fa-bookmark{
-  color: #f2f2f2;
-  font-size: 1.25em;
-  transition: 200ms;
-}
-.fas.fa-bookmark:hover{
-  color: rgb(73, 73, 73);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -190,10 +128,73 @@
   padding-right: 0.5rem;
 }
 
+.menu-navegador{
+  position: fixed;
+  display: inline-block;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  border-radius: 50%;
+}
+.menu-navegador-boton{
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(100, 175, 159);
+  color: #f2f2f2;
+  padding: 1em;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  transition: 200ms;
+}
+.menu-navegador-boton-contenido{
+  display: none;
+  position: absolute;
+  text-decoration: none;
+  background-color: #f1f1f1;
+  bottom: 100%;
+  left: 0;
+  box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.2);
+  z-index: 4;
+  
+}
+.menu-navegador-boton-contenido a{
+  color: black;
+  padding: 1rem;
+  text-decoration: none;
+  display: block;
+  transition: 200ms;
+}
+.menu-navegador-boton-contenido a:hover {
+  background-color: #ddd;
+}
+
+.menu-navegador-boton-contenido a:active {
+  background-color: rgb(100, 175, 159);
+}
+
+.menu-navegador:hover .menu-navegador-boton-contenido {
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fas.fa-bookmark{
+  color: #f2f2f2;
+  font-size: 1.25em;
+  transition: 200ms;
+}
+.fas.fa-bookmark:hover{
+  color: rgb(73, 73, 73);
+  -webkit-tap-highlight-color: transparent;
+}
+
 .agregar {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 0.5rem;
+  right: 0.5rem;
   border-radius: 100%;
   background-color: rgb(100, 175, 159);
   width: 3rem;
@@ -226,8 +227,8 @@
 
 .listo {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 0.5rem;
+  right: 0.5rem;
   border-radius: 100%;
   background-color: rgb(100, 175, 159);
   width: 3rem;
@@ -348,11 +349,15 @@
   }
 
   .menu-navegador{
-    bottom: 0.5rem;
-    left: 0;
+    bottom: 0.25rem;
+    left: 0.25rem;
   }
   .agregar{
-    bottom: 0;
-    right: 0;
+    bottom: 0.25rem;
+    right: 0.25rem;
+  }
+  .listo{
+    bottom: 0.25rem;
+    right: 0.25rem;
   }
 }

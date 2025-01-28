@@ -20,13 +20,11 @@ export function MostrarTexto (props) {
     let val = [];
 
     //obtenemos la ubicación actual para saber qué colección de la base de datos leer.
-    ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    ubicacion = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 
+    //aqui hay un detalle; cuando entramos a home la ubicación es vacía, por lo que no se puede leer. 
+    //Asi que si la ubicación es vacía, entonces asignamos home
     ubicacion == '' ? ubicacion = 'home' : ubicacion = ubicacion;
-    
-
-    //obtenemos la ubicacion con el parametro que se le pasa
-    // ubicacion = props.ubicacion;
 
     useEffect(() => {
         document.querySelectorAll('code').forEach((block) => {
@@ -43,11 +41,6 @@ export function MostrarTexto (props) {
                     tinymce.activeEditor.setContent(temporal[0].EDITORTEXT);
                     document.getElementById("id").value = temporal[0].id;
                     document.getElementById('banderaOpcion').value = 'editar';
-                    tinymce.activeEditor.addButton('addpretag', { text: 'Add PRE tag',   onclick: function () {
-                        var text = tinyMCE.activeEditor.selection.getContent();
-                        tinyMCE.execCommand('mceReplaceContent', false, "<pre>" + text + "</pre>");
-                        }
-                    });
                     clearInterval(interval); // Detener la verificación una vez que el contenido se ha cargado
                 } else {
                   console.log("tinymce no está inicializado");
@@ -67,11 +60,15 @@ export function MostrarTexto (props) {
 
             if(ubicacion === "students"){
                 //si caemos en estudiantes, entonces ordenar por grado
-                ordenarPor = query(coleccion, orderBy("gradoAlumno", "desc"));
+                ordenarPor = query(coleccion, orderBy("DATEADD", "asc"));
             }else if (ubicacion === "home"){
                 //si caemos en la página principal
                 //solo mostramos la informacion completa
                 ordenarPor = coleccion;
+            }else if(ubicacion === "code"){
+                //si caemos en la página de código, entonces ordenar por fecha de creación
+                ordenarPor = query(coleccion, orderBy("DATEADD", "desc"));
+
             }else{
                 //si caemos en cualquier otra página, entonces ordenar por año
                 ordenarPor = query(coleccion, orderBy("YEAR", "desc"));
@@ -193,7 +190,7 @@ export function MostrarTexto (props) {
             const grados = {
                 "4": "PhD",
                 "3": "Postgraduate degree",
-                "2": "Master’s degree",
+                "2": "Master's degree",
                 "1": "College degree"
             };
         
@@ -208,10 +205,9 @@ export function MostrarTexto (props) {
             }, {});
         
             return (
-                
                 <>
                 <div id={"id"+Math.random()} key={"key"+Math.random()} className='texto-columnas'>
-                    {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
+                    {Object.entries(alumnosPorGrado).sort(([a], [b]) => b - a).map(([grado, alumnos]) => (
                         <React.Fragment key={grado}>
                         <>
                             { location.pathname.startsWith("/agregar/") ?
@@ -309,7 +305,7 @@ export function MostrarTexto (props) {
                             <h2 className="subtitulos" key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
                             <div key={value.id} id={value.id}>
-                                {location.pathname.endsWith('code') ? '' : <label>{"["+(parseInt(key)+1)+"] "}</label>}
+                                {location.pathname.endsWith('code') ? null : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
                                 {location.pathname.endsWith('bookChapters') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -330,7 +326,7 @@ export function MostrarTexto (props) {
                                     {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank">{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('journalPublications') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -347,7 +343,7 @@ export function MostrarTexto (props) {
                                     {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank">{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                     </>
                                 : location.pathname.endsWith('conferencePapers') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -362,7 +358,7 @@ export function MostrarTexto (props) {
                                     {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank">{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('books') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
@@ -375,7 +371,7 @@ export function MostrarTexto (props) {
                                     {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank">{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('students') ?
                                 <>
@@ -383,10 +379,7 @@ export function MostrarTexto (props) {
                                 </>
                                 : location.pathname.endsWith('code') ?
                                 value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
-                                <>
-                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                                    {/* {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''} */}
-                                    
+                                <>  
                                     <label className='columnas-contenido'>
                                         <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}</label>
                                         <label className='informacion-link'>

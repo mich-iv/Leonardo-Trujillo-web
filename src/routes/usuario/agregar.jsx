@@ -614,7 +614,7 @@ export default function Route(){
                 
                 <MostrarTexto></MostrarTexto>
                 
-                <a className="listo" onMouseUp={submit} title='Click to add information'><i class="fas fa-check"/></a>
+                <a className="listo" onMouseUp={submit} title='Click to add information'><i className="fas fa-check"/></a>
             </div>
         </div>
     )

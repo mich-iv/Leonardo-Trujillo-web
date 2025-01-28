@@ -119,11 +119,11 @@ button:active {
   background-color: transparent;
   border-color: rgb(123, 123, 123);
   border-radius: 0.30rem;
-  padding: 0.5em 1em;
+  /* padding: 0.5em 1em; */
   font-size: 0.9em;
   font-family: inherit;
   transition: 200ms;
-  margin-left: 1rem;
+  margin-left: 0;
 }
 .botonEliminar:hover {
   color: #ff0000;
@@ -139,7 +139,7 @@ button:active {
   background-color: transparent;
   border-color: rgb(123, 123, 123);
   border-radius: 0.30rem;
-  padding: 0.5em 1em;
+  /* padding: 0.5em 1em; */
   font-size: 0.9em;
   font-family: inherit;
   transition: 200ms;

@@ -41,12 +41,8 @@ export default function SeccionesDerecha(){
 
     if((marcadores.length > 0) && ubicacion.hash !== "" ){
         // removemos el # de la ubicación
-        console.log(ubicacion.hash);
         ubicacion.hash = ubicacion.hash.replace("#", "");
         ubicacion.hash = ubicacion.hash.replace("%20", " ");
-        console.log(ubicacion.hash);
-        
-        
         
         if(ubicacion.pathname !== "/students"){
             // quitamos los estilos para reiniciar animacion

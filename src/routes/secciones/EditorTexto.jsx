@@ -39,6 +39,7 @@ import 'tinymce/plugins/help/js/i18n/keynav/en.js';
 import 'tinymce/plugins/visualblocks';
 import 'tinymce/plugins/preview';
 import 'tinymce/plugins/save';
+import 'tinymce/plugins/autoresize';
 
 import '../../estilos/Paginas.css';
 
@@ -103,14 +104,17 @@ export function EditorTexto({initialValue}) {
                 input.click();
                 },
                 license_key: 'gpl',
-                height: 550,
+                min_height: 400,
+                max_height: 900,
+                min_width: 475,
                 width: '80%',
+                max_width: 750,
                 menubar: true,
                 statusbar: false,
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion' 
+                    'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion', 'autoresize'
                 ],
                 toolbar:[
                     { name: 'Historial', items: [ 'undo', 'redo' ] },

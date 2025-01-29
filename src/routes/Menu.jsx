@@ -124,6 +124,32 @@ export default function Menu() {
   //   });
   // });
 
+  //obtenemos la ubicacion actual desde el url y lo formateamos con espacios con la siguiente lista de secciones'
+
+  let ubicacion = useLocation(); // Obtiene la ubicación actual
+
+  if (ubicacion.pathname === '/') {
+    ubicacion = 'Home';
+  } else if (ubicacion.pathname === '/awards') {
+    ubicacion = 'Awards';
+  } else if (ubicacion.pathname === '/bookChapters') {
+    ubicacion = 'Book Chapters';
+  } else if (ubicacion.pathname === '/journalPublications') {
+    ubicacion = 'Journal Publications';
+  } else if (ubicacion.pathname === '/conferencePapers') {
+    ubicacion = 'Select Conference Papers';
+  } else if (ubicacion.pathname === '/projects') {
+    ubicacion = 'Projects';
+  } else if (ubicacion.pathname === '/books') {
+    ubicacion = 'Books';
+  } else if (ubicacion.pathname === '/students') {
+    ubicacion = 'Students';
+  } else if (ubicacion.pathname === '/code') {
+    ubicacion = 'Code';
+  }
+
+  console.log(ubicacion);
+
   useEffect(() => {
     const handleClick = () => {
       document.getElementById('check').checked = false;

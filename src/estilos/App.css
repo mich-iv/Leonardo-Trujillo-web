@@ -181,3 +181,9 @@ textarea:focus{
   }
 }
 
+@media all and (max-width: 890px) {
+  .botonEditar, .botonEliminar {
+    width: 40%;
+  }
+}
+

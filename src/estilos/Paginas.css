@@ -26,6 +26,7 @@
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 1rem;
+    justify-content: space-around;
 }
 
 .contenedor-home {

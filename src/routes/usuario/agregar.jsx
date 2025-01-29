@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bd, collection, doc, getDocs } from '../../../firebase.jsx';
 import { setDoc, updateDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -19,6 +19,7 @@ import tinymce from 'tinymce/tinymce.min.js';
 export default function Route(){
     //obtenemos la ruta actual del url
     const { ubicacion } = useParams();
+    let tituloUbicacion = useLocation();
 
     const navigate = useNavigate();
 
@@ -49,6 +50,33 @@ export default function Route(){
 
     var respuesta;
 
+    //ignoramos la dirección de /agregar/ para tener solamente la dirección final
+    //por ejemplo, /agregar/awards se convierte en awards
+    tituloUbicacion = tituloUbicacion.pathname.split('/')[2];
+
+
+    if (tituloUbicacion === '/') {
+        tituloUbicacion = 'Home';
+    } else if (tituloUbicacion === 'awards') {
+        tituloUbicacion = 'Awards';
+    } else if (tituloUbicacion === 'bookChapters') {
+        tituloUbicacion = 'Book Chapters';
+    } else if (tituloUbicacion === 'journalPublications') {
+        tituloUbicacion = 'Journal Publications';
+    } else if (tituloUbicacion === 'conferencePapers') {
+        tituloUbicacion = 'Select Conference Papers';
+    } else if (tituloUbicacion === 'projects') {
+        tituloUbicacion = 'Projects';
+    } else if (tituloUbicacion === 'books') {
+        tituloUbicacion = 'Books';
+    } else if (tituloUbicacion === 'students') {
+        tituloUbicacion = 'Students';
+    } else if (tituloUbicacion === 'code') {
+        tituloUbicacion = 'Code';
+    }
+
+    console.log(tituloUbicacion);
+    
     String.prototype.hashCode = function() {
         var hash = 0, i, chr;
         if (this.length === 0) return hash;
@@ -61,6 +89,8 @@ export default function Route(){
     }
 
     const getInfoGitHub = (link) => {
+        var repoEncontrado = false;
+
         var usuarioGH = link.split('/')[3];
         var repositorioGH = link.split('/')[4];
         var numeroHash = usuarioGH.hashCode() + (Math.floor(Math.random() * 10000000) + 1);
@@ -71,58 +101,6 @@ export default function Route(){
         // URL de la API de GitHub para obtener información del repositorio
         const repoUrl = `https://api.github.com/repos/${usuarioGH}/${repositorioGH}`;
 
-
-        fetch(apiUrl, {
-            headers:{
-                "Accept": "image/png"
-            }
-        })
-        .then(response => {
-            // Verificar si la respuesta es exitosa
-            if (!response.ok) {
-                setDOILabel('');
-                document.getElementById("textoMostrar").innerHTML = '';
-                document.getElementById("confirmacion").style.color = 'red'; 
-                document.getElementById("confirmacion").innerHTML = "Information not found";
-            throw new Error('Error en la solicitud');
-            }
-            informacionEncontrada = true;
-            
-            // Convertir la respuesta a JSON
-            return response.blob();
-        })
-        .then(blob => {
-            // Convertir el blob a base64
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                let base64data = reader.result;
-                
-                // Mostrar la imagen en el elemento con id "imagenMostrar"
-                const imgElement = document.createElement("img");
-                imgElement.src = base64data;
-                imgElement.alt = "Fetched Image";
-                imgElement.style.maxWidth = "100%";
-                
-                const imagenMostrar = document.getElementById("imagenMostrar");
-                imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
-                imagenMostrar.appendChild(imgElement);
-
-                // Eliminar el prefijo "data:image/png;base64,"
-                base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
-    
-                imagenBase64 = base64data;
-                // resultMap["IMAGE"] = base64data;
-                
-                document.getElementById("confirmacion").innerHTML = "Information found:";
-                document.getElementById("confirmacion").style.color = 'green';
-            };
-            reader.readAsDataURL(blob);
-        })
-        .catch(error => {
-            // Manejar errores
-            console.error('Error:', error);
-        });
-
         // Fetch para obtener la información del repositorio
         fetch(repoUrl, {
             headers: {
@@ -131,7 +109,14 @@ export default function Route(){
         })
         .then(response => {
             // Verificar si la respuesta es exitosa
-            if (!response.ok) {
+            if(response.status === 404){
+                document.getElementById("textoMostrar").innerHTML = '';
+                document.getElementById("imagenMostrar").innerHTML = '';
+                document.getElementById("confirmacion").style.color = 'red'; 
+                document.getElementById("confirmacion").innerHTML = "Information not found";
+                throw new Error('Error en la solicitud');
+
+            }else if (!response.ok) {
                 throw new Error('Error en la solicitud');
             }
             return response.json();
@@ -152,6 +137,55 @@ export default function Route(){
             repositoryGH = data.name;
             descriptionGH = data.description;
             urlGH = data.html_url;
+            
+            fetch(apiUrl, {
+                headers:{
+                    "Accept": "image/png"
+                }
+            })
+            .then(response => {
+                // Verificar si la respuesta es exitosa
+                if (!response.ok) {
+                    document.getElementById("textoMostrar").innerHTML = '';
+                    document.getElementById("confirmacion").style.color = 'red'; 
+                    document.getElementById("confirmacion").innerHTML = "Information not found";
+                throw new Error('Error en la solicitud');
+                }
+                
+                // Convertir la respuesta a JSON
+                return response.blob();
+            })
+            .then(blob => {
+                // Convertir el blob a base64
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    let base64data = reader.result;
+                    
+                    // Mostrar la imagen en el elemento con id "imagenMostrar"
+                    const imgElement = document.createElement("img");
+                    imgElement.src = base64data;
+                    imgElement.alt = "Fetched Image";
+                    imgElement.style.maxWidth = "100%";
+                    
+                    const imagenMostrar = document.getElementById("imagenMostrar");
+                    imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
+                    imagenMostrar.appendChild(imgElement);
+    
+                    // Eliminar el prefijo "data:image/png;base64,"
+                    base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
+        
+                    imagenBase64 = base64data;
+                    // resultMap["IMAGE"] = base64data;
+                    
+                    document.getElementById("confirmacion").innerHTML = "Image found:";
+                    document.getElementById("confirmacion").style.color = 'green';
+                };
+                reader.readAsDataURL(blob);
+            })
+            .catch(error => {
+                // Manejar errores
+                console.error('Error:', error);
+            });
         })
         .catch(error => {
             // Manejar errores
@@ -421,11 +455,11 @@ export default function Route(){
                 <input id='banderaOpcion' type="hidden"/>
                 <input id='id' type="hidden"/>
 
-                <h1 className='titulos'>
-                    Add {ubicacion}
-                </h1>
+                <h2 style={{fontSize: '2rem', color: 'black'}}>
+                    Add information to "{tituloUbicacion}"
+                </h2>
                 
-                <h2>Update information</h2>
+                {/* <h2>Update information</h2> */}
 
                 {ubicacion == 'code' ? 
                 <>
@@ -483,8 +517,8 @@ export default function Route(){
                     />
                     <br/>
                     Degree<br/>
-                    <select name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
-                        <option value="" defaultValue disabled hidden>Select degree</option>
+                    <select defaultValue={""} name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
+                        <option value="" disabled hidden>Select degree</option>
                         <option value="1">College degree</option>
                         <option value="2">Master's degree</option>
                         <option value="3">Postgraduate degree</option>

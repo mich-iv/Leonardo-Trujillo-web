@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useLoaderData, useLocation, useParams } from 'react-router-dom';
-import {bd, collection, getDocs, doc, getDoc, orderBy, query} from '../../firebase.jsx';
-import {editar, eliminar} from './opcionesRegistros.js';
+import { useLocation } from 'react-router-dom';
+import {bd, collection, getDocs, orderBy, query} from '../../firebase.jsx';
+import {eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
-import { Link } from 'react-router-dom';
-import { Editor, EditorCommands } from 'tinymce';
-import hljs from 'highlight.js';
-import Highlight from './formatoCodigo.jsx';
-import 'highlight.js/styles/github-dark-dimmed.css';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -25,12 +20,6 @@ export function MostrarTexto (props) {
     //aqui hay un detalle; cuando entramos a home la ubicación es vacía, por lo que no se puede leer. 
     //Asi que si la ubicación es vacía, entonces asignamos home
     ubicacion == '' ? ubicacion = 'home' : ubicacion = ubicacion;
-
-    useEffect(() => {
-        document.querySelectorAll('code').forEach((block) => {
-            hljs.highlightElement(block);
-        });
-    }, [datos]);
 
     //saber si tinymce está inicializado
     useEffect(() => {

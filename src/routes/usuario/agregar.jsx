@@ -1,7 +1,7 @@
-import React, { useEffect, useState , useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { useNavigate, useLoaderData, useLocation, useParams } from 'react-router-dom';
-import { bd, collection, doc, getDocs, deleteDoc } from '../../../firebase.jsx';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bd, collection, doc, getDocs } from '../../../firebase.jsx';
 import { setDoc, updateDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
@@ -14,18 +14,12 @@ import '../../estilos/Paginas.css';
 import parse from 'bibtex-parser';
 import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
-import {editar} from '../../Componentes/opcionesRegistros.js';
-
-import parseReact from 'html-react-parser';
-
 import tinymce from 'tinymce/tinymce.min.js';
-import { set, update } from 'firebase/database';
-// import { randomInt } from 'firebase-tools/lib/utils.js';
-import OpcionesRegistros from '../../Componentes/OpcionesRegistros.jsx';
 
 export default function Route(){
     //obtenemos la ruta actual del url
     const { ubicacion } = useParams();
+    let tituloUbicacion = useLocation();
 
     const navigate = useNavigate();
 
@@ -38,10 +32,6 @@ export default function Route(){
 
     const [doiLabel, setDOILabel] = useState("");
     const [linkLabel, setLinkLabel] = useState("");
-    const [textoDate, setTextoDate] = useState("");
-    const [textoYear, setTextoYear] = useState("");
-    const [textoMonth, setTextoMonth] = useState("");
-    const [textoCampo, setTextoCampo] = useState("");
 
     const [nombreAlumno, setNombreAlumno] = useState("");
     const [gradoAlumno, setGradoAlumno] = useState("");
@@ -50,8 +40,6 @@ export default function Route(){
     const [tituloTesisAlumno, setTituloTesisAlumno] = useState("");
     const [programaAlumno, setProgramaAlumno] = useState("");
     const [institucionAlumno, setInstitucionAlumno] = useState("");
-
-    const [textoExtraido, setTextoExtraido] = useState("");
 
     var informacionEncontrada = false;
 
@@ -62,6 +50,33 @@ export default function Route(){
 
     var respuesta;
 
+    //ignoramos la dirección de /agregar/ para tener solamente la dirección final
+    //por ejemplo, /agregar/awards se convierte en awards
+    tituloUbicacion = tituloUbicacion.pathname.split('/')[2];
+
+
+    if (tituloUbicacion === '/') {
+        tituloUbicacion = 'Home';
+    } else if (tituloUbicacion === 'awards') {
+        tituloUbicacion = 'Awards';
+    } else if (tituloUbicacion === 'bookChapters') {
+        tituloUbicacion = 'Book Chapters';
+    } else if (tituloUbicacion === 'journalPublications') {
+        tituloUbicacion = 'Journal Publications';
+    } else if (tituloUbicacion === 'conferencePapers') {
+        tituloUbicacion = 'Select Conference Papers';
+    } else if (tituloUbicacion === 'projects') {
+        tituloUbicacion = 'Projects';
+    } else if (tituloUbicacion === 'books') {
+        tituloUbicacion = 'Books';
+    } else if (tituloUbicacion === 'students') {
+        tituloUbicacion = 'Students';
+    } else if (tituloUbicacion === 'code') {
+        tituloUbicacion = 'Code';
+    }
+
+    console.log(tituloUbicacion);
+    
     String.prototype.hashCode = function() {
         var hash = 0, i, chr;
         if (this.length === 0) return hash;
@@ -74,70 +89,17 @@ export default function Route(){
     }
 
     const getInfoGitHub = (link) => {
+        var repoEncontrado = false;
+
         var usuarioGH = link.split('/')[3];
         var repositorioGH = link.split('/')[4];
         var numeroHash = usuarioGH.hashCode() + (Math.floor(Math.random() * 10000000) + 1);
-        console.log(usuarioGH);
-        console.log(repositorioGH);
-        console.log(numeroHash);
         
         // https://opengraph.githubassets.com/
         const apiUrl = `https://opengraph.githubassets.com/${numeroHash}/${usuarioGH}/${repositorioGH}`;
         
         // URL de la API de GitHub para obtener información del repositorio
         const repoUrl = `https://api.github.com/repos/${usuarioGH}/${repositorioGH}`;
-
-
-        fetch(apiUrl, {
-            headers:{
-                "Accept": "image/png"
-            }
-        })
-        .then(response => {
-            // Verificar si la respuesta es exitosa
-            if (!response.ok) {
-                setDOILabel('');
-                document.getElementById("textoMostrar").innerHTML = '';
-                document.getElementById("confirmacion").style.color = 'red'; 
-                document.getElementById("confirmacion").innerHTML = "Image not found";
-            throw new Error('Error en la solicitud');
-            }
-            informacionEncontrada = true;
-            
-            // Convertir la respuesta a JSON
-            return response.blob();
-        })
-        .then(blob => {
-            // Convertir el blob a base64
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                let base64data = reader.result;
-                
-                // Mostrar la imagen en el elemento con id "imagenMostrar"
-                const imgElement = document.createElement("img");
-                imgElement.src = base64data;
-                imgElement.alt = "Fetched Image";
-                imgElement.style.maxWidth = "100%";
-                
-                const imagenMostrar = document.getElementById("imagenMostrar");
-                imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
-                imagenMostrar.appendChild(imgElement);
-
-                // Eliminar el prefijo "data:image/png;base64,"
-                base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
-    
-                imagenBase64 = base64data;
-                // resultMap["IMAGE"] = base64data;
-                
-                document.getElementById("confirmacion").innerHTML = "Image found:";
-                document.getElementById("confirmacion").style.color = 'green';
-            };
-            reader.readAsDataURL(blob);
-        })
-        .catch(error => {
-            // Manejar errores
-            console.error('Error:', error);
-        });
 
         // Fetch para obtener la información del repositorio
         fetch(repoUrl, {
@@ -147,31 +109,83 @@ export default function Route(){
         })
         .then(response => {
             // Verificar si la respuesta es exitosa
-            if (!response.ok) {
+            if(response.status === 404){
+                document.getElementById("textoMostrar").innerHTML = '';
+                document.getElementById("imagenMostrar").innerHTML = '';
+                document.getElementById("confirmacion").style.color = 'red'; 
+                document.getElementById("confirmacion").innerHTML = "Information not found";
+                throw new Error('Error en la solicitud');
+
+            }else if (!response.ok) {
                 throw new Error('Error en la solicitud');
             }
             return response.json();
         })
         .then(data => {
             // Mostrar la información del repositorio en el elemento con id "textoMostrar"
-            const textoMostrar = document.getElementById("textoMostrar");
-            textoMostrar.innerHTML = `
-                <p><strong>Repository Name:</strong> ${data.name}</p>
-                <p><strong>Description:</strong> ${data.description}</p>
-                <p><strong>Stars:</strong> ${data.stargazers_count}</p>
-                <p><strong>Forks:</strong> ${data.forks_count}</p>
-                <p><strong>Open Issues:</strong> ${data.open_issues_count}</p>
-                <p><strong>URL:</strong> <a href="${data.html_url}" target="_blank">${data.html_url}</a></p>
-            `;
+            // const textoMostrar = document.getElementById("textoMostrar");
+            // textoMostrar.innerHTML = `
+            //     <p><strong>Repository Name:</strong> ${data.name}</p>
+            //     <p><strong>Description:</strong> ${data.description}</p>
+            //     <p><strong>Stars:</strong> ${data.stargazers_count}</p>
+            //     <p><strong>Forks:</strong> ${data.forks_count}</p>
+            //     <p><strong>Open Issues:</strong> ${data.open_issues_count}</p>
+            //     <p><strong>URL:</strong> <a href="${data.html_url}" target="_blank">${data.html_url}</a></p>
+            // `;
 
             // Guardar la información en variables globales
             repositoryGH = data.name;
             descriptionGH = data.description;
             urlGH = data.html_url;
-            // resultMap["STARS"] = data.stargazers_count;
-            // resultMap["FORKS"] = data.forks_count;
-            // resultMap["ISSUES"] = data.open_issues_count;
-
+            
+            fetch(apiUrl, {
+                headers:{
+                    "Accept": "image/png"
+                }
+            })
+            .then(response => {
+                // Verificar si la respuesta es exitosa
+                if (!response.ok) {
+                    document.getElementById("textoMostrar").innerHTML = '';
+                    document.getElementById("confirmacion").style.color = 'red'; 
+                    document.getElementById("confirmacion").innerHTML = "Information not found";
+                throw new Error('Error en la solicitud');
+                }
+                
+                // Convertir la respuesta a JSON
+                return response.blob();
+            })
+            .then(blob => {
+                // Convertir el blob a base64
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    let base64data = reader.result;
+                    
+                    // Mostrar la imagen en el elemento con id "imagenMostrar"
+                    const imgElement = document.createElement("img");
+                    imgElement.src = base64data;
+                    imgElement.alt = "Fetched Image";
+                    imgElement.style.maxWidth = "100%";
+                    
+                    const imagenMostrar = document.getElementById("imagenMostrar");
+                    imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
+                    imagenMostrar.appendChild(imgElement);
+    
+                    // Eliminar el prefijo "data:image/png;base64,"
+                    base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
+        
+                    imagenBase64 = base64data;
+                    // resultMap["IMAGE"] = base64data;
+                    
+                    document.getElementById("confirmacion").innerHTML = "Image found:";
+                    document.getElementById("confirmacion").style.color = 'green';
+                };
+                reader.readAsDataURL(blob);
+            })
+            .catch(error => {
+                // Manejar errores
+                console.error('Error:', error);
+            });
         })
         .catch(error => {
             // Manejar errores
@@ -194,7 +208,7 @@ export default function Route(){
                     document.getElementById("textoMostrar").innerHTML = '';
                     document.getElementById("confirmacion").style.color = 'red'; 
                     document.getElementById("confirmacion").innerHTML = "DOI not found";
-                    throw new Error('Error en la solicitud');
+                    throw new Error('Error in the request');
                 }
                 informacionEncontrada = true;
                 
@@ -212,19 +226,6 @@ export default function Route(){
                 
                 for (const [key, value] of Object.entries(respuesta)) {
                     for (let [llave, valor] of Object.entries(value)) {
-                        if(llave == 'MONTH'){
-                            mes = valor;
-                        }
-                        if(llave == 'YEAR'){
-                            anio = valor;
-                        }
-
-                        fecha = (mes + " 01, " + anio + " 5:00 AM");
-
-                        if(mes != undefined && anio != undefined){
-                            var fechaFormateada = new Date(fecha);
-                            resultMap["DATE"] = fechaFormateada;
-                        }
 
                         resultMap[llave] = valor;
 
@@ -235,9 +236,6 @@ export default function Route(){
                 resultMap["DATEADD"] = horaActual;
                 document.getElementById("confirmacion").innerHTML = "DOI found:";
                 document.getElementById("confirmacion").style.color = 'green'; 
-
-                console.log(resultMap);
-                
             })
             .catch(error => {
                 // Manejar errores
@@ -267,10 +265,6 @@ export default function Route(){
         
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         const fechaNueva = new Date();
-        
-        // console.log(fechaNueva);
-        // console.log(fechaNueva.getFullYear());
-        // console.log(month[fechaNueva.getMonth()]);
 
         if(ubicacion == 'bookChapters' || ubicacion == 'journalPublications' || ubicacion == 'conferencePapers' || ubicacion == 'books'){ 
             // si la ubicación es diferente de code y students
@@ -280,7 +274,6 @@ export default function Route(){
             if(document.getElementById('banderaOpcion').value === 'editar'){
                 resultMap["DOI"] = document.getElementById('DOI').value;
             }else{
-                console.log("agregar informacion está fallando");
             }
 
             if(doiLabel != '' && informacionEncontrada == false){
@@ -311,7 +304,7 @@ export default function Route(){
                     resultMap["tituloTesisAlumno"] = tituloTesisAlumno;
                     resultMap["programaAlumno"] = programaAlumno;
                     resultMap["institucionAlumno"] = institucionAlumno;
-                    resultMap["DATE"] = fechaNueva;
+                    resultMap["DATEADD"] = fechaNueva;
                 }
             }
         }else if(ubicacion == 'code'){
@@ -337,7 +330,7 @@ export default function Route(){
                 if(linkLabel != '' && informacionEncontrada == false){
                     alert('A GitHub link was entered, but it was not found or the button to obtain it has not been clicked');
                 }else if(linkLabel != '' && informacionEncontrada == true){
-                    resultMap["DATE"] = fechaNueva;
+                    resultMap["DATEADD"] = fechaNueva;
                     resultMap["YEAR"] = fechaNueva.getFullYear();
                     textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
                     resultMap["REPOSITORYGH"] = repositoryGH;
@@ -346,8 +339,9 @@ export default function Route(){
                     resultMap["IMAGEGH"] = imagenBase64;
                 }
             }
-        }else{
-
+        }else if(ubicacion == 'home'){
+            // si la ubicación es home, entonces se obtiene la información del editor de texto
+            resultMap["EDITORTEXT"] = textoEditor;
         }
 
         e.preventDefault(); // Evitar que se recargue la página
@@ -372,11 +366,8 @@ export default function Route(){
                     var id = document.getElementById('id').value;
                     
                     const documentoActualizado = doc(bd, ubicacion, id);
-
-                    console.log(resultMap.length);
                     
-                    
-                    delete resultMap["DATE"];
+                    delete resultMap["DATEADD"];
 
                     updateDoc(documentoActualizado, resultMap)
                     .then(() => {
@@ -423,32 +414,11 @@ export default function Route(){
     const updateDOI = (event) => {
         informacionEncontrada = false;
         setDOILabel(event.target.value);
-        // document.getElementById();
     }
 
     const updateLink = (event) => {
         informacionEncontrada = false;
         setLinkLabel(event.target.value);
-        // document.getElementById();
-    }
-
-    const updateDate = (event) => {
-        setTextoDate(event.target.value);
-        // document.getElementById();
-    }
-
-    const updateYear = (event) => {
-        setTextoYear(event.target.value);
-        // document.getElementById();
-    }
-    const updateMonth = (event) => {
-        setTextoMonth(event.target.value);
-        // document.getElementById();
-    }
-
-    const updateCampoTexto = (event) => {
-        setTextoCampo(event.target.value);
-        // document.getElementById();
     }
 
     const updateNombreAlumno = (event) => {
@@ -485,11 +455,11 @@ export default function Route(){
                 <input id='banderaOpcion' type="hidden"/>
                 <input id='id' type="hidden"/>
 
-                <h1 className='titulos'>
-                    Add {ubicacion}
-                </h1>
+                <h2 style={{fontSize: '2rem', color: 'black'}}>
+                    Add information to "{tituloUbicacion}"
+                </h2>
                 
-                <h2>Update information</h2>
+                {/* <h2>Update information</h2> */}
 
                 {ubicacion == 'code' ? 
                 <>
@@ -506,8 +476,8 @@ export default function Route(){
 
                     <button className="botonForma" onClick={()=>{if(linkLabel != ''){getInfoGitHub(linkLabel)}}} title='Click to get information from GitHub'>Get information</button>
                     <br/>
-                    <label id="confirmacion" style={{scale: '50%'}}></label>
-                    <blockquote id='imagenMostrar'></blockquote>
+                    <label id="confirmacion" style={{maxWidth: '450px'}}></label>
+                    <blockquote style={{maxWidth: '450px'}} id='imagenMostrar'></blockquote>
                     <br/>
                     Adittional information
                     <EditorTexto/>
@@ -547,10 +517,10 @@ export default function Route(){
                     />
                     <br/>
                     Degree<br/>
-                    <select name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
-                        <option value="" defaultValue disabled hidden>Select degree</option>
+                    <select defaultValue={""} name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
+                        <option value="" disabled hidden>Select degree</option>
                         <option value="1">College degree</option>
-                        <option value="2">Master’s degree</option>
+                        <option value="2">Master's degree</option>
                         <option value="3">Postgraduate degree</option>
                         <option value="4">PhD</option>
                     </select>
@@ -600,12 +570,23 @@ export default function Route(){
                         title='Enter institution'
                     />
                 </>
+                : ubicacion == 'home' ?
+                <>
+                    <EditorTexto/>
+                    <textarea
+                        name='editorMCE'
+                        id="editorMCE"
+                        hidden
+                    />
+                </> 
                 : ''}
                 <blockquote id='textoMostrar'></blockquote>
                 
-                <MostrarTexto></MostrarTexto>
-                
-                <a className="listo" onMouseUp={submit} title='Click to add information'><img className="" alt="listo" src="../../listo.svg"/></a>
+                <div className='teto'>
+                    <MostrarTexto/>
+                </div>
+
+                <a className="listo" onMouseUp={submit} title='Click to add information'><i className="fas fa-check"/></a>
             </div>
         </div>
     )

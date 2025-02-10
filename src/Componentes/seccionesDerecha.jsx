@@ -6,7 +6,7 @@ import { HashLink } from 'react-router-hash-link';
 export default function SeccionesDerecha(){
     const [campos, setCampos] = useState("");
 
-    const ubicacion = useLocation(); // Obtiene la ubicación actual
+    let ubicacion = useLocation(); // Obtiene la ubicación actual
 
     var nombre = '';
     var nombreKey = '';
@@ -23,7 +23,7 @@ export default function SeccionesDerecha(){
             }
     }, [])
 
-    let marcadores = [];
+    var marcadores = [];
     // console.log(ubicacion.pathname);
     
     for (let i = 0; i < campos.length; i++) {
@@ -36,6 +36,35 @@ export default function SeccionesDerecha(){
             
             marcadores.push(<HashLink name={nombreKey} key={nombreKey} id={nombreKey} smooth to={ubicacion.pathname+"#titulo"+nombreFiltrado}>
                 {nombreFiltrado}</HashLink>);
+        }
+    }
+
+    if((marcadores.length > 0) && ubicacion.hash !== "" ){
+        // removemos el # de la ubicación
+        ubicacion.hash = ubicacion.hash.replace("#", "");
+        ubicacion.hash = ubicacion.hash.replace("%20", " ");
+        
+        if(ubicacion.pathname !== "/students"){
+            // quitamos los estilos para reiniciar animacion
+            document.getElementById(ubicacion.hash).style.transition = null;
+            document.getElementById(ubicacion.hash).style.backgroundColor = null;
+            document.getElementById(ubicacion.hash).style.borderRadius = null;
+            
+            // fijamos el color de fondo del marcador y redoendamos las esquinas
+            document.getElementById(ubicacion.hash).style.borderRadius = "0.25rem";
+            document.getElementById(ubicacion.hash).style.backgroundColor = "rgba(100, 175, 159, 0.74)";
+            
+            // fijamos el comportamiento de desplazamiento y desplazamos la vista
+            document.documentElement.style.scrollBehavior = "smooth";
+            document.getElementById(ubicacion.hash).scrollIntoView();
+            
+            document.getElementById(ubicacion.hash).style.backgroundColor = "rgba(0, 0, 0, 0)";
+            document.getElementById(ubicacion.hash).style.transition = "background-color 2s ease-out";
+            // volvemos trasnparente el fondo del marcador
+        }else{
+            // fijamos el comportamiento de desplazamiento y desplazamos la vista
+            document.documentElement.style.scrollBehavior = "smooth";
+            document.getElementById(ubicacion.hash).scrollIntoView();
         }
     }
     

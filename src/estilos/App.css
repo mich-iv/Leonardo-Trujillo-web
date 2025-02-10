@@ -19,7 +19,7 @@
 
 .cabecera2{
   width: 100%;
-  background-color: rgb(100, 175, 159);
+  background-color: #64af9f;
 }
 
 .cuerpo2viejo{
@@ -33,20 +33,17 @@
 .cuerpo2 {
   top: 1rem;
   /* padding-top: 3rem; */
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 a, h2 {
+  color: #368fb2;
   /* font-weight: 400; */
   text-decoration: inherit;
   scroll-margin-top: 6rem;
   /* word-wrap: break-word; */
 }
-a:hover {
-  color: #535bf2;
-}
-
 
 button {
   color: rgb(123, 123, 123);
@@ -59,6 +56,7 @@ button {
   font-family: inherit;
   transition: 125ms;
   margin-left: 1rem;
+  transition: all 200ms ease-in-out;
 }
 
 input {
@@ -73,6 +71,7 @@ input {
   -ms-box-sizing:content-box;
   -moz-box-sizing:content-box;
   box-sizing:content-box;
+  transition: all 200ms ease-in-out;
 }
 
 textarea {
@@ -83,6 +82,7 @@ textarea {
   height: 10rem;
   width: 50vh;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: all 200ms ease-in-out;
 }
 
 select {
@@ -97,6 +97,7 @@ select {
   -moz-box-sizing:content-box;
   -webkit-box-sizing:content-box;
   box-sizing:content-box;
+  transition: all 200ms ease-in-out;
 }
 
 button:hover, input:hover, select:hover {
@@ -114,11 +115,12 @@ button:active {
   background-color: transparent;
   border-color: rgb(123, 123, 123);
   border-radius: 0.30rem;
-  padding: 0.5em 1em;
+  /* padding: 0.5em 1em; */
   font-size: 0.9em;
   font-family: inherit;
   transition: 200ms;
-  margin-left: 1rem;
+  margin-left: 0;
+  width: 25%;
 }
 .botonEliminar:hover {
   color: #ff0000;
@@ -134,11 +136,12 @@ button:active {
   background-color: transparent;
   border-color: rgb(123, 123, 123);
   border-radius: 0.30rem;
-  padding: 0.5em 1em;
+  /* padding: 0.5em 1em; */
   font-size: 0.9em;
   font-family: inherit;
   transition: 200ms;
   margin-left: 0;
+  width: 25%;
 }
 
 .botonEditar:hover {
@@ -175,6 +178,12 @@ textarea:focus{
   }
   button {
     background-color: rgb(100, 175, 159);
+  }
+}
+
+@media all and (max-width: 890px) {
+  .botonEditar, .botonEliminar {
+    width: 40%;
   }
 }
 

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useLoaderData, useLocation, useParams } from 'react-router-dom';
-import {bd, collection, getDocs, doc, getDoc, orderBy, query} from '../../firebase.jsx';
-import {editar, eliminar} from './opcionesRegistros.js';
+import { useLocation } from 'react-router-dom';
+import {bd, collection, getDocs, orderBy, query} from '../../firebase.jsx';
+import {eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
-import { Link } from 'react-router-dom';
-import { Editor, EditorCommands } from 'tinymce';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -17,12 +15,32 @@ export function MostrarTexto (props) {
     let val = [];
 
     //obtenemos la ubicación actual para saber qué colección de la base de datos leer.
-    ubicacion = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    ubicacion = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 
-    //obtenemos la ubicacion  con el parametro que se le pasa
-    // ubicacion = props.ubicacion;
+    //aqui hay un detalle; cuando entramos a home la ubicación es vacía, por lo que no se puede leer. 
+    //Asi que si la ubicación es vacía, entonces asignamos home
+    ubicacion == '' ? ubicacion = 'home' : ubicacion = ubicacion;
 
-    // console.log(props.ubicacion);
+    //saber si tinymce está inicializado
+    useEffect(() => {
+        if(location.pathname.startsWith("/agregar/home")){
+            const interval = setInterval(() => {
+                if (tinymce.activeEditor && tinymce.activeEditor.initialized) {
+                    console.log("tinymce está inicializado");
+                    tinymce.activeEditor.setContent(temporal[0].EDITORTEXT);
+                    document.getElementById("id").value = temporal[0].id;
+                    document.getElementById('banderaOpcion').value = 'editar';
+                    clearInterval(interval); // Detener la verificación una vez que el contenido se ha cargado
+                } else {
+                  console.log("tinymce no está inicializado");
+                }
+              }, 500); // Verificar cada 500ms
+          
+              // Limpiar el intervalo al desmontar el componente
+              return () => clearInterval(interval);
+        }
+    }, [temporal]);
+
 
     useEffect (() => {
         async function docSnap(){
@@ -31,10 +49,19 @@ export function MostrarTexto (props) {
 
             if(ubicacion === "students"){
                 //si caemos en estudiantes, entonces ordenar por grado
-                ordenarPor = query(coleccion, orderBy("gradoAlumno", "desc"));
+                ordenarPor = query(coleccion, orderBy("DATEADD", "asc"));
+            }else if (ubicacion === "home"){
+                //si caemos en la página principal
+                //solo mostramos la informacion completa
+                ordenarPor = coleccion;
+            }else if(ubicacion === "code"){
+                //si caemos en la página de código, entonces ordenar por fecha de creación
+                ordenarPor = query(coleccion, orderBy("DATEADD", "desc"));
+
             }else{
-                //si no, entonces ordenar por fecha
-                ordenarPor = query(coleccion, orderBy("DATE","desc"));
+                //si caemos en cualquier otra página, entonces ordenar por año
+                ordenarPor = query(coleccion, orderBy("YEAR", "desc"));
+
             }
 
             //obtenemos los documentos de la colección 
@@ -44,7 +71,6 @@ export function MostrarTexto (props) {
                 data.id = doc.id;
                 return data;
             })
-            // console.log(docs);
             
             return docs;
         }
@@ -77,6 +103,7 @@ export function MostrarTexto (props) {
     //esta función se quedó aquí porque aún no sé cómo mandar parámetros
     //a otras partes de React XD
     window.mostrarOpciones = (evento) => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         if(location.pathname.startsWith("/agregar/")){
             document.getElementById("banderaOpcion").value = null;
 
@@ -86,13 +113,14 @@ export function MostrarTexto (props) {
                 const data = datos.find(d => d.id === id);
 
                 document.getElementById("id").value = id;
-                
+
                 let resultMap = {};
                 Object.keys(data).forEach(key => {
                     resultMap[key] = data[key];
                 });
 
                 if(ubicacion === "students"){
+                    // no encontré una mejor forma de hacerlo, pero aquí se asignan los valores a los campos
                     document.getElementById("nombreAlumno").value = data.nombreAlumno;
                     document.getElementById("gradoAlumno").value = data.gradoAlumno;
                     document.getElementById("fechaInicioAlumno").value = data.fechaInicioAlumno;
@@ -103,15 +131,13 @@ export function MostrarTexto (props) {
                 }else if(parent.document.getElementById('DOI')){
                     console.log("hay DOI");
                     document.getElementById("DOI").value = data.DOI;
-                } else if(ubicacion === "code"){
-                    console.log(data.EDITORTEXT);
+                } else if(ubicacion === "code" || ubicacion === "home"){
+                    console.log(parse(data.EDITORTEXT));
                     
-                    document.getElementById("githubLink").value = data.URLGH;
-                    if(data.EDITORTEXT !== ""){
-                        tinymce.activeEditor.setContent(parse(data.EDITORTEXT));
-                    }
+                    // si es la página de código o de inicio, entonces mostrar los datos
+                    data.URLGH !== "" ? document.getElementById("githubLink").value = data.URLGH : document.getElementById("githubLink").value = "";
+                    data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent((data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
                 }
-                
                 // marcamos la bandera para editar
                 document.getElementById("banderaOpcion").value = "editar";
 
@@ -137,11 +163,11 @@ export function MostrarTexto (props) {
             if(anioViejo == anioActual){
                 // console.log("TRUE - " + anioViejo +":"+ anioActual);
                 //VERDADERO: entonces no agregues nada, porque al desplegar años nos saldrían dos h2 de 2030, cuando los queremos AGRUPADOS.
-                contenidoAnios.push(<h2 key={""} id={""}>{""}</h2>);
+                contenidoAnios.push(<h2 className="subtitulos" key={""} id={""}>{""}</h2>);
             }else{//2030 == 2029?
                 // console.log("FALSE - " + anioViejo +":"+ anioActual);
                 //FALSO: entonces agrega el nuevo año que está recorriendo; 2029
-                contenidoAnios.push(<h2 key={datos[clave].YEAR} id={"year"+datos[clave].YEAR}>{datos[clave].YEAR}</h2>);
+                contenidoAnios.push(<h2 className="subtitulos" key={datos[clave].YEAR} id={"year"+datos[clave].YEAR}>{datos[clave].YEAR}</h2>);
             }
             //aqui está el truco; asignamos el año viejo hasta el final para que el forEach al regresar, lea el año viejo y lo compare con el nuevo
             // console.log(contenidoAnios);
@@ -153,7 +179,7 @@ export function MostrarTexto (props) {
             const grados = {
                 "4": "PhD",
                 "3": "Postgraduate degree",
-                "2": "Master’s degree",
+                "2": "Master's degree",
                 "1": "College degree"
             };
         
@@ -168,44 +194,34 @@ export function MostrarTexto (props) {
             }, {});
         
             return (
-                
-                <>
                 <div id={"id"+Math.random()} key={"key"+Math.random()} className='texto-columnas'>
-                    {Object.entries(alumnosPorGrado).map(([grado, alumnos]) => (
-                        <React.Fragment key={grado}>
-                        <>
+                    {Object.entries(alumnosPorGrado).sort(([a], [b]) => b - a).map(([grado, alumnos]) => (
+                        <React.Fragment key={Math.random()}>
                             { location.pathname.startsWith("/agregar/") ?
-                            <>
-                            <div style={{display:'flex'}} className='texto-columnas-bloque' id={'columna'+grado} key={'columna'+grado}>
-                            <h2 id={"titulo"+grados[grado]} key={`titulo${grado}`} className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
-                            {alumnos.map((alumno, index) => (
-                                <>
-                                <div id={`contenido${alumno.id}`} key={`contenido${alumno.id}`} className='texto-columnas-bloque-contenido'>
-                                    {alumno.nombreAlumno !== undefined ? <h3 id={'nombre'+grado} key={'nombre'+grado} className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
-                                    {alumno.fechaInicioAlumno !== undefined ? <p id={'fechaInicio'+grado} key={'fechaInicio'+grado} className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
-                                    {alumno.fechaGraduacionAlumno !== undefined ? <p id={'fechaGraduacion'+grado} key={'fechaGraduacion'+grado} className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
-                                    {alumno.tituloTesisAlumno !== undefined ? <p id={'tituloTesis'+grado} key={'tituloTesis'+grado} className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
-                                    {alumno.programaAlumno !== undefined ? <p id={'programa'+grado} key={'programa'+grado} className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
-                                    {alumno.institucionAlumno !== undefined ? <p id={'institucion'+grado} key={'institucion'+grado} className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                    { location.pathname.startsWith("/agregar/") ?
-                                        <>
-                                        <div style={{display:'flex'}} key={`opciones${alumno.id}`}>
-                                            <button className="botonEditar" key={`editar${alumno.id}`} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                            <button className="botonEliminar" key={`eliminar${alumno.id}`} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
-                                            <br/><br/>
-                                        </div>
-                                        </>
+                                <div style={{display:'flex'}} className='texto-columnas-bloque' id={'columna'+grado} key={'columna'+grado}>
+                                <h2 id={"titulo"+grados[grado]} key={`titulo${grado}`} className='texto-columnas-bloque-titulos'>{grados[grado]}</h2>
+                                {alumnos.map((alumno, index) => (
+                                    <div id={`contenido${alumno.id}`} key={`contenido${alumno.id}`} className='texto-columnas-bloque-contenido'>
+                                        {alumno.nombreAlumno !== undefined ? <h3 id={'nombre'+grado} key={'nombre'+grado} className='texto-columnas-bloque-contenido-datos'>{alumno.nombreAlumno}</h3> : ''}
+                                        {alumno.fechaInicioAlumno !== undefined ? <p id={'fechaInicio'+grado} key={'fechaInicio'+grado} className='texto-columnas-bloque-contenido-datos'><b>Start date: </b>{alumno.fechaInicioAlumno}</p> : ''}
+                                        {alumno.fechaGraduacionAlumno !== undefined ? <p id={'fechaGraduacion'+grado} key={'fechaGraduacion'+grado} className='texto-columnas-bloque-contenido-datos'><b>Graduation date: </b>{alumno.fechaGraduacionAlumno}</p> : ''}
+                                        {alumno.tituloTesisAlumno !== undefined ? <p id={'tituloTesis'+grado} key={'tituloTesis'+grado} className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
+                                        {alumno.programaAlumno !== undefined ? <p id={'programa'+grado} key={'programa'+grado} className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
+                                        {alumno.institucionAlumno !== undefined ? <p id={'institucion'+grado} key={'institucion'+grado} className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
+                                        { location.pathname.startsWith("/agregar/") ?
+                                            <div className='opciones' key={`opciones${alumno.id}`}>
+                                                <button className="botonEditar" key={`editar${alumno.id}`} id={alumno.id} value="editar" onClick={mostrarOpciones}>Editar</button>
+                                                <button className="botonEliminar" key={`eliminar${alumno.id}`} id={alumno.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
+                                            </div>
                                         : null
-                                    }
-                                    <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/>
-                                    </div>
-                                </>
-                                
-                            ))}
-                            </div>
-                                </>
+                                        }
+                                        {/* // mostrar separador solo si no es el último elemento */}
+                                        {index < alumnos.length - 1 && <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/>}
+                                        {/* <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/> */}
+                                        </div>
+                                ))}
+                                </div>
                             : 
-                        
                             <div id={'columna'+grado} key={'columna'+grado} className='texto-columnas-bloque'>
                                 {/* aqui se cambió el color de fondo y bordes de los bloques de texto */}
                                 <div id={`bloque${grado}`} key={`bloque${grado}`} style={{backgroundColor: '#f0f0f0', borderRadius: '0.5em 0.5em'}} >
@@ -218,15 +234,40 @@ export function MostrarTexto (props) {
                                             {alumno.tituloTesisAlumno !== undefined ? <p id={alumno.tituloTesisAlumno} key={`tituloTesis${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Thesis: </b>{alumno.tituloTesisAlumno}</p> : ''}
                                             {alumno.programaAlumno !== undefined ? <p id={alumno.programaAlumno} key={`programa${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Program: </b>{alumno.programaAlumno}</p> : ''}
                                             {alumno.institucionAlumno !== undefined ? <p id={alumno.institucionAlumno} key={`institucion${alumno.id}`} className='texto-columnas-bloque-contenido-datos'><b>Institution: </b>{alumno.institucionAlumno}</p> : ''}
-                                            <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/>
+                                            {/* mostrar separador solo si no es el último elemento */}
+                                            {index < alumnos.length - 1 && <div id={`separador${alumno.nombreAlumno}`} key={`separador${alumno.nombreAlumno}`} className='texto-columnas-bloque-contenido-separador'/>}
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         }
-                        </>
                         </React.Fragment>
                     ))}
+                </div>
+            );
+        }else if(ubicacion == "home"){
+            return(
+                <>
+                    <h2 key={82613135}>
+                        Information
+                    </h2>
+
+                    <div key={8213135} className='texto'>
+                        {Object.entries(datos).map(([key, value]) => (
+                            <div key={`key-${value.id}`} id={value.id}>
+                                {value.EDITORTEXT !== undefined ? (parse(value.EDITORTEXT)) : null}
+                                { location.pathname.startsWith("/agregar/") ?
+                                    <>
+                                    <div style={{display:'flex'}} key={`opcione-s${value.id}`}>
+                                        <button className="botonEditar" key={`edita-r${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
+                                        <button className="botonEliminar" key={`eliminar-${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
+                                        <br/><br/>
+                                    </div>
+                                    </>
+                                    : null
+                                }
+                            </div>
+                        ))}
                     </div>
                 </>
             );
@@ -240,10 +281,10 @@ export function MostrarTexto (props) {
 
                             // si trae datos (cualquier año), entonces muestra el h2 con el año
                             (contenidoAnios[key].key.length > 0) ? 
-                            <h2 key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
+                            <h2 className="subtitulos" key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
-                            <p key={value.id} id={value.id}>
-                                <label>{"["+(parseInt(key)+1)+"] "}</label>
+                            <div key={value.id} id={value.id}>
+                                {location.pathname.endsWith('code') ? null : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
                                 {location.pathname.endsWith('bookChapters') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -264,7 +305,7 @@ export function MostrarTexto (props) {
                                     {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('journalPublications') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -281,7 +322,7 @@ export function MostrarTexto (props) {
                                     {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                     </>
                                 : location.pathname.endsWith('conferencePapers') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -296,7 +337,7 @@ export function MostrarTexto (props) {
                                     {value.PAGES !== undefined  ? ("pp. " + value.PAGES + ". ") : ''}
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('books') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
@@ -309,7 +350,7 @@ export function MostrarTexto (props) {
                                     {value.YEAR !== undefined ? (value.YEAR + ". ") : '' }
                                     {/* link del DOI */}
                                     {value.TEXT !== undefined ? "" : ""}
-                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL}>{value.URL}</a>
+                                    <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('students') ?
                                 <>
@@ -317,13 +358,11 @@ export function MostrarTexto (props) {
                                 </>
                                 : location.pathname.endsWith('code') ?
                                 value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
-                                <>
-                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
-                                    {/* {value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT + ":"+value.DATE+":") + ', ' : ''} */}
-                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : ''}
+                                <>  
                                     <label className='columnas-contenido'>
+                                        <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}</label>
                                         <label className='informacion-link'>
-                                            <a href={value.REPOSITORYGH} className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
+                                            <a href={value.URLGH} title="Click to view on GitHub" target="_blank" className='informacion-link-titulo'>{value.REPOSITORYGH}</a>
                                             <label className='informacion-link-descripcion'>{value.DESCRIPTIONGH}</label>
                                             <a href={value.URLGH} title="Click to view on GitHub" target="_blank"><img className="informacion-link-img" src={`data:image/jpg;base64,${value.IMAGEGH}`} /></a>
                                         </label>
@@ -334,15 +373,14 @@ export function MostrarTexto (props) {
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
                                 </> }
                                 { location.pathname.startsWith("/agregar/") ?
-                                    <>
-                                        <br/>
-                                        <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Editar</button>
-                                        <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Eliminar</button>
-                                    </>
-                                    : ''
+                                    <div className='opciones' key={`opciones${value.id}`}>
+                                        <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
+                                        <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
+                                    </div>
+                                    : null
                                 }
                                 
-                            </p>,
+                            </div>,
                         ]
                         ))}
                 </div>,
@@ -353,7 +391,8 @@ export function MostrarTexto (props) {
     return [
         textoFormateado(),
         //mostramos sección derecha con navegador por años
-        <SeccionesDerecha key={2453636} ubicacion={ubicacion}/>
+        ubicacion === "home" ? null :
+            <SeccionesDerecha key={2453636} ubicacion={ubicacion}/>
     ];
 };
 

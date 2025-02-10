@@ -1,6 +1,8 @@
 import React, { useEffect, useState , useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
+import parse from 'html-react-parser';
+
 // TinyMCE so the global var exists
 /* eslint-disable-next-line no-unused-vars */
 import tinymce from 'tinymce/tinymce.min.js';
@@ -15,35 +17,37 @@ import 'tinymce/models/dom';
 import 'tinymce/skins/ui/oxide/skin.min.css';
 
 // importing the plugin js.
-// import 'tinymce/plugins/advlist';
-// import 'tinymce/plugins/accordion';
-// import 'tinymce/plugins/autolink';
-// import 'tinymce/plugins/link';
-// import 'tinymce/plugins/image';
-// import 'tinymce/plugins/lists';
-// import 'tinymce/plugins/charmap';
-// import 'tinymce/plugins/anchor';
-// import 'tinymce/plugins/searchreplace';
+import 'tinymce/plugins/advlist';
+import 'tinymce/plugins/accordion';
+import 'tinymce/plugins/autolink';
+import 'tinymce/plugins/link';
+import 'tinymce/plugins/image';
+import 'tinymce/plugins/lists';
+import 'tinymce/plugins/charmap';
+import 'tinymce/plugins/anchor';
+import 'tinymce/plugins/searchreplace';
 import 'tinymce/plugins/wordcount';
-// import 'tinymce/plugins/code';
-// import 'tinymce/plugins/fullscreen';
-// import 'tinymce/plugins/insertdatetime';
-// import 'tinymce/plugins/media';
-// import 'tinymce/plugins/nonbreaking';
-// import 'tinymce/plugins/table';
+import 'tinymce/plugins/code';
+import 'tinymce/plugins/fullscreen';
+import 'tinymce/plugins/insertdatetime';
+import 'tinymce/plugins/media';
+import 'tinymce/plugins/nonbreaking';
+import 'tinymce/plugins/table';
 import 'tinymce/plugins/help/';
 import 'tinymce/plugins/help/plugin.js';
 import 'tinymce/plugins/help/js/i18n/keynav/en.js';
-// import 'tinymce/plugins/help/js/i18n/keynav/es_MX.js';
-// import 'tinymce/plugins/visualblocks';
-// import 'tinymce/plugins/preview';
-// import 'tinymce/plugins/save';
+import 'tinymce/plugins/visualblocks';
+import 'tinymce/plugins/preview';
+import 'tinymce/plugins/save';
+import 'tinymce/plugins/autoresize';
 
 import '../../estilos/Paginas.css';
 
 export function EditorTexto({initialValue}) {
     const editorRef = useRef(null);
-    
+
+    var contenido = "import React, { useEffect, useState } from 'react' import '../../estilos/Paginas.css'; import MostrarTexto from '../../Componentes/MostrarTexto.jsx';export default function Route(){ return( <> <h1 className='titulos'> Awards </h1> <div  className='texto'>                    <MostrarTexto/> </div> </> ) }";
+
     return (
       <>
         <Editor className='root'
@@ -55,6 +59,7 @@ export function EditorTexto({initialValue}) {
             init={{
                 selector: "textarea#editorMCE",
                 forced_root_block: 'texto',
+                newline_behavior: 'linebreak',
                 promotion: false,
                 content_css: "tinymce/skins/content/default/content.min.css, tinymce/skins/ui/oxide/content.min.css",
                 object_resizing: true,
@@ -99,14 +104,17 @@ export function EditorTexto({initialValue}) {
                 input.click();
                 },
                 license_key: 'gpl',
-                height: 550,
+                min_height: 400,
+                max_height: 900,
+                min_width: 475,
                 width: '80%',
+                max_width: 750,
                 menubar: true,
                 statusbar: false,
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion' 
+                    'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion', 'autoresize'
                 ],
                 toolbar:[
                     { name: 'Historial', items: [ 'undo', 'redo' ] },

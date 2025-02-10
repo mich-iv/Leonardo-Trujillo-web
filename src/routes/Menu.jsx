@@ -124,6 +124,32 @@ export default function Menu() {
   //   });
   // });
 
+  //obtenemos la ubicacion actual desde el url y lo formateamos con espacios con la siguiente lista de secciones'
+
+  let ubicacion = useLocation(); // Obtiene la ubicación actual
+
+  if (ubicacion.pathname === '/') {
+    ubicacion = 'Home';
+  } else if (ubicacion.pathname === '/awards') {
+    ubicacion = 'Awards';
+  } else if (ubicacion.pathname === '/bookChapters') {
+    ubicacion = 'Book Chapters';
+  } else if (ubicacion.pathname === '/journalPublications') {
+    ubicacion = 'Journal Publications';
+  } else if (ubicacion.pathname === '/conferencePapers') {
+    ubicacion = 'Select Conference Papers';
+  } else if (ubicacion.pathname === '/projects') {
+    ubicacion = 'Projects';
+  } else if (ubicacion.pathname === '/books') {
+    ubicacion = 'Books';
+  } else if (ubicacion.pathname === '/students') {
+    ubicacion = 'Students';
+  } else if (ubicacion.pathname === '/code') {
+    ubicacion = 'Code';
+  }
+
+  console.log(ubicacion);
+
   useEffect(() => {
     const handleClick = () => {
       document.getElementById('check').checked = false;
@@ -140,8 +166,6 @@ export default function Menu() {
       });
     };
   }, []);
-
-  
     
   return (
     <>
@@ -166,8 +190,6 @@ export default function Menu() {
               <Link className="menu-secciones-izquierda-links" to="/code">Code</Link>
             </div>
             <div className='menu-secciones-derecha'>
-              
-              {/* <div className="derecha"> */}
                 {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
                   ordenemos; condición ? entonces : si no
                   - condición: por ejemplo, 10 es mayor que 5?
@@ -204,21 +226,7 @@ export default function Menu() {
               }
             </div>
           </div>
-          {
-            // mostrar el botón solo si la ruta es diferente de "agregar"
-            // porque de no evaluar, podríamos entrar en un loop de
-            // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
-            !token ? '':
-            !location.pathname.startsWith('/agregar/') ? 
-            <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i className="fas fa-pen"></i></p></Link> :
-            habilitar = false
-          }
-
-          
-
         </div>
-
-        
       </div>
     </>
   );

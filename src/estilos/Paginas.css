@@ -1,6 +1,11 @@
 .titulos{
     padding-top: 0rem;
     font-size: 3em;
+    word-wrap: break-word;
+}
+
+.subtitulos{
+    color: #000000;
 }
 
 .contenido{
@@ -14,16 +19,24 @@
     font-size: 2em;
 }
 
+.opciones{
+    max-width: 450px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: space-around;
+}
+
 .contenedor-home {
     display: grid;
     gap: 1rem;
     gap: 1rem;
     grid-template-columns: 40% auto;
-    /* border: 1px solid rgba(0, 0, 0, 0.8); */
   }
 
 .item-home {
-    /* border: 1px solid rgba(31, 231, 20, 0.8); */
     display: block;
 }
 
@@ -72,7 +85,7 @@
 }
 
 .item-home-links-individual:hover {
-    color: rgb(100, 175, 159);
+    color: #64af9f;
     border: 1px solid rgb(100, 175, 159);
     filter: grayscale(0%) sepia(100%) hue-rotate(110deg) saturate(100%) brightness(100%);
 }
@@ -86,11 +99,13 @@
 }
 
 .columnas-contenido{
-    /* border: 1px solid rgba(31, 231, 20, 0.8); */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
 }
 
-.columnas-contenido-img{
-    /* border: 1px solid rgba(31, 231, 20, 0.8); */
+.informacion-texto{
+    padding-bottom: 0.5rem;
 }
 
 .informacion-link{
@@ -102,11 +117,12 @@
     max-width: 450px;
     background-color: #f2f2f2;
     border-radius: 0.50rem;
-    border-bottom: 10px solid #64af9f;
+    border-bottom: 0.5rem solid #64af9f;
 }
 .informacion-link-titulo{
     text-align: left;
     font-weight: bold;
+    font-size: 1.5rem;
 }
 .informacion-link-descripcion{
     text-align: left;
@@ -120,7 +136,6 @@
 
 .imagenGithub{
     max-width: 600px;
-    /* border: 1px solid rgb(255, 98, 0); */
     object-fit:cover;
 }
 
@@ -128,13 +143,20 @@
 .texto{
     text-align: justify;
     font-size: 1.2em;
-    width: 100%;
+    /* width: 100%; */
+    padding: 0 1rem;
 }
 
-.texto-link{
+.texto-link {
     text-align: justify;
     word-wrap: break-word;
     width: 100%;
+    color: #368fb2;
+    text-decoration: none;
+    position: relative;
+}
+.texto-link:hover {
+    color: #25627a;
 }
 
 .texto-columnas{
@@ -189,6 +211,13 @@ a {
     scroll-margin-top: 6rem;
 }
 
+pre code.hljs {
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    /* max-width: 450px; */
+    overflow: visible;
+}
+
 @media all and (max-width: 890px) {
     .item-home-links{
         width: 80%;
@@ -209,7 +238,7 @@ a {
 
     .texto-columnas{
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
     }
     .texto-columnas-bloque{

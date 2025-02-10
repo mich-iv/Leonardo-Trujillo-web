@@ -14,8 +14,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
-    "@fortawesome/free-regular-svg-icons": "^6.7.2",
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@tinymce/tinymce-react": "^5.1.1",
     "bibtex-parser": "^0.0.0",
@@ -24,7 +22,6 @@
     "firebase-admin": "^12.7.0",
     "firebase-tools": "^13.29.1",
     "fs-extra": "^11.3.0",
-    "highlight.js": "^11.11.1",
     "html-react-parser": "^5.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -11,7 +11,7 @@ export default function Route(){
     return(
         <>
             <h1 className='titulos'>
-                Book chapters
+                Book Chapters
             </h1>
 
             <div className='texto'>

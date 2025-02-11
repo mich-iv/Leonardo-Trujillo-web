@@ -11,7 +11,7 @@ export default function Route(){
                 Awards
             </h1>
 
-            <div  className='texto'>
+            <div className='texto'>
                 <MostrarTexto/>
             </div>
         </>

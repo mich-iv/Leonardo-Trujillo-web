@@ -5,6 +5,9 @@ import {eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faOrcid, faResearchgate, faGoogleScholar } from '@fortawesome/free-brands-svg-icons';
+
 export function MostrarTexto (props) {
     const location = useLocation();
     let { ubicacion } = "";
@@ -177,10 +180,9 @@ export function MostrarTexto (props) {
 
         if (location.pathname.endsWith('students')) {
             const grados = {
-                "4": "PhD",
-                "3": "Postgraduate degree",
+                "3": "Doctorate",
                 "2": "Master's degree",
-                "1": "College degree"
+                "1": "Engineering"
             };
         
             const alumnosPorGrado = Object.entries(datos).reduce((acc, [key, value]) => {
@@ -248,26 +250,61 @@ export function MostrarTexto (props) {
         }else if(ubicacion == "home"){
             return(
                 <>
-                    <h2 key={82613135}>
-                        Information
-                    </h2>
+                    <div className='item-home-contenido'>
+                        {console.log(datos)}
+                        {datos[0] === undefined ? null : 
+                        <img className='item-home-contenido-img' src={datos[0].IMAGENPERFIL}/>}
+                        <div className='item-home-links'>
+                            <a href='https://orcid.org/0000-0003-1812-5736'>
+                                <div className='item-home-links-individual'>
+                                    {/* <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/orcid.ico'/> */}
+                                    <FontAwesomeIcon className='item-home-links-individual-img' icon={faOrcid} />
+                                    <span className='item-home-links-individual-texto'>ORCID</span>
+                                </div>
+                            </a>
+                            <a href='https://www.researchgate.net/profile/Leonardo-Trujillo-2'>
+                                <div className='item-home-links-individual'>
+                                    <FontAwesomeIcon className='item-home-links-individual-img' icon={faResearchgate} />
+                                    <span className='item-home-links-individual-texto'>Research Gate</span>
+                                </div>
+                            </a>
+                            <a href='https://dblp.org/pid/62/1755.html'>
+                                <div className='item-home-links-individual'>
+                                    <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/dblp.ico'/>
+                                    <span className='item-home-links-individual-texto'>dblp</span>
+                                </div>
+                            </a>
+                            <a href='https://scholar.google.com/citations?user=xXh3xRYAAAAJ'>
+                                <div className='item-home-links-individual'>
+                                <FontAwesomeIcon className='item-home-links-individual-img' icon={faGoogleScholar} />
+                                <span className='item-home-links-individual-texto'>Google Scholar</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
 
-                    <div key={8213135} className='texto'>
-                        {Object.entries(datos).map(([key, value]) => (
-                            <div key={`key-${value.id}`} id={value.id}>
-                                {value.EDITORTEXT !== undefined ? (parse(value.EDITORTEXT)) : null}
-                                { location.pathname.startsWith("/agregar/") ?
-                                    <>
-                                    <div style={{display:'flex'}} key={`opcione-s${value.id}`}>
-                                        <button className="botonEditar" key={`edita-r${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
-                                        <button className="botonEliminar" key={`eliminar-${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
-                                        <br/><br/>
-                                    </div>
-                                    </>
-                                    : null
-                                }
-                            </div>
-                        ))}
+                    <div className='item-home-texto'>
+                        <h2 key={82613135}>
+                            Information
+                        </h2>
+
+                        <div key={8213135} className='texto' style={{padding: "0"}} >
+                            {Object.entries(datos).map(([key, value]) => (
+                                <div key={`key-${value.id}`} id={value.id}>
+                                    {value.EDITORTEXT !== undefined ? (parse(value.EDITORTEXT)) : null}
+                                    { location.pathname.startsWith("/agregar/") ?
+                                        <>
+                                        <div style={{display:'flex'}} key={`opcione-s${value.id}`}>
+                                            <button className="botonEditar" key={`edita-r${value.id}`} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
+                                            <button className="botonEliminar" key={`eliminar-${value.id}`} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
+                                            <br/><br/>
+                                        </div>
+                                        </>
+                                        : null
+                                    }
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </>
             );

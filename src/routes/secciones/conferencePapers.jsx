@@ -10,10 +10,10 @@ export default function Route(){
     return(
         <>
                 <h1 className='titulos'>
-                    Select Conference papers
+                    Select Conference Papers
                 </h1>
 
-                <div  className='texto'>
+                <div className='texto'>
                     <MostrarTexto/>
                 </div>
         </>

@@ -79,10 +79,6 @@ export default function Route(){
         tituloUbicacion = 'Code';
     }
 
-    // Define a state variable to store the selected image
-    const [selectedImage, setSelectedImage] = useState(null);
-
-
     //para subir la foto de perfil
     const [file, setFile] = useState();
 
@@ -92,6 +88,13 @@ export default function Route(){
         let imagen = e.target.files[0];
         
         setFile(e.target.files[0]);
+
+        convertirBase64(imagen).then(base64 => {
+            console.log(base64);
+            resultMap["IMAGENPERFIL"] = base64;
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     }
     
     String.prototype.hashCode = function() {

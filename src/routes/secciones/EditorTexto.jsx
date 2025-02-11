@@ -46,8 +46,6 @@ import '../../estilos/Paginas.css';
 export function EditorTexto({initialValue}) {
     const editorRef = useRef(null);
 
-    var contenido = "import React, { useEffect, useState } from 'react' import '../../estilos/Paginas.css'; import MostrarTexto from '../../Componentes/MostrarTexto.jsx';export default function Route(){ return( <> <h1 className='titulos'> Awards </h1> <div  className='texto'>                    <MostrarTexto/> </div> </> ) }";
-
     return (
       <>
         <Editor className='root'

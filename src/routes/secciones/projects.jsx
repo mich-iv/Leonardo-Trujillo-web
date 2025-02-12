@@ -13,7 +13,7 @@ export default function Route(){
                 Projects
             </h1>
 
-            <div  className='texto'>
+            <div className='texto'>
                 <MostrarTexto/>
             </div>
         </>

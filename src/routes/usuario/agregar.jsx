@@ -15,6 +15,10 @@ import parse from 'bibtex-parser';
 import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 import tinymce from 'tinymce/tinymce.min.js';
+//importamos js para convertir a base64
+import { convertirBase64 } from '../../Componentes/convertirBase64.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { use } from 'react';
 
 export default function Route(){
     //obtenemos la ruta actual del url
@@ -28,7 +32,7 @@ export default function Route(){
 
     const sesion = getAuth();
 
-    var resultMap = {};
+    let resultMap = {};
 
     const [doiLabel, setDOILabel] = useState("");
     const [linkLabel, setLinkLabel] = useState("");
@@ -40,6 +44,10 @@ export default function Route(){
     const [tituloTesisAlumno, setTituloTesisAlumno] = useState("");
     const [programaAlumno, setProgramaAlumno] = useState("");
     const [institucionAlumno, setInstitucionAlumno] = useState("");
+
+    const [imagenPerfil, setImagenPerfil] = useState("");
+
+    const [selectedImage, setSelectedImage] = useState();
 
     var informacionEncontrada = false;
 
@@ -75,7 +83,9 @@ export default function Route(){
         tituloUbicacion = 'Code';
     }
 
-    console.log(tituloUbicacion);
+    //para subir la foto de perfil
+    const [file, setFile] = useState();
+
     
     String.prototype.hashCode = function() {
         var hash = 0, i, chr;
@@ -89,8 +99,6 @@ export default function Route(){
     }
 
     const getInfoGitHub = (link) => {
-        var repoEncontrado = false;
-
         var usuarioGH = link.split('/')[3];
         var repositorioGH = link.split('/')[4];
         var numeroHash = usuarioGH.hashCode() + (Math.floor(Math.random() * 10000000) + 1);
@@ -100,6 +108,10 @@ export default function Route(){
         
         // URL de la API de GitHub para obtener información del repositorio
         const repoUrl = `https://api.github.com/repos/${usuarioGH}/${repositorioGH}`;
+
+        document.getElementById("infoGitMostrar").innerHTML = '';
+        console.log(link);
+        
 
         // Fetch para obtener la información del repositorio
         fetch(repoUrl, {
@@ -124,14 +136,14 @@ export default function Route(){
         .then(data => {
             // Mostrar la información del repositorio en el elemento con id "textoMostrar"
             // const textoMostrar = document.getElementById("textoMostrar");
-            // textoMostrar.innerHTML = `
-            //     <p><strong>Repository Name:</strong> ${data.name}</p>
-            //     <p><strong>Description:</strong> ${data.description}</p>
-            //     <p><strong>Stars:</strong> ${data.stargazers_count}</p>
-            //     <p><strong>Forks:</strong> ${data.forks_count}</p>
-            //     <p><strong>Open Issues:</strong> ${data.open_issues_count}</p>
-            //     <p><strong>URL:</strong> <a href="${data.html_url}" target="_blank">${data.html_url}</a></p>
-            // `;
+            infoGitMostrar.innerHTML = `
+                <p><strong>Repository Name:</strong> ${data.name}</p>
+                <p><strong>Description:</strong> ${data.description}</p>
+                <p><strong>Stars:</strong> ${data.stargazers_count}</p>
+                <p><strong>Forks:</strong> ${data.forks_count}</p>
+                <p><strong>Open Issues:</strong> ${data.open_issues_count}</p>
+                <p><strong>URL:</strong> <a href="${data.html_url}" target="_blank">${data.html_url}</a></p>
+            `;
 
             // Guardar la información en variables globales
             repositoryGH = data.name;
@@ -151,44 +163,32 @@ export default function Route(){
                     document.getElementById("confirmacion").innerHTML = "Information not found";
                 throw new Error('Error en la solicitud');
                 }
-                
                 // Convertir la respuesta a JSON
                 return response.blob();
             })
             .then(blob => {
-                // Convertir el blob a base64
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    let base64data = reader.result;
-                    
-                    // Mostrar la imagen en el elemento con id "imagenMostrar"
-                    const imgElement = document.createElement("img");
-                    imgElement.src = base64data;
-                    imgElement.alt = "Fetched Image";
-                    imgElement.style.maxWidth = "100%";
-                    
-                    const imagenMostrar = document.getElementById("imagenMostrar");
-                    imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
-                    imagenMostrar.appendChild(imgElement);
-    
-                    // Eliminar el prefijo "data:image/png;base64,"
-                    base64data = base64data.replace(/^data:image\/(png|jpg);base64,/, '');
-        
-                    imagenBase64 = base64data;
-                    // resultMap["IMAGE"] = base64data;
-                    
-                    document.getElementById("confirmacion").innerHTML = "Image found:";
-                    document.getElementById("confirmacion").style.color = 'green';
-                };
-                reader.readAsDataURL(blob);
+                // Convertir la imagen a base64
+                return convertirBase64(blob);
+            }).then(base64data => {
+                // Mostrar la imagen en el elemento con id "imagenMostrar"
+                const imgElement = document.createElement("img");
+                imgElement.src = `data:image/png;base64,${base64data}`;
+                imgElement.alt = "Fetched Image";
+                imgElement.style.maxWidth = "100%";
+                
+                const imagenMostrar = document.getElementById("imagenMostrar");
+                imagenMostrar.innerHTML = ''; // Limpiar contenido anterior
+                imagenMostrar.appendChild(imgElement);
+            
+                imagenBase64 = base64data;
+                document.getElementById("confirmacion").innerHTML = "Image found:";
+                document.getElementById("confirmacion").style.color = 'green';
             })
             .catch(error => {
-                // Manejar errores
                 console.error('Error:', error);
             });
         })
         .catch(error => {
-            // Manejar errores
             console.error('Error:', error);
         });
     }
@@ -254,8 +254,33 @@ export default function Route(){
         })
     }, []) 
 
+    useEffect(() => {
+        if (selectedImage) {
+            convertirBase64(selectedImage).then(base64 => {
+                setImagenPerfil(base64);
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }, [selectedImage]);
+
     // Función para enviar la información a la base de datos
     const submit = (e) => {
+
+        convertirBase64(selectedImage).then(base64 => {
+            console.log("imagen METODO base64");
+            console.log(base64);
+            setImagenPerfil(base64);
+            imagenBase64 = base64;
+            resultMap["IMGPERF"] = base64;
+            // console.log("imagenbase en funcion del input"+imagenBase64);
+            console.log(resultMap["IMGPERF"]);
+            
+            
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+
         // Obtener el contenido del editor de texto
         if(tinymce.activeEditor != null){
             var textoEditor = tinymce.activeEditor.getContent("editorTinyMCE");
@@ -340,8 +365,31 @@ export default function Route(){
                 }
             }
         }else if(ubicacion == 'home'){
+            let imagenTemporal;
+            // console.log(document.getElementById('banderaOpcion').value);
+
             // si la ubicación es home, entonces se obtiene la información del editor de texto
             resultMap["EDITORTEXT"] = textoEditor;
+
+            resultMap["IMAGENPERFIL"] = imagenPerfil;
+
+            console.log("HAY IMAGENNNN");
+            console.log(imagenBase64);
+            console.log("A VER EL REUSLTSET");
+        }else if(ubicacion == 'projects' || ubicacion == 'awards'){
+            //si la bandera es editar
+            if(document.getElementById('banderaOpcion').value === 'editar'){
+                textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+            }else{
+                // si no, se obtiene la información de los campos
+                // si alguno de los campos está vacío, entonces se muestra un mensaje de error
+                if(textoEditor == ''){
+                    alert('There is no information to add');
+                }else{
+                    textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+                    resultMap["DATEADD"] = fechaNueva;
+                }
+            }
         }
 
         e.preventDefault(); // Evitar que se recargue la página
@@ -366,7 +414,7 @@ export default function Route(){
                     var id = document.getElementById('id').value;
                     
                     const documentoActualizado = doc(bd, ubicacion, id);
-                    
+
                     delete resultMap["DATEADD"];
 
                     updateDoc(documentoActualizado, resultMap)
@@ -378,8 +426,7 @@ export default function Route(){
                         console.error(error);
                     });
                 }else{
-                    setDoc(documento, resultMap
-                    ).then(() => {
+                    setDoc(documento, resultMap).then(() => {
                         alert('Information added')
                         // location.reload();
                     }).catch((error) => {
@@ -476,8 +523,15 @@ export default function Route(){
 
                     <button className="botonForma" onClick={()=>{if(linkLabel != ''){getInfoGitHub(linkLabel)}}} title='Click to get information from GitHub'>Get information</button>
                     <br/>
-                    <label id="confirmacion" style={{maxWidth: '450px'}}></label>
-                    <blockquote style={{maxWidth: '450px'}} id='imagenMostrar'></blockquote>
+                    
+                    <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                        <div style={{maxWidth: '450px'}} id='infoGitMostrar'></div>
+                        <div>
+                            <label id="confirmacion" style={{maxWidth: '450px'}}></label>
+                            <div style={{maxWidth: '450px', border: '1px solid'}} id='imagenMostrar'></div>
+                        </div>
+                        
+                    </div>
                     <br/>
                     Adittional information
                     <EditorTexto/>
@@ -502,7 +556,6 @@ export default function Route(){
 
                     <button className="botonForma" onClick={()=>{if(doiLabel != ''){getFicha(doiLabel)}}} title='Click to get DOI'>Get DOI</button>
                     <br/>
-                    <label id="confirmacion" style={{fontWeight: 'bold'}}></label>
                 </>
                 : ubicacion == 'students' ? 
                 <>
@@ -519,10 +572,9 @@ export default function Route(){
                     Degree<br/>
                     <select defaultValue={""} name="gradoAlumno" id="gradoAlumno" className="inputTexto" onChange={updateGradoAlumno} title='Select degree'>
                         <option value="" disabled hidden>Select degree</option>
-                        <option value="1">College degree</option>
+                        <option value="1">Engineering</option>
                         <option value="2">Master's degree</option>
-                        <option value="3">Postgraduate degree</option>
-                        <option value="4">PhD</option>
+                        <option value="3">Doctorate</option>
                     </select>
                     <br/>
                     Start Date<br/>
@@ -572,17 +624,71 @@ export default function Route(){
                 </>
                 : ubicacion == 'home' ?
                 <>
+                <div className="contenedor-home-agregar">
+                    <div className='item-home-subir'>
+                        <b>Upload a profile picture</b>
+                        <label htmlFor="subirImagen" title='Upload a profile picture' class="fas fa-upload"></label>
+                        {/* subir imagen para convertir a base64 */}
+                        <input
+                            type="file"
+                            name="subirImagen"
+                            id="subirImagen"
+                            // Event handler to capture file selection and update the state
+                            onChange={(event) => {
+                                console.log(event.target.files[0]); // Log the selected file
+                                setSelectedImage(event.target.files[0]); // Update the state with the selected file
+                                document.getElementById("nombreArchivo").innerHTML = event.target.files[0].name;
+                                //mostramos la imagen en img
+                                setFile(URL.createObjectURL(event.target.files[0]));
+                                //habilitamos botonEliminarImagen
+                                document.getElementById("botonEliminarImagen").hidden = false;
+                            }}
+                            hidden
+                        />
+                        <div style={{display: 'flex', gap: '1rem'}}>
+                            <label id='nombreArchivo'>File</label>
+
+                            <button hidden id="botonEliminarImagen" style={{border: 'none', backgroundColor: 'transparent', margin: '0', padding: '0'}} onClick={() => {
+                                setSelectedImage(null);
+                                setFile(null);
+                                document.getElementById("nombreArchivo").innerHTML = 'File';
+                                document.getElementById("botonEliminarImagen").hidden = true;
+                            }}>
+                                <label className="fas fa-trash" title='Click to add information'></label>
+                            </button>
+                        </div>
+                        <img id="img" src={file} style={{width:'10%'}}/>
+                    </div>
+
                     <EditorTexto/>
                     <textarea
                         name='editorMCE'
                         id="editorMCE"
                         hidden
                     />
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 </> 
-                : ''}
+                : ubicacion == 'projects' || ubicacion == 'awards' ?
+                <>
+                    <EditorTexto/>
+                    <textarea
+                        name='editorMCE'
+                        id="editorMCE"
+                        hidden
+                    />
+                </>
+                : null }
+
                 <blockquote id='textoMostrar'></blockquote>
                 
-                <div className='teto'>
+                <div className='texto'>
+                    {/* { ubicacion == 'home' ? null : <MostrarTexto/> } */}
                     <MostrarTexto/>
                 </div>
 

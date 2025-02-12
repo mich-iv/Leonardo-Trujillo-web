@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState,  } from 'react'
 import '../estilos/Paginas.css';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
 export default function SeccionesDerecha(){
@@ -14,14 +14,14 @@ export default function SeccionesDerecha(){
     var nombreFormateado = '';
 
     useEffect(()=>{
-            try{
-                /* obtener los elementos del HTML con la etiqueta <h2>, pues desde el editor de texto
-                se agregan los marcadores a los años correspondientes con la etiqueta <a>
-                y un id con el año que se marcó */
-                setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 1000);
-            }catch(error){
-                throw new Error("No hay datos", error);
-            }
+        try{
+            /* obtener los elementos del HTML con la etiqueta <h2>, pues desde el editor de texto
+            se agregan los marcadores a los años correspondientes con la etiqueta <a>
+            y un id con el año que se marcó */
+            setTimeout(() => setCampos(parent.document.getElementsByTagName('h2')), 1000);
+        }catch(error){
+            throw new Error("No hay datos", error);
+        }
     }, [])
 
     var marcadores = [];
@@ -30,9 +30,11 @@ export default function SeccionesDerecha(){
     for (let i = 0; i < campos.length; i++) {
         nombre = campos[i].id;
 
-        nombreFormateado = campos[i].innerHTML;
+        nombreFormateado = campos[i].innerText;
         
-        console.log(campos[i].innerHTML);
+        console.log(campos);
+        
+        console.log(campos[i].innerText);
         
         console.log(nombre);
         

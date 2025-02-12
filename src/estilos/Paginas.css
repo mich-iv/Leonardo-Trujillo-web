@@ -93,6 +93,8 @@
     text-decoration: none;
     margin: 0.2rem ;
     filter: grayscale(100%);
+    width: 1rem;
+    height: 1rem;
 }
 .item-home-links-individual-texto {
     text-decoration: none;

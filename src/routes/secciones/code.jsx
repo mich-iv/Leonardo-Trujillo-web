@@ -15,7 +15,7 @@ export default function Route(){
                 Code
             </h1>
 
-            <div  className='texto'>
+            <div className='texto'>
                 <MostrarTexto ubicacion={ubicacion}/>
             </div>
         </>

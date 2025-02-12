@@ -180,14 +180,14 @@ export default function Menu() {
           <div className='menu-secciones'>
             <div className='menu-secciones-izquierda'>
               <Link className="menu-secciones-izquierda-links" to="/">Home</Link>
-              <Link className="menu-secciones-izquierda-links" to="/awards">Awards</Link>
-              <Link className="menu-secciones-izquierda-links" to="/bookChapters">Book Chapters</Link>
               <Link className="menu-secciones-izquierda-links" to="/journalPublications">Journal Publications</Link>
               <Link className="menu-secciones-izquierda-links" to="/conferencePapers">Select Conference Papers</Link>
-              <Link className="menu-secciones-izquierda-links" to="/projects">Projects</Link>
+              <Link className="menu-secciones-izquierda-links" to="/bookChapters">Book Chapters</Link>
               <Link className="menu-secciones-izquierda-links" to="/books">Books</Link>
+              <Link className="menu-secciones-izquierda-links" to="/projects">Projects</Link>
               <Link className="menu-secciones-izquierda-links" to="/students">Students</Link>
               <Link className="menu-secciones-izquierda-links" to="/code">Code</Link>
+              <Link className="menu-secciones-izquierda-links" to="/awards">Awards</Link>
             </div>
             <div className='menu-secciones-derecha'>
                 {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
@@ -221,7 +221,7 @@ export default function Menu() {
                 // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
                 !token ? '':
                 !location.pathname.startsWith('/agregar/') ? 
-                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Agregar información'><i className="fas fa-pen"></i></p></Link> :
+                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Add information'><i className="fas fa-pen"></i></p></Link> :
                 habilitar = false
               }
             </div>

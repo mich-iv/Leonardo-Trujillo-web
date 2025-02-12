@@ -4,14 +4,13 @@ import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
 import { collection, addDoc, getDocs, getDoc, doc, orderBy, query, deleteDoc} from "firebase/firestore";
 
-
 const firebaseConfig = {
-  apiKey: "AIzaSyD6m848l9wtAoxgD_oih2J4L0caEUI0xas",
-  authDomain: "leonardo-trujillo.firebaseapp.com",
-  projectId: "leonardo-trujillo",
-  storageBucket: "leonardo-trujillo.appspot.com",
-  messagingSenderId: "499508165807",
-  appId: "1:499508165807:web:1a51f8d965342964cc685a"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID
 };
 
 // Initialize Firebase

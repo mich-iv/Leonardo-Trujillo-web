@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 /public/tinymce/
+.env
 
 # Editor directories and files
 .vscode/*

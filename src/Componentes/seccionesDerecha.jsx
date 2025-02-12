@@ -11,6 +11,7 @@ export default function SeccionesDerecha(){
     var nombre = '';
     var nombreKey = '';
     var nombreFiltrado = '';
+    var nombreFormateado = '';
 
     useEffect(()=>{
             try{
@@ -28,14 +29,21 @@ export default function SeccionesDerecha(){
     
     for (let i = 0; i < campos.length; i++) {
         nombre = campos[i].id;
+
+        nombreFormateado = campos[i].innerHTML;
+        
+        console.log(campos[i].innerHTML);
+        
+        console.log(nombre);
         
         if(nombre.startsWith("titulo")){
             nombreKey = "marcador"+i;
             //antes era slice(4, 8), pero se adaptó en el caso de que esta página llegue al año 10000 o más jkaskja
             nombreFiltrado = nombre.slice(6, nombre.length);
-            
+            console.log(nombreFiltrado);
+
             marcadores.push(<HashLink name={nombreKey} key={nombreKey} id={nombreKey} smooth to={ubicacion.pathname+"#titulo"+nombreFiltrado}>
-                {nombreFiltrado}</HashLink>);
+                {nombreFormateado}</HashLink>);
         }
     }
 

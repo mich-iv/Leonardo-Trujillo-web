@@ -6,7 +6,9 @@ import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faOrcid, faResearchgate, faGoogleScholar } from '@fortawesome/free-brands-svg-icons';
+import 'tinymce/skins/content/default/content.min.css';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -57,10 +59,9 @@ export function MostrarTexto (props) {
                 //si caemos en la página principal
                 //solo mostramos la informacion completa
                 ordenarPor = coleccion;
-            }else if(ubicacion === "code"){
+            }else if(ubicacion === "code" || ubicacion === "projects" || ubicacion === "awards"){
                 //si caemos en la página de código, entonces ordenar por fecha de creación
                 ordenarPor = query(coleccion, orderBy("DATEADD", "desc"));
-
             }else{
                 //si caemos en cualquier otra página, entonces ordenar por año
                 ordenarPor = query(coleccion, orderBy("YEAR", "desc"));
@@ -134,13 +135,17 @@ export function MostrarTexto (props) {
                 }else if(parent.document.getElementById('DOI')){
                     console.log("hay DOI");
                     document.getElementById("DOI").value = data.DOI;
-                } else if(ubicacion === "code" || ubicacion === "home"){
+                }else if(ubicacion === "code" || ubicacion === "home"){
                     console.log(parse(data.EDITORTEXT));
                     
                     // si es la página de código o de inicio, entonces mostrar los datos
                     data.URLGH !== "" ? document.getElementById("githubLink").value = data.URLGH : document.getElementById("githubLink").value = "";
                     data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent((data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
+                }else if(ubicacion === "projects" || ubicacion === "awards"){
+                    data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent((data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
                 }
+
+                
                 // marcamos la bandera para editar
                 document.getElementById("banderaOpcion").value = "editar";
 
@@ -255,29 +260,35 @@ export function MostrarTexto (props) {
                         {datos[0] === undefined ? null : 
                         <img className='item-home-contenido-img' src={datos[0].IMAGENPERFIL}/>}
                         <div className='item-home-links'>
-                            <a href='https://orcid.org/0000-0003-1812-5736'>
+                            <a href='https://orcid.org/0000-0003-1812-5736' target="_blank">
                                 <div className='item-home-links-individual'>
                                     {/* <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/orcid.ico'/> */}
                                     <FontAwesomeIcon className='item-home-links-individual-img' icon={faOrcid} />
                                     <span className='item-home-links-individual-texto'>ORCID</span>
                                 </div>
                             </a>
-                            <a href='https://www.researchgate.net/profile/Leonardo-Trujillo-2'>
+                            <a href='https://www.researchgate.net/profile/Leonardo-Trujillo-2' target="_blank">
                                 <div className='item-home-links-individual'>
                                     <FontAwesomeIcon className='item-home-links-individual-img' icon={faResearchgate} />
                                     <span className='item-home-links-individual-texto'>Research Gate</span>
                                 </div>
                             </a>
-                            <a href='https://dblp.org/pid/62/1755.html'>
+                            <a href='https://dblp.org/pid/62/1755.html' target="_blank">
                                 <div className='item-home-links-individual'>
                                     <img className='item-home-links-individual-img' width="16" height="16" src='https://raw.githubusercontent.com/mich-iv/Leonardo-Trujillo-web/refs/heads/pruebas/src/assets/iconos/dblp.ico'/>
                                     <span className='item-home-links-individual-texto'>dblp</span>
                                 </div>
                             </a>
-                            <a href='https://scholar.google.com/citations?user=xXh3xRYAAAAJ'>
+                            <a href='https://scholar.google.com/citations?user=xXh3xRYAAAAJ' target="_blank">
                                 <div className='item-home-links-individual'>
                                 <FontAwesomeIcon className='item-home-links-individual-img' icon={faGoogleScholar} />
                                 <span className='item-home-links-individual-texto'>Google Scholar</span>
+                                </div>
+                            </a>
+                            <a href='mailto:leonardo.trujillo.tttl@gmail.com'>
+                                <div className='item-home-links-individual'>
+                                <FontAwesomeIcon className='item-home-links-individual-img' icon={faEnvelope}/>
+                                <span className='item-home-links-individual-texto'>Email</span>
                                 </div>
                             </a>
                         </div>
@@ -313,6 +324,8 @@ export function MostrarTexto (props) {
                 <div key={69} id='69'>
                     {Object.entries(datos).map(([key, value]) => (
                         [
+                            console.log(datos)
+                            
                             /* añadimos el titulo por año
                             si el arreglo trae el año repetido (''), entonces no muestres nada */,
 
@@ -321,7 +334,7 @@ export function MostrarTexto (props) {
                             <h2 className="subtitulos" key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
                             <div key={value.id} id={value.id}>
-                                {location.pathname.endsWith('code') ? null : <label>{"["+(parseInt(key)+1)+"] "}</label>}
+                                {location.pathname.endsWith('code') || location.pathname.endsWith('projects') || location.pathname.endsWith('awards') ? null : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
                                 {location.pathname.endsWith('bookChapters') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
@@ -389,12 +402,7 @@ export function MostrarTexto (props) {
                                     {value.TEXT !== undefined ? "" : ""}
                                     <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
-                                : location.pathname.endsWith('students') ?
-                                <>
-                                    {/* no mostrar nada */}
-                                </>
                                 : location.pathname.endsWith('code') ?
-                                value.NAME !== undefined ? (value.NAME + ", " + value.NAME) + '' :
                                 <>  
                                     <label className='columnas-contenido'>
                                         <label className='informacion-texto'>{value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}</label>
@@ -406,7 +414,13 @@ export function MostrarTexto (props) {
                                     </label>
                                     {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
                                 </>
-                                : <>
+                                : location.pathname.endsWith('projects') || location.pathname.endsWith('awards') ?
+                                <>
+                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}
+                                    
+                                </>
+                                :
+                                <>
                                     {/* si no es ninguno de los anteriores, solo muestra el texto*/}
                                 </> }
                                 { location.pathname.startsWith("/agregar/") ?

@@ -17,6 +17,8 @@ import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 import tinymce from 'tinymce/tinymce.min.js';
 //importamos js para convertir a base64
 import { convertirBase64 } from '../../Componentes/convertirBase64.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { use } from 'react';
 
 export default function Route(){
     //obtenemos la ruta actual del url
@@ -44,6 +46,8 @@ export default function Route(){
     const [institucionAlumno, setInstitucionAlumno] = useState("");
 
     const [imagenPerfil, setImagenPerfil] = useState("");
+
+    const [selectedImage, setSelectedImage] = useState();
 
     var informacionEncontrada = false;
 
@@ -82,20 +86,6 @@ export default function Route(){
     //para subir la foto de perfil
     const [file, setFile] = useState();
 
-    function handleChange(e) {
-        console.log(e.target.files[0]);
-
-        let imagen = e.target.files[0];
-        
-        setFile(e.target.files[0]);
-
-        convertirBase64(imagen).then(base64 => {
-            console.log(base64);
-            resultMap["IMAGENPERFIL"] = base64;
-        }).catch(error => {
-            console.error('Error:', error);
-        });
-    }
     
     String.prototype.hashCode = function() {
         var hash = 0, i, chr;
@@ -264,6 +254,16 @@ export default function Route(){
         })
     }, []) 
 
+    useEffect(() => {
+        if (selectedImage) {
+            convertirBase64(selectedImage).then(base64 => {
+                setImagenPerfil(base64);
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }, [selectedImage]);
+
     // Función para enviar la información a la base de datos
     const submit = (e) => {
 
@@ -371,9 +371,25 @@ export default function Route(){
             // si la ubicación es home, entonces se obtiene la información del editor de texto
             resultMap["EDITORTEXT"] = textoEditor;
 
+            resultMap["IMAGENPERFIL"] = imagenPerfil;
+
             console.log("HAY IMAGENNNN");
             console.log(imagenBase64);
             console.log("A VER EL REUSLTSET");
+        }else if(ubicacion == 'projects' || ubicacion == 'awards'){
+            //si la bandera es editar
+            if(document.getElementById('banderaOpcion').value === 'editar'){
+                textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+            }else{
+                // si no, se obtiene la información de los campos
+                // si alguno de los campos está vacío, entonces se muestra un mensaje de error
+                if(textoEditor == ''){
+                    alert('There is no information to add');
+                }else{
+                    textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""
+                    resultMap["DATEADD"] = fechaNueva;
+                }
+            }
         }
 
         e.preventDefault(); // Evitar que se recargue la página
@@ -396,18 +412,10 @@ export default function Route(){
             }else{
                 if(document.getElementById('banderaOpcion').value == 'editar'){
                     var id = document.getElementById('id').value;
-                    console.log(id);
                     
                     const documentoActualizado = doc(bd, ubicacion, id);
-                    
-                    console.log(documentoActualizado);
-                    
 
                     delete resultMap["DATEADD"];
-                    console.log("ULTIMO REUSLT SET");
-                    resultMap["IMGPERF"] = imagenBase64;
-                    
-                    console.log(resultMap);
 
                     updateDoc(documentoActualizado, resultMap)
                     .then(() => {
@@ -616,32 +624,70 @@ export default function Route(){
                 </>
                 : ubicacion == 'home' ?
                 <>
+                <div className="contenedor-home-agregar">
+                    <div className='item-home-subir'>
+                        <b>Upload a profile picture</b>
+                        <label htmlFor="subirImagen" title='Upload a profile picture' class="fas fa-upload"></label>
+                        {/* subir imagen para convertir a base64 */}
+                        <input
+                            type="file"
+                            name="subirImagen"
+                            id="subirImagen"
+                            // Event handler to capture file selection and update the state
+                            onChange={(event) => {
+                                console.log(event.target.files[0]); // Log the selected file
+                                setSelectedImage(event.target.files[0]); // Update the state with the selected file
+                                document.getElementById("nombreArchivo").innerHTML = event.target.files[0].name;
+                                //mostramos la imagen en img
+                                setFile(URL.createObjectURL(event.target.files[0]));
+                                //habilitamos botonEliminarImagen
+                                document.getElementById("botonEliminarImagen").hidden = false;
+                            }}
+                            hidden
+                        />
+                        <div style={{display: 'flex', gap: '1rem'}}>
+                            <label id='nombreArchivo'>File</label>
+
+                            <button hidden id="botonEliminarImagen" style={{border: 'none', backgroundColor: 'transparent', margin: '0', padding: '0'}} onClick={() => {
+                                setSelectedImage(null);
+                                setFile(null);
+                                document.getElementById("nombreArchivo").innerHTML = 'File';
+                                document.getElementById("botonEliminarImagen").hidden = true;
+                            }}>
+                                <label className="fas fa-trash" title='Click to add information'></label>
+                            </button>
+                        </div>
+                        <img id="img" src={file} style={{width:'10%'}}/>
+                    </div>
+
                     <EditorTexto/>
                     <textarea
                         name='editorMCE'
                         id="editorMCE"
                         hidden
                     />
-                    {/* subir imagen para convertir a base64 */}
-                    {/* <input type="file" onChange={handleChange}/> */}
-                    <img src={file}/>
-
-                    <input
-                        type="file"
-                        name="myImage"
-                        // Event handler to capture file selection and update the state
-                        onChange={(event) => {
-                        console.log(event.target.files[0]); // Log the selected file
-                        setSelectedImage(event.target.files[0]); // Update the state with the selected file
-                        }}
-                    />
-
-                    <br/>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 </> 
-                : ''}
+                : ubicacion == 'projects' || ubicacion == 'awards' ?
+                <>
+                    <EditorTexto/>
+                    <textarea
+                        name='editorMCE'
+                        id="editorMCE"
+                        hidden
+                    />
+                </>
+                : null }
+
                 <blockquote id='textoMostrar'></blockquote>
                 
-                <div className='teto'>
+                <div className='texto'>
                     {/* { ubicacion == 'home' ? null : <MostrarTexto/> } */}
                     <MostrarTexto/>
                 </div>

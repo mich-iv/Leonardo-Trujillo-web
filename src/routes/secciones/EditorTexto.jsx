@@ -57,12 +57,38 @@ export function EditorTexto({initialValue}) {
             init={{
                 selector: "textarea#editorMCE",
                 forced_root_block: 'texto',
-                newline_behavior: 'linebreak',
+                // newline_behavior: 'linebreak',
                 promotion: false,
                 content_css: "tinymce/skins/content/default/content.min.css, tinymce/skins/ui/oxide/content.min.css",
                 object_resizing: true,
                 image_advtab: true,
                 image_title: true,
+                image_caption: true,
+                image_class_list: [
+                    { title: 'None', value: '' },
+                    { title: 'No border', value: 'img_no_border' },
+                    { title: 'Green border', value: 'img_green_border' },
+                    { title: 'Blue border', value: 'img_blue_border' },
+                    { title: 'Red border', value: 'img_red_border' }
+                ],
+                style_formats: [
+                {
+                    title: 'Image Left',
+                    selector: 'img',
+                    styles: {
+                    float: 'left',
+                    margin: '0 10px 0 10px'
+                    }
+                },
+                {
+                    title: 'Image Right',
+                    selector: 'img',
+                    styles: {
+                    float: 'right',
+                    margin: '0 10px 0 10px'
+                    }
+                }
+                ],
                 /* enable automatic uploads of images represented by blob or data URIs*/
                 automatic_uploads: true,
                 /*
@@ -73,40 +99,40 @@ export function EditorTexto({initialValue}) {
                 file_picker_types: 'image',
                 /* and here's our custom image picker*/
                 file_picker_callback: (cb, value, meta) => {
-                const input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
-            
-                input.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-            
-                    const reader = new FileReader();
-                    reader.addEventListener('load', () => {
-                    /*
-                        Note: Now we need to register the blob in TinyMCEs image blob
-                        registry. In the next release this part hopefully won't be
-                        necessary, as we are looking to handle it internally.
-                    */
-                    const id = 'blobid' + (new Date()).getTime();
-                    const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-                    const base64 = reader.result.split(',')[1];
-                    const blobInfo = blobCache.create(id, file, base64);
-                    blobCache.add(blobInfo);
-            
-                    /* call the callback and populate the Title field with the file name */
-                    cb(blobInfo.blobUri(), { title: file.name });
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+                
+                    input.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                
+                        const reader = new FileReader();
+                        reader.addEventListener('load', () => {
+                        /*
+                            Note: Now we need to register the blob in TinyMCEs image blob
+                            registry. In the next release this part hopefully won't be
+                            necessary, as we are looking to handle it internally.
+                        */
+                        const id = 'blobid' + (new Date()).getTime();
+                        const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                        const base64 = reader.result.split(',')[1];
+                        const blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+                
+                        /* call the callback and populate the Title field with the file name */
+                        cb(blobInfo.blobUri(), { title: file.name });
+                        });
+                        reader.readAsDataURL(file);
                     });
-                    reader.readAsDataURL(file);
-                });
-            
-                input.click();
+                
+                    input.click();
                 },
                 license_key: 'gpl',
                 min_height: 400,
                 max_height: 900,
-                min_width: 475,
-                width: '80%',
-                max_width: 750,
+                width: '100%',
+                min_width: 400,
+                max_width: 900,
                 menubar: true,
                 statusbar: false,
                 plugins: [
@@ -115,14 +141,44 @@ export function EditorTexto({initialValue}) {
                     'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion', 'autoresize'
                 ],
                 toolbar:[
-                    { name: 'Historial', items: [ 'undo', 'redo' ] },
+                    { name: 'Historial', items: [ 'undo', 'redo', 'customCodeButton' ] },
                     { name: 'Formato', items: [ 'styles', 'fontsizeinput', 'bold', 'italic', 'forecolor', 'backcolor' ] },
                     { name: 'Insertar', items: [ 'link', 'image', 'table', 'accordion' ] },
                     { name: 'Alinear', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                     { name: 'Listas', items: [ 'bullist', 'numlist', 'checklist' ] },
                     { name: 'Sangría', items: [ 'outdent', 'indent' ] },
                     { name: 'Opciones', items: [ 'removeformat', 'help' ] }
-                ]
+                ],
+                setup: (editor) => {
+                    editor.ui.registry.addButton('customCodeButton', {
+                        text: 'Title',
+                        onAction: () => {
+                            const selectedContent = tinymce.activeEditor.selection.getContent( );
+                            console.log('Selected Content:', selectedContent); // Debugging line
+                            const formateoFinal = selectedContent.replace(/&#39/g, '&apos').replace(/&amp;/g, '&');
+                            //removemos acentos y caracteres especiales
+                            
+                            let textoId = formateoFinal.replace(/\s/g, '');
+                            //reemplazamos caractares &aaute; por a, etc
+                            textoId = textoId.replace(/&aacute;/g, 'a');
+                            textoId = textoId.replace(/&eacute;/g, 'e');
+                            textoId = textoId.replace(/&iacute;/g, 'i');
+                            textoId = textoId.replace(/&oacute;/g, 'o');
+                            textoId = textoId.replace(/&uacute;/g, 'u');
+                            textoId = textoId.replace(/&ntilde;/g, 'n');
+                            textoId = textoId.replace(/&Aacute;/g, 'A');
+                            textoId = textoId.replace(/&Eacute;/g, 'E');
+                            textoId = textoId.replace(/&Iacute;/g, 'I');
+                            textoId = textoId.replace(/&Oacute;/g, 'O');
+                            textoId = textoId.replace(/&Uacute;/g, 'U');
+                            textoId = textoId.replace(/&Ntilde;/g, 'N');
+
+                            console.log("formateoFinal "+formateoFinal);
+                            const wrappedContent = `<h2 class="subtitulos" id="titulo${(textoId)}">${(formateoFinal)}</h2>`;
+                            editor.selection.setContent(wrappedContent);
+                        }
+                    });
+                }
             }}
         /> 
       </>

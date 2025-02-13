@@ -154,7 +154,6 @@ export function EditorTexto({initialValue}) {
                         text: 'Title',
                         onAction: () => {
                             const selectedContent = tinymce.activeEditor.selection.getContent( );
-                            console.log('Selected Content:', selectedContent); // Debugging line
                             const formateoFinal = selectedContent.replace(/&#39/g, '&apos').replace(/&amp;/g, '&');
                             //removemos acentos y caracteres especiales
                             
@@ -173,7 +172,6 @@ export function EditorTexto({initialValue}) {
                             textoId = textoId.replace(/&Uacute;/g, 'U');
                             textoId = textoId.replace(/&Ntilde;/g, 'N');
 
-                            console.log("formateoFinal "+formateoFinal);
                             const wrappedContent = `<h2 class="subtitulos" id="titulo${(textoId)}">${(formateoFinal)}</h2>`;
                             editor.selection.setContent(wrappedContent);
                         }

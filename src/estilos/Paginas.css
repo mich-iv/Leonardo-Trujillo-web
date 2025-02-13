@@ -248,7 +248,7 @@ a {
     scroll-margin-top: 6rem;
 }
 
-@media all and (max-width: 890px) {
+@media all and (max-width: 1200px) {
     .item-home{
         flex-wrap: wrap;
     }

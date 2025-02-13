@@ -185,7 +185,7 @@ img{
   }
 }
 
-@media all and (max-width: 890px) {
+@media all and (max-width: 1200px) {
   .botonEditar, .botonEliminar {
     width: 40%;
   }

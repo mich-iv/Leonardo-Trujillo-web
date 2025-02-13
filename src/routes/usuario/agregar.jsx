@@ -377,6 +377,17 @@ export default function Route(){
             console.log(imagenBase64);
             console.log("A VER EL REUSLTSET");
         }else if(ubicacion == 'projects' || ubicacion == 'awards'){
+            //si existe etiqueta <h2> con el id titulo en textoEditor, y es un año (ej. titulo2025), entonces se obtiene el texto
+            //recortando la palabra "titulo" y dejando solamente el año o el texto que tenga por delante
+            if(textoEditor.includes('id="titulo')){
+                var textoEditorTemporal = textoEditor.split('id="titulo');
+                var textoEditorTemporal2 = textoEditorTemporal[1].split('"');
+                var textoEditorTemporal3 = textoEditorTemporal2[0].slice(4, textoEditorTemporal2[0].length);
+                console.log(textoEditorTemporal3);
+                
+                resultMap["TITULO"] = textoEditorTemporal3;
+            }
+
             //si la bandera es editar
             if(document.getElementById('banderaOpcion').value === 'editar'){
                 textoEditor != "" ? resultMap["EDITORTEXT"] = textoEditor : ""

@@ -25,24 +25,16 @@ export default function SeccionesDerecha(){
     }, [])
 
     var marcadores = [];
-    // console.log(ubicacion.pathname);
     
     for (let i = 0; i < campos.length; i++) {
         nombre = campos[i].id;
 
         nombreFormateado = campos[i].innerText;
         
-        console.log(campos);
-        
-        console.log(campos[i].innerText);
-        
-        console.log(nombre);
-        
         if(nombre.startsWith("titulo")){
             nombreKey = "marcador"+i;
             //antes era slice(4, 8), pero se adaptó en el caso de que esta página llegue al año 10000 o más jkaskja
             nombreFiltrado = nombre.slice(6, nombre.length);
-            console.log(nombreFiltrado);
 
             marcadores.push(<HashLink name={nombreKey} key={nombreKey} id={nombreKey} smooth to={ubicacion.pathname+"#titulo"+nombreFiltrado}>
                 {nombreFormateado}</HashLink>);
@@ -79,8 +71,13 @@ export default function SeccionesDerecha(){
     }
     
     return(
-        <div>
-            <div className='menu-navegador'>
+        <>
+        {/* Mostramos los marcadores solo si contienen datos*/}
+            <div style={{
+                    opacity: marcadores.length > 0 ? "1" : "0",
+                    transition: "all 300ms",
+                    visibility: marcadores.length > 0 ? "visible"  : "hidden",
+                }} className='menu-navegador'>
                 <div className='menu-navegador-boton'>
                     <i className="fas fa-bookmark"></i>
                     <div className="menu-navegador-boton-contenido">
@@ -88,6 +85,6 @@ export default function SeccionesDerecha(){
                     </div>
                 </div>
             </div>
-        </div>
+        </> 
     )
 }

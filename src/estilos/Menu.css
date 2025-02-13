@@ -68,6 +68,7 @@
 
 .menu-secciones-derecha-boton-imagen {
   width: 1.5em;
+  border-radius: 0.25rem;
 }
 
 .menu-desplegar {
@@ -134,6 +135,7 @@
   bottom: 0.5rem;
   left: 0.5rem;
   border-radius: 50%;
+  transition: 500ms;
 }
 .menu-navegador-boton{
   border-radius: 100%;
@@ -281,7 +283,7 @@
   }
 }
 
-@media (max-width: 920px) {
+@media (max-width: 1200px) {
   .checkbtn {
     display: block;
   }

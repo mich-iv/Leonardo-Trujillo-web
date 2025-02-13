@@ -59,8 +59,14 @@ export function MostrarTexto (props) {
                 //si caemos en la página principal
                 //solo mostramos la informacion completa
                 ordenarPor = coleccion;
-            }else if(ubicacion === "code" || ubicacion === "projects" || ubicacion === "awards"){
+            }else if(ubicacion === "code"){
                 //si caemos en la página de código, entonces ordenar por fecha de creación
+                ordenarPor = query(coleccion, orderBy("DATEADD", "desc"));
+            }else if(ubicacion === "projects" || ubicacion === "awards"){
+                //si caemos en la página de projects o awards, entonces ordenar por fecha de creación
+                ordenarPor = query(coleccion, orderBy("TITULO", "desc"));
+            }else if(ubicacion === "projects"){
+                //si caemos en la página de projects o awards, entonces ordenar por fecha de creación
                 ordenarPor = query(coleccion, orderBy("DATEADD", "desc"));
             }else{
                 //si caemos en cualquier otra página, entonces ordenar por año

@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import '../../estilos/Paginas.css';
-import { useLoaderData, useLocation } from 'react-router-dom';
-import {bd, collection, getDocs, doc, getDoc} from '../../../firebase.jsx';
-
+import React from 'react'
 import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 export default function Route(){
-
-    var ubicacion = "students";
     return(
         <>
             <h1 className='titulos'>
@@ -15,7 +9,7 @@ export default function Route(){
             </h1>
 
             <div id={'asddas'} key={Math.random()} className='textos-columnas'>
-                <MostrarTexto key={2823542} ubicacion={ubicacion}/>
+                <MostrarTexto/>
             </div>
         </>
     )

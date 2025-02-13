@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import '../../estilos/Paginas.css';
-
+import React from 'react';
 import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 export default function Route(){
-
     return(
         <>
             <h1 className='titulos'>

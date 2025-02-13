@@ -1,40 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-// import './App.css'
-// import './estilos/Paginas.css';
 import Menu from './routes/Menu.jsx'
-
-import {createHashRouter, Outlet, RouterProvider} from 'react-router-dom'
-import { BrowserRouter } from 'react-router-dom'
-
-import Home from './routes/secciones/home.jsx'
-import Awards from './routes/secciones/awards.jsx'
-import BookChapters from './routes/secciones/bookChapters.jsx'
-import JournalPublications from './routes/secciones/journalPublications.jsx'
-import ConferencePapers from './routes/secciones/conferencePapers.jsx'
-import Projects from './routes/secciones/projects.jsx'
-
-// import './estilos/App.css';
-// import './estilos/Menu.css';
-import { useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 
-// window.addEventListener("touchstart", (event) => {
-//   if (event.touches.length === 3) {
-//     alert('3-finger touch detected');
-//   }
-// });
+import '../src/estilos/Paginas.css';
 
 function App() {
   return(
     <HelmetProvider>
       <div className='secciones'>
-        <div className='cabecera2'>
+        <div className='cabecera'>
           <Menu/>
         </div>
 
-        <div className='cuerpo2'>
+        <div className='cuerpo'>
           <br/>
           <br/>
           <br/>
@@ -42,7 +20,9 @@ function App() {
         </div>
 
         <div className='pie'>
-          {/* <p>Footer</p> */}
+          <div className='pie-texto'>
+            2025 © All rights reserved
+          </div>
         </div>
       </div>
     </HelmetProvider>

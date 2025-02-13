@@ -6,7 +6,7 @@
   font-weight: 400;
 }
 
-.cabecera {
+/* .cabecera {
   top: 0;
   left: 0;
   height: 3em;
@@ -15,9 +15,9 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-}
+} */
 
-.cabecera2{
+.cabecera{
   width: 100%;
   background-color: #64af9f;
 }
@@ -30,11 +30,27 @@
   /* background-color: #213547; */
 }
 
-.cuerpo2 {
+.cuerpo {
   top: 1rem;
   /* padding-top: 3rem; */
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
+
+.pie{
+  width: 100%;
+  position: relative;
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  /* background-color: #64af9f; */
+  display: flex;
+  justify-content: center;
+  align-items:end;
+  height: 3em;
+}
+.pie-texto{
+  color: #d6d4d4;
 }
 
 a, h2 {

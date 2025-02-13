@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import '../estilos/App.css';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function Menu() {
   var habilitar = true;
@@ -12,7 +9,6 @@ export default function Menu() {
   const sesion = getAuth(); // Obtiene la sesión de autenticación
 
   // Variables de estado para almacenar los datos del usuario
-  const [correo, setCorreo] = useState('');
   const [nombre, setNombre] = useState('');
   const [foto, setFoto] = useState('');
   const [token, setToken] = useState('');
@@ -31,8 +27,6 @@ export default function Menu() {
       setMostrarBoton(prev => !prev);
     }
   };
-
-
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyboard)
@@ -75,7 +69,6 @@ export default function Menu() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(sesion, (usuario) => {
       if (usuario) {
-        setCorreo(usuario.email);       //asignamos datos obtenidos a las variables
         setNombre(usuario.displayName);
         setFoto(usuario.photoURL);
         setToken(usuario.accessToken);
@@ -89,42 +82,8 @@ export default function Menu() {
 
   const location = useLocation(); // Obtiene la ubicación actual
 
-  //cada que se haga click en un link o fuera del menú desplegable, este se cerrará
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     const menu = document.querySelector('.menu-desplegable');
-  //     const checkbox = document.getElementById('check');
-  //     if (menu && checkbox && !menu.contains(event.target)) {
-  //       checkbox.checked = false;
-  //     }
-  //   };
-
-  //   document.addEventListener('click', handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
-
-  // document.querySelectorAll('.menu-secciones').forEach(item => {
-  //   item.addEventListener('click', () => {
-  //     document.getElementById('check').checked = false;
-  //   });
-  // });
-
-  // document.querySelectorAll('.menu-secciones-derecha').forEach(item => {
-  //   item.addEventListener('click', () => {
-  //     document.getElementById('check').checked = false;
-  //   });
-  // });
-  
-  // document.querySelectorAll('.cuerpo2').forEach(item => {
-  //   item.addEventListener('click', () => {
-  //     document.getElementById('check').checked = false;
-  //   });
-  // });
-
-  //obtenemos la ubicacion actual desde el url y lo formateamos con espacios con la siguiente lista de secciones'
+  //obtenemos la ubicacion actual desde el url 
+  // y lo formateamos con espacios con la siguiente lista de secciones'
 
   let ubicacion = useLocation(); // Obtiene la ubicación actual
 
@@ -148,14 +107,12 @@ export default function Menu() {
     ubicacion = 'Code';
   }
 
-  console.log(ubicacion);
-
   useEffect(() => {
     const handleClick = () => {
       document.getElementById('check').checked = false;
     };
 
-    const menuItems = document.querySelectorAll('.menu-secciones, .menu-secciones-derecha, .cuerpo2');
+    const menuItems = document.querySelectorAll('.menu-secciones, .menu-secciones-derecha, .cuerpo');
     menuItems.forEach(item => {
       item.addEventListener('click', handleClick);
     });
@@ -208,13 +165,12 @@ export default function Menu() {
                       window.location.reload(); // Recarga la página al cerrar sesión
                     }}
                   >
-                    <img className='menu-secciones-derecha-boton-imagen' alt="foto" referrerPolicy="no-referrer" src={foto} />
+                    <img className='menu-secciones-derecha-boton-imagen' alt="foto" referrerPolicy="no-referrer" src={foto}/>
                     Log out
                   </button>
                 ) : (
                   <Link className="menu-secciones-derecha" style={{float: 'right', display: mostrarBoton ? 'flex' : 'none'}} to="/login">Login</Link> // Enlace a la página de inicio de sesión si no hay token
                 )}
-              {/* </div> */}
               {
                 // mostrar el botón solo si la ruta es diferente de "agregar"
                 // porque de no evaluar, podríamos entrar en un loop de

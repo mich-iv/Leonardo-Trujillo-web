@@ -1,3 +1,4 @@
+//para convertir una imagen a base64
 export const convertirBase64 = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

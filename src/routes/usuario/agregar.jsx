@@ -9,16 +9,12 @@ import {EditorTexto} from '../../routes/secciones/EditorTexto.jsx';
 
 import '../../estilos/Menu.css';
 
-import '../../estilos/Paginas.css';
-
 import parse from 'bibtex-parser';
 import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
 
 import tinymce from 'tinymce/tinymce.min.js';
 //importamos js para convertir a base64
 import { convertirBase64 } from '../../Componentes/convertirBase64.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { use } from 'react';
 
 export default function Route(){
     //obtenemos la ruta actual del url
@@ -110,8 +106,6 @@ export default function Route(){
         const repoUrl = `https://api.github.com/repos/${usuarioGH}/${repositorioGH}`;
 
         document.getElementById("infoGitMostrar").innerHTML = '';
-        console.log(link);
-        
 
         // Fetch para obtener la información del repositorio
         fetch(repoUrl, {
@@ -268,15 +262,8 @@ export default function Route(){
     const submit = (e) => {
 
         convertirBase64(selectedImage).then(base64 => {
-            console.log("imagen METODO base64");
-            console.log(base64);
             setImagenPerfil(base64);
             imagenBase64 = base64;
-            resultMap["IMGPERF"] = base64;
-            // console.log("imagenbase en funcion del input"+imagenBase64);
-            console.log(resultMap["IMGPERF"]);
-            
-            
         }).catch(error => {
             console.error('Error:', error);
         });
@@ -366,16 +353,10 @@ export default function Route(){
             }
         }else if(ubicacion == 'home'){
             let imagenTemporal;
-            // console.log(document.getElementById('banderaOpcion').value);
 
             // si la ubicación es home, entonces se obtiene la información del editor de texto
             resultMap["EDITORTEXT"] = textoEditor;
-
             resultMap["IMAGENPERFIL"] = imagenPerfil;
-
-            console.log("HAY IMAGENNNN");
-            console.log(imagenBase64);
-            console.log("A VER EL REUSLTSET");
         }else if(ubicacion == 'projects' || ubicacion == 'awards'){
             //si existe etiqueta <h2> con el id titulo en textoEditor, y es un año (ej. titulo2025), entonces se obtiene el texto
             //recortando la palabra "titulo" y dejando solamente el año o el texto que tenga por delante
@@ -383,7 +364,6 @@ export default function Route(){
                 var textoEditorTemporal = textoEditor.split('id="titulo');
                 var textoEditorTemporal2 = textoEditorTemporal[1].split('"');
                 var textoEditorTemporal3 = textoEditorTemporal2[0].slice(4, textoEditorTemporal2[0].length);
-                console.log(textoEditorTemporal3);
                 
                 resultMap["TITULO"] = textoEditorTemporal3;
             }
@@ -646,7 +626,6 @@ export default function Route(){
                             id="subirImagen"
                             // Event handler to capture file selection and update the state
                             onChange={(event) => {
-                                console.log(event.target.files[0]); // Log the selected file
                                 setSelectedImage(event.target.files[0]); // Update the state with the selected file
                                 document.getElementById("nombreArchivo").innerHTML = event.target.files[0].name;
                                 //mostramos la imagen en img

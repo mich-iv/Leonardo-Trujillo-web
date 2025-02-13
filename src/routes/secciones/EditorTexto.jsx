@@ -1,7 +1,7 @@
-import React, { useEffect, useState , useRef } from 'react';
+import { React, useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-import parse from 'html-react-parser';
+// import parse from 'html-react-parser';
 
 // TinyMCE so the global var exists
 /* eslint-disable-next-line no-unused-vars */
@@ -17,6 +17,7 @@ import 'tinymce/models/dom';
 import 'tinymce/skins/ui/oxide/skin.min.css';
 
 // importing the plugin js.
+// import 'tinymce/plugins/';
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/accordion';
 import 'tinymce/plugins/autolink';
@@ -36,12 +37,10 @@ import 'tinymce/plugins/table';
 import 'tinymce/plugins/help/';
 import 'tinymce/plugins/help/plugin.js';
 import 'tinymce/plugins/help/js/i18n/keynav/en.js';
-import 'tinymce/plugins/visualblocks';
+// import 'tinymce/plugins/visualblocks';
 import 'tinymce/plugins/preview';
-import 'tinymce/plugins/save';
+// import 'tinymce/plugins/save';
 import 'tinymce/plugins/autoresize';
-
-import '../../estilos/Paginas.css';
 
 export function EditorTexto({initialValue}) {
     const editorRef = useRef(null);

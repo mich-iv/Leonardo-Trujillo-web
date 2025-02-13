@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import {auth, doc, provider} from "../../../firebase.jsx";
+import { React, useEffect, useState } from 'react';
+import {auth, provider} from "../../../firebase.jsx";
 import {signInWithPopup, GoogleAuthProvider, getAuth, onAuthStateChanged} from "firebase/auth";
-import {useNavigate} from 'react-router-dom'
-import { set } from 'firebase/database';
+import {useNavigate} from 'react-router-dom';
 
 export default function Route(){
     const navigate = useNavigate();
     
     //declaramos vairables para datos de usuario
-    const [correo, setCorreo] = useState("");
     const [nombre, setNombre] = useState('');
     const [foto, setFoto] = useState("");
     const [estatus, setEstatus] = useState('Account not signed');
@@ -63,7 +61,6 @@ export default function Route(){
     useEffect(() => {
         onAuthStateChanged(sesion, (usuario) => {
         if (usuario) {
-            // setCorreo(usuario.email);
             setNombre(usuario.displayName);
             setFoto(usuario.photoURL);
             // setToken(usuario.accessToken);

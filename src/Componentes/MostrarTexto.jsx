@@ -139,22 +139,16 @@ export function MostrarTexto (props) {
                     document.getElementById("programaAlumno").value = data.programaAlumno;
                     document.getElementById("institucionAlumno").value = data.institucionAlumno;
                 }else if(parent.document.getElementById('DOI')){
-                    console.log("hay DOI");
                     document.getElementById("DOI").value = data.DOI;
                 }else if(ubicacion === "code" || ubicacion === "home"){
-                    console.log(parse(data.EDITORTEXT));
-                    
                     // si es la página de código o de inicio, entonces mostrar los datos
                     data.URLGH !== "" ? document.getElementById("githubLink").value = data.URLGH : document.getElementById("githubLink").value = "";
                     data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent((data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
                 }else if(ubicacion === "projects" || ubicacion === "awards"){
                     data.EDITORTEXT !== undefined ? tinymce.activeEditor.setContent((data.EDITORTEXT)) : tinymce.activeEditor.setContent('');
                 }
-
-                
                 // marcamos la bandera para editar
                 document.getElementById("banderaOpcion").value = "editar";
-
             }else if(evento.target.value === 'eliminar'){
                 eliminar(bd, ubicacion, evento.target.id);
             }
@@ -172,22 +166,17 @@ export function MostrarTexto (props) {
         var contenidoAnios = [];
         Object.keys(datos).forEach(clave => {
             anioActual = datos[clave].YEAR;
-            // console.log("Entrada - " + anioActual);
             // 2030 == 2030?
             if(anioViejo == anioActual){
-                // console.log("TRUE - " + anioViejo +":"+ anioActual);
                 //VERDADERO: entonces no agregues nada, porque al desplegar años nos saldrían dos h2 de 2030, cuando los queremos AGRUPADOS.
                 contenidoAnios.push(<h2 className="subtitulos" key={""} id={""}>{""}</h2>);
             }else{//2030 == 2029?
-                // console.log("FALSE - " + anioViejo +":"+ anioActual);
                 //FALSO: entonces agrega el nuevo año que está recorriendo; 2029
                 contenidoAnios.push(<h2 className="subtitulos" key={datos[clave].YEAR} id={"year"+datos[clave].YEAR}>{datos[clave].YEAR}</h2>);
             }
             //aqui está el truco; asignamos el año viejo hasta el final para que el forEach al regresar, lea el año viejo y lo compare con el nuevo
-            // console.log(contenidoAnios);
             anioViejo = anioActual;
         });
-
 
         if (location.pathname.endsWith('students')) {
             const grados = {
@@ -262,7 +251,6 @@ export function MostrarTexto (props) {
             return(
                 <>
                     <div className='item-home-contenido'>
-                        {console.log(datos)}
                         {datos[0] === undefined ? null : 
                         <img className='item-home-contenido-img' src={datos[0].IMAGENPERFIL}/>}
                         <div className='item-home-links'>
@@ -330,8 +318,6 @@ export function MostrarTexto (props) {
                 <div key={69} id='69'>
                     {Object.entries(datos).map(([key, value]) => (
                         [
-                            console.log(datos)
-                            
                             /* añadimos el titulo por año
                             si el arreglo trae el año repetido (''), entonces no muestres nada */,
 
@@ -343,10 +329,9 @@ export function MostrarTexto (props) {
                                 {location.pathname.endsWith('code') || location.pathname.endsWith('projects') || location.pathname.endsWith('awards') ? null : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
                                 {location.pathname.endsWith('bookChapters') ? 
-                                value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
                                 <>
                                     {/* 
-                                    si valor(value.TITLE) es diferente de vacío o undefined, entonces ("?")
+                                    si valor(value.AUTHOR) es diferente de vacío o undefined, entonces ("?")
                                     muestra lo que trae,
                                     si no (else, o dos puntos ":"), no muestres nada ('') 
                                     */}
@@ -364,9 +349,8 @@ export function MostrarTexto (props) {
                                     <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
                                 : location.pathname.endsWith('journalPublications') ? 
-                                value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
                                 <>
-                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, '}
                                     {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
                                     {value.JOURNAL !== undefined || value.BOOKTITLE !== undefined ? ("in ") : ''}
                                     {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
@@ -383,7 +367,7 @@ export function MostrarTexto (props) {
                                 : location.pathname.endsWith('conferencePapers') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' : 
                                 <>
-                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, '}
                                     {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
                                     {value.BOOKTITLE !== undefined || value.JOURNAL !== undefined ? ("in ") : ''}
                                     {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
@@ -398,7 +382,7 @@ export function MostrarTexto (props) {
                                 : location.pathname.endsWith('books') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
                                 <>
-                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : ''}
+                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, '}
                                     <i>{value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}</i>
                                     {value.EDITION !== undefined  ? (value.EDITION  + ", ") : ''}
                                     {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
@@ -423,20 +407,19 @@ export function MostrarTexto (props) {
                                 : location.pathname.endsWith('projects') || location.pathname.endsWith('awards') ?
                                 <>
                                     {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}
-                                    
                                 </>
                                 :
                                 <>
-                                    {/* si no es ninguno de los anteriores, solo muestra el texto*/}
+                                    {/* si no es ninguno de los anteriores, no muestres nada*/}
                                 </> }
-                                { location.pathname.startsWith("/agregar/") ?
+                                { 
+                                    location.pathname.startsWith("/agregar/") ?
                                     <div className='opciones' key={`opciones${value.id}`}>
                                         <button className="botonEditar" key={"editar"} id={value.id} value="editar" onClick={mostrarOpciones}>Edit</button>
                                         <button className="botonEliminar" key={"eliminar"} id={value.id} value="eliminar" onClick={mostrarOpciones}>Delete</button>
                                     </div>
                                     : null
                                 }
-                                
                             </div>,
                         ]
                         ))}

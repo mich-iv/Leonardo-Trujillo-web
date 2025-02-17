@@ -19,11 +19,10 @@ function App() {
           <Outlet/>
         </div>
 
-        <div className='pie'>
+        {/* <div className='pie'>
           <div className='pie-texto'>
-            {/* 2025 © All rights reserved */}
           </div>
-        </div>
+        </div> */}
       </div>
     </HelmetProvider>
   )

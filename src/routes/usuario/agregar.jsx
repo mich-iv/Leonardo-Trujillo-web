@@ -45,7 +45,7 @@ export default function Route(){
 
     const [selectedImage, setSelectedImage] = useState();
 
-    var informacionEncontrada = false;
+    let informacionEncontrada = false;
 
     var imagenBase64 = '';
     var repositoryGH = '';
@@ -157,6 +157,7 @@ export default function Route(){
                     document.getElementById("confirmacion").innerHTML = "Information not found";
                 throw new Error('Error en la solicitud');
                 }
+                informacionEncontrada = true;
                 // Convertir la respuesta a JSON
                 return response.blob();
             })
@@ -261,12 +262,7 @@ export default function Route(){
     // Función para enviar la información a la base de datos
     const submit = (e) => {
 
-        convertirBase64(selectedImage).then(base64 => {
-            setImagenPerfil(base64);
-            imagenBase64 = base64;
-        }).catch(error => {
-            console.error('Error:', error);
-        });
+        
 
         // Obtener el contenido del editor de texto
         if(tinymce.activeEditor != null){
@@ -352,6 +348,13 @@ export default function Route(){
                 }
             }
         }else if(ubicacion == 'home'){
+            convertirBase64(selectedImage).then(base64 => {
+                setImagenPerfil(base64);
+                imagenBase64 = base64;
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+
             let imagenTemporal;
 
             // si la ubicación es home, entonces se obtiene la información del editor de texto
@@ -363,7 +366,7 @@ export default function Route(){
             if(textoEditor.includes('id="titulo')){
                 var textoEditorTemporal = textoEditor.split('id="titulo');
                 var textoEditorTemporal2 = textoEditorTemporal[1].split('"');
-                var textoEditorTemporal3 = textoEditorTemporal2[0].slice(4, textoEditorTemporal2[0].length);
+                var textoEditorTemporal3 = textoEditorTemporal2[0];
                 
                 resultMap["TITULO"] = textoEditorTemporal3;
             }
@@ -515,11 +518,11 @@ export default function Route(){
                     <button className="botonForma" onClick={()=>{if(linkLabel != ''){getInfoGitHub(linkLabel)}}} title='Click to get information from GitHub'>Get information</button>
                     <br/>
                     
-                    <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{display: 'flex', flexWrap: 'wrap', gap: '1rem'}}>
                         <div style={{maxWidth: '450px'}} id='infoGitMostrar'></div>
                         <div>
                             <label id="confirmacion" style={{maxWidth: '450px'}}></label>
-                            <div style={{maxWidth: '450px', border: '1px solid'}} id='imagenMostrar'></div>
+                            <div style={{maxWidth: '450px'}} id='imagenMostrar'></div>
                         </div>
                         
                     </div>
@@ -617,8 +620,8 @@ export default function Route(){
                 <>
                 <div className="contenedor-home-agregar">
                     <div className='item-home-subir'>
-                        <b>Upload a profile picture</b>
-                        <label htmlFor="subirImagen" title='Upload a profile picture' className="fas fa-upload"></label>
+                        <b>Upload an image</b>
+                        <label htmlFor="subirImagen" title='Upload an image' className="fas fa-upload"></label>
                         {/* subir imagen para convertir a base64 */}
                         <input
                             type="file"
@@ -647,7 +650,7 @@ export default function Route(){
                                 <label className="fas fa-trash" title='Click to add information'></label>
                             </button>
                         </div>
-                        <img id="img" src={file} style={{width:'10%'}}/>
+                        <img id="img" src={file} style={{width:'100%'}}/>
                     </div>
 
                     <EditorTexto/>

@@ -38,7 +38,7 @@ import 'tinymce/plugins/help/plugin.js';
 import 'tinymce/plugins/help/js/i18n/keynav/en.js';
 import 'tinymce/plugins/visualblocks';
 import 'tinymce/plugins/preview';
-// import 'tinymce/plugins/save';
+import 'tinymce/plugins/save';
 import 'tinymce/plugins/autoresize';
 
 export function EditorTexto({initialValue}) {
@@ -68,24 +68,6 @@ export function EditorTexto({initialValue}) {
                     { title: 'Green border', value: 'img_green_border' },
                     { title: 'Blue border', value: 'img_blue_border' },
                     { title: 'Red border', value: 'img_red_border' }
-                ],
-                style_formats: [
-                {
-                    title: 'Image Left',
-                    selector: 'img',
-                    styles: {
-                    float: 'left',
-                    margin: '0 10px 0 10px'
-                    }
-                },
-                {
-                    title: 'Image Right',
-                    selector: 'img',
-                    styles: {
-                    float: 'right',
-                    margin: '0 10px 0 10px'
-                    }
-                }
                 ],
                 /* enable automatic uploads of images represented by blob or data URIs*/
                 automatic_uploads: true,
@@ -139,17 +121,19 @@ export function EditorTexto({initialValue}) {
                     'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'accordion', 'autoresize'
                 ],
                 toolbar:[
-                    { name: 'Historial', items: [ 'undo', 'redo', 'customCodeButton' ] },
+                    { name: 'Historial', items: [ 'undo', 'redo' ] },
+                    { name: 'Title', items: [ 'customCodeButton' ] },
                     { name: 'Formato', items: [ 'styles', 'fontsizeinput', 'bold', 'italic', 'forecolor', 'backcolor' ] },
                     { name: 'Insertar', items: [ 'link', 'image', 'table', 'accordion' ] },
                     { name: 'Alinear', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                     { name: 'Listas', items: [ 'bullist', 'numlist', 'checklist' ] },
-                    { name: 'Sangría', items: [ 'outdent', 'indent' ] },
                     { name: 'Opciones', items: [ 'removeformat', 'help' ] }
                 ],
                 setup: (editor) => {
                     editor.ui.registry.addButton('customCodeButton', {
                         text: 'Title',
+                        icon: 'bookmark',
+                        tooltip: 'Select text to mark as a title',
                         onAction: () => {
                             const selectedContent = tinymce.activeEditor.selection.getContent( );
                             const formateoFinal = selectedContent.replace(/&#39/g, '&apos').replace(/&amp;/g, '&');
@@ -170,7 +154,8 @@ export function EditorTexto({initialValue}) {
                             textoId = textoId.replace(/&Uacute;/g, 'U');
                             textoId = textoId.replace(/&Ntilde;/g, 'N');
 
-                            const wrappedContent = `<h2 className="subtitulos" id="titulo${(textoId)}">${(formateoFinal)}</h2>`;
+                            const wrappedContent = `<h2 id="titulo${(textoId)}" class="subtitulos">${(formateoFinal)}</h2>`;
+                            
                             editor.selection.setContent(wrappedContent);
                         }
                     });

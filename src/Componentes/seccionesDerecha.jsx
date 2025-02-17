@@ -28,7 +28,6 @@ export default function SeccionesDerecha(){
     
     for (let i = 0; i < campos.length; i++) {
         nombre = campos[i].id;
-
         nombreFormateado = campos[i].innerText;
         
         if(nombre.startsWith("titulo")){

@@ -109,7 +109,9 @@
 
 .item-home-subir{
     color: #25627A;
-    /* max-width: 50%; */
+    width: 10rem;
+    /* max-width: 100%; */
+    text-align: center;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -133,6 +135,22 @@
     gap: 1rem;
     grid-template-columns: 50% auto;
     /* border: 1px solid rgba(0, 0, 0, 0.8); */
+}
+.informacion-dialogo{
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1rem;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .columnas-contenido{

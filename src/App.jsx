@@ -21,7 +21,7 @@ function App() {
 
         <div className='pie'>
           <div className='pie-texto'>
-            2025 © All rights reserved
+            {/* 2025 © All rights reserved */}
           </div>
         </div>
       </div>

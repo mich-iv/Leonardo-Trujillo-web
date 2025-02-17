@@ -17,7 +17,6 @@ import 'tinymce/models/dom';
 import 'tinymce/skins/ui/oxide/skin.min.css';
 
 // importing the plugin js.
-// import 'tinymce/plugins/';
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/accordion';
 import 'tinymce/plugins/autolink';
@@ -37,7 +36,7 @@ import 'tinymce/plugins/table';
 import 'tinymce/plugins/help/';
 import 'tinymce/plugins/help/plugin.js';
 import 'tinymce/plugins/help/js/i18n/keynav/en.js';
-// import 'tinymce/plugins/visualblocks';
+import 'tinymce/plugins/visualblocks';
 import 'tinymce/plugins/preview';
 // import 'tinymce/plugins/save';
 import 'tinymce/plugins/autoresize';
@@ -171,7 +170,7 @@ export function EditorTexto({initialValue}) {
                             textoId = textoId.replace(/&Uacute;/g, 'U');
                             textoId = textoId.replace(/&Ntilde;/g, 'N');
 
-                            const wrappedContent = `<h2 class="subtitulos" id="titulo${(textoId)}">${(formateoFinal)}</h2>`;
+                            const wrappedContent = `<h2 className="subtitulos" id="titulo${(textoId)}">${(formateoFinal)}</h2>`;
                             editor.selection.setContent(wrappedContent);
                         }
                     });

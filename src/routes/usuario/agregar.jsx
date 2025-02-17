@@ -618,7 +618,7 @@ export default function Route(){
                 <div className="contenedor-home-agregar">
                     <div className='item-home-subir'>
                         <b>Upload a profile picture</b>
-                        <label htmlFor="subirImagen" title='Upload a profile picture' class="fas fa-upload"></label>
+                        <label htmlFor="subirImagen" title='Upload a profile picture' className="fas fa-upload"></label>
                         {/* subir imagen para convertir a base64 */}
                         <input
                             type="file"

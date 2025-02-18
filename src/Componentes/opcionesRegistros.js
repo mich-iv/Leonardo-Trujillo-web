@@ -1,29 +1,17 @@
-import { doc, deleteDoc, collection, setDoc, updateDoc } from "firebase/firestore";
-import { useLocation } from 'react-router-dom';
+import { doc, deleteDoc, collection, setDoc } from "firebase/firestore";
 
 // Funciones para editar, eliminar y agregar registros
 
-export function editar(bd, ubicacion, id, resultMap) {
-    const documento = doc(bd, ubicacion, id);
-
+export function editar(resultMap) {
     const updatedFields = {};
     Object.keys(resultMap).forEach(key => {
         updatedFields[key] = resultMap[key];
     });
-
-    // updateDoc(documento, updatedFields)
-    // .then(() => {
-    //     alert('Información actualizada');
-    //     // location.reload();
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    // });
 }
 
 export function eliminar(bd, ubicacion, id) {
     const documento = doc(bd, ubicacion, id);
-    if (confirm("¿Eliminar registro?") == true) {
+    if (confirm("Delete information?") == true) {
         deleteDoc(documento)
         .then(() => {
             location.reload();
@@ -44,10 +32,10 @@ export function agregar(resultMap, bd, ubicacion){
         - Además, el id lo obtenemos de la base para actualizar el mismo registro
         */
         const documento = doc(collection(bd, ubicacion));
-            setDoc(documento, resultMap
-            ).then(() => {
-                alert('Información actualizada')
-                // navigate(-1);
+            setDoc(documento, resultMap)
+            .then(() => {
+                alert('Updated information')
+                location.reload();
             }).catch((error) => {
                 console.error(error);
             });

@@ -117,12 +117,12 @@ export function MostrarTexto (props) {
     //esta función se quedó aquí porque aún no sé cómo mandar parámetros
     //a otras partes de React XD
     window.mostrarOpciones = (evento) => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
         if(location.pathname.startsWith("/agregar/")){
             document.getElementById("banderaOpcion").value = null;
-
+            
             //si el valor del botón es editar, entonces muestra los datos en los campos
             if(evento.target.value === 'editar'){
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 const id = evento.target.id;
                 const data = datos.find(d => d.id === id);
 

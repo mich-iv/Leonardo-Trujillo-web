@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import '../estilos/App.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
+
 export default function Menu() {
   var habilitar = true;
   //método para obtener datos del usuario con sesión iniciada
@@ -129,8 +132,7 @@ export default function Menu() {
       <div className="menu">
         <input type="checkbox" id="check"></input>
         <label htmlFor="check" className="checkbtn">
-          {/* <FontAwesomeIcon icon="bars" /> */}
-          <i className="fas fa-bars"></i>
+          <FontAwesomeIcon icon={faBars} className="fas fa-bars"/>
         </label>
 
         <div className='menu-desplegar'>
@@ -176,8 +178,8 @@ export default function Menu() {
                 // porque de no evaluar, podríamos entrar en un loop de
                 // /agregar/agregar/books/ al dejarnos dar click en la misma seccion
                 !token ? '':
-                !location.pathname.startsWith('/agregar/') ? 
-                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname}><p className='agregarMas' title='Add information'><i className="fas fa-pen"></i></p></Link> :
+                !location.pathname.startsWith('/agregar/') ?
+                <Link className="agregar" to={(location.pathname.endsWith('/')) ? 'agregar/home' : '/agregar'+location.pathname} title='Add information'><FontAwesomeIcon icon={faPen} title='Add information' className="fas fa-pen"/></Link> :
                 habilitar = false
               }
             </div>

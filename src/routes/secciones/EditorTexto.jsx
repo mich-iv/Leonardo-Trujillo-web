@@ -54,6 +54,7 @@ export function EditorTexto({initialValue}) {
             onInit={(evt, editor) => editorRef.current = editor}
             init={{
                 selector: "textarea#editorMCE",
+                resize: 'both',
                 forced_root_block: 'texto',
                 // newline_behavior: 'linebreak',
                 promotion: false,

@@ -17,6 +17,9 @@ import tinymce from 'tinymce/tinymce.min.js';
 //importamos js para convertir a base64
 import { convertirBase64 } from '../../Componentes/convertirBase64.js';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+
 export default function Route(){
     //obtenemos la ruta actual del url
     const { ubicacion } = useParams();
@@ -496,9 +499,13 @@ export default function Route(){
                 <input id='banderaOpcion' type="hidden"/>
                 <input id='id' type="hidden"/>
 
-                <h2 style={{fontSize: '2rem', color: 'black'}}>
-                    Add information to "{tituloUbicacion}"
-                </h2>
+                {/* botón para regresar */}
+                <h1 className='subtitulos'>
+                    <a onClick={()=>{navigate(-1)}} title='Click to return'><FontAwesomeIcon icon={faArrowLeft} color='#64af9f'/></a>
+                    <br/>
+                    
+                    <label>Add information to "{tituloUbicacion}"</label>
+                </h1>
                 
                 {/* <h2>Update information</h2> */}
 
@@ -681,11 +688,10 @@ export default function Route(){
                 <blockquote id='textoMostrar'></blockquote>
                 
                 <div className='texto'>
-                    {/* { ubicacion == 'home' ? null : <MostrarTexto/> } */}
                     <MostrarTexto/>
                 </div>
 
-                <a className="listo" onMouseUp={submit} title='Click to add information'><i className="fas fa-check"/></a>
+                <a className="listo" onMouseUp={submit} title='Click to add information'><FontAwesomeIcon icon={faCheck} color='#64af9f' className="fas fa-check"/></a>
             </div>
         </div>
     )

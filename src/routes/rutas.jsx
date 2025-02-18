@@ -20,7 +20,7 @@ export default function Rutas(){
     {
         path:'/',
         element: <App style={"secciones"}/>,
-        errorElement: <Error/>,
+        errorElement: <Error style={"secciones"}/>,
         children: [
         {
             path:'/',

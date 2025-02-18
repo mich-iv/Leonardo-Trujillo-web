@@ -59,7 +59,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
-    flex-basis: 40%;
+    flex-basis: 35%;
     /* align-self: top; */
 }
 .item-home-contenido-img {
@@ -147,10 +147,12 @@
 }
 .informacion{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
+    color: rgb(123, 123, 123);
 }
 .informacion-fondo{
     height: 60%;
@@ -177,7 +179,6 @@
     color: rgb(123, 123, 123);
     border-radius: 100%;
     padding: 0.5rem;
-    margin-bottom: 5rem;
     cursor: pointer;
     transition: 200ms;
     -webkit-tap-highlight-color: transparent;

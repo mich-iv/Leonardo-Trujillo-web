@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bd, collection, doc, getDocs } from '../../../firebase.jsx';
+import { bd } from '../../../firebase.jsx';
 import { setDoc, updateDoc } from 'firebase/firestore';
+import { collection,getDocs, doc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import {EditorTexto} from '../../routes/secciones/EditorTexto.jsx';
@@ -348,18 +349,17 @@ export default function Route(){
                 }
             }
         }else if(ubicacion == 'home'){
-            convertirBase64(selectedImage).then(base64 => {
-                setImagenPerfil(base64);
-                imagenBase64 = base64;
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-
-            let imagenTemporal;
-
+            if(selectedImage){
+                convertirBase64(selectedImage).then(base64 => {
+                    setImagenPerfil(base64);
+                    imagenBase64 = base64;
+                    resultMap["IMAGENPERFIL"] = imagenPerfil;
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            }
             // si la ubicación es home, entonces se obtiene la información del editor de texto
             resultMap["EDITORTEXT"] = textoEditor;
-            resultMap["IMAGENPERFIL"] = imagenPerfil;
         }else if(ubicacion == 'projects' || ubicacion == 'awards'){
             //si existe etiqueta <h2> con el id titulo en textoEditor, y es un año (ej. titulo2025), entonces se obtiene el texto
             //recortando la palabra "titulo" y dejando solamente el año o el texto que tenga por delante
@@ -414,7 +414,7 @@ export default function Route(){
                     updateDoc(documentoActualizado, resultMap)
                     .then(() => {
                         alert('Updated information');
-                        // location.reload();
+                        location.reload(); //actualizamos la página
                     })
                     .catch((error) => {
                         console.error(error);
@@ -422,7 +422,7 @@ export default function Route(){
                 }else{
                     setDoc(documento, resultMap).then(() => {
                         alert('Information added')
-                        // location.reload();
+                        location.reload(); //actualizamos la página
                     }).catch((error) => {
                         console.error(error);
                     });

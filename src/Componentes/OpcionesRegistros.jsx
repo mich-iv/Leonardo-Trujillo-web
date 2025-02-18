@@ -21,7 +21,8 @@ const OpcionesRegistros = ({ id, ubicacion, datos, setDatos }) => {
   };
 
   const handleDelete = async () => {
-    if (confirm("¿Eliminar registro?")) {
+    //confirmacion de eliminacion
+    if (confirm("Delete information?")) {
       try {
         const documento = doc(bd, ubicacion, id);
         await deleteDoc(documento);

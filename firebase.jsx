@@ -20,4 +20,4 @@ const provider = new GoogleAuthProvider();
 //inicializamos la base de datos
 const bd = getFirestore(app); 
 
-export {auth, provider, bd, collection, addDoc, getDocs, doc, getDoc, orderBy, query, deleteDoc};
+export {auth, provider, bd};

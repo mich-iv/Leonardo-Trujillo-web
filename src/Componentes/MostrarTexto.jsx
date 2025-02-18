@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import {bd, collection, getDocs, orderBy, query} from '../../firebase.jsx';
+import {bd} from '../../firebase.jsx';
+import { collection, getDocs, orderBy, query} from "firebase/firestore";
 import {eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
 import parse from 'html-react-parser';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faOrcid, faResearchgate, faGoogleScholar } from '@fortawesome/free-brands-svg-icons';
 import 'tinymce/skins/content/default/content.min.css';
 
+import Informacion from '../routes/secciones/informacion.jsx';
+
 export function MostrarTexto (props) {
     const location = useLocation();
+    const [abrir, setAbrir] = useState(false);
     let { ubicacion } = "";
     
     var temporal;
@@ -286,6 +290,13 @@ export function MostrarTexto (props) {
                                 </div>
                             </a>
                         </div>
+                        <div className='informacion'>
+                            <div className='informacion-boton-abrir' onClick={() => setAbrir(true)}>
+                                <FontAwesomeIcon className="informacion-boton-abrir-faInfo" icon={faInfo}/>
+                            </div>
+                            About
+                        </div>
+                        <Informacion abrir={abrir} cerrar = {() => setAbrir(false)}/>
                     </div>
 
                     <div className='item-home-texto'>

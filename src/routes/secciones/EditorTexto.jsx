@@ -109,11 +109,11 @@ export function EditorTexto({initialValue}) {
                     input.click();
                 },
                 license_key: 'gpl',
-                min_height: 400,
-                max_height: 900,
+                min_height: 200,
+                max_height: 450,
                 width: '100%',
-                min_width: 400,
-                max_width: 900,
+                min_width: 200,
+                max_width: 200,
                 menubar: true,
                 statusbar: false,
                 plugins: [

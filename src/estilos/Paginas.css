@@ -128,12 +128,12 @@
     width: 4rem;
 }
 
-table{
+/* table{
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
     margin: 1rem 0;
-}
+} */
 
 .mce-accordion{
     display: flex;
@@ -351,7 +351,7 @@ table{
     top: 10em;
 }
 
-a {
+a{
     scroll-margin-top: 6rem;
 }
 

@@ -363,6 +363,7 @@ export default function Route(){
             }
             // si la ubicación es home, entonces se obtiene la información del editor de texto
             resultMap["EDITORTEXT"] = textoEditor;
+            resultMap["IMAGENPERFIL"] = imagenPerfil;
         }else if(ubicacion == 'projects' || ubicacion == 'awards'){
             //si existe etiqueta <h2> con el id titulo en textoEditor, y es un año (ej. titulo2025), entonces se obtiene el texto
             //recortando la palabra "titulo" y dejando solamente el año o el texto que tenga por delante

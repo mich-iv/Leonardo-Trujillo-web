@@ -12,8 +12,12 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
+      # - name: Install dependencies
+      #   run: npm install
+      - name: Setup Node
+        uses: actions/setup-node@v3
       - name: Install dependencies
-        run: npm install
+        uses: bahmutov/npm-install@v1
       # - name: Build
       #   run: npm run build
       - uses: actions/checkout@v4

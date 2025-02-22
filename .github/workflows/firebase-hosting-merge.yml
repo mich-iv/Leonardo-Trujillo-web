@@ -15,7 +15,7 @@ jobs:
       - name: Setup Init
         uses: actions/checkout@v2
       - name: Instalar Vite
-        uses: npm i -g vite
+        uses: npm install -g vite
       - name: Setup Node
         uses: actions/setup-node@v3
       - name: Install dependencies

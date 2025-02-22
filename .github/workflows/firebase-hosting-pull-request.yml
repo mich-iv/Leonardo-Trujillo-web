@@ -12,12 +12,12 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        env:
-          CI: true
-        run: npm install --production false
-      - name: Build
-        run: npm run build
+      # - name: Install dependencies
+      #   env:
+      #     CI: true
+      #   run: npm install --omit=dev
+      # - name: Build
+      #   run: npm run build
       - uses: actions/checkout@v4
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0

@@ -15,16 +15,15 @@ env: # <--- here
   VITE_MESSAGING_SENDER_ID: ${{secrets.VITE_MESSAGING_SENDER_ID}}
   VITE_APP_ID: ${{secrets.VITE_APP_ID}}
   VITE_MEASUREMENT_ID: ${{secrets.VITE_MEASUREMENT_ID}}
-  FIREBASE_TOKEN: ${{ secrets.VITE_FIREBASE_TOKEN }}
+  VITE_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.VITE_GOOGLE_APPLICATION_CREDENTIALS }}
 jobs:
   build_and_deploy:
     env:
-      FIREBASE_TOKEN: ${{ secrets.VITE_FIREBASE_TOKEN }}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.VITE_GOOGLE_APPLICATION_CREDENTIALS }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm install && echo '-----Install Done 👌-----'
-      
+      - run: npm install && echo '-----Install Done 👌-----' && npm run build && echo '-----Build Done 👌-----'
 
       # - name: Setup Node
       #   uses: actions/setup-node@v3

@@ -22,6 +22,9 @@ jobs:
       GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     runs-on: ubuntu-latest
     steps:
+      - name: Imprmir variables de entorno
+        run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} && echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LEONARDO_TRUJILLO }}
+
       - uses: actions/checkout@v3
       - run: npm install && echo '-----Install Done 👌-----' && npm run build && echo '-----Build Done 👌-----'
       

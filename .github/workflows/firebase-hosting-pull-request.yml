@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm install && echo '-----Install Done 👌-----' && npm run build && echo '-----Build Done 👌-----'
+      - run: npm install && echo '-----Install Done 👌-----'
       
       # - name: Setup Node
       #   uses: actions/setup-node@v3

@@ -12,7 +12,7 @@ export default function Route(){
             <meta property="og:description" content="Home"></meta>
         </Helmet>
             <h1 className='titulos'>
-                Leonardo Trujillo - PRUEBA 2
+                Leonardo Trujillo - PRUEBA 2 otra mas
             </h1>
 
             <div key={99898} className='item-home'>

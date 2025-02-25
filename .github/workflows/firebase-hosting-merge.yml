@@ -15,8 +15,11 @@ env: # <--- here
   VITE_MESSAGING_SENDER_ID: ${{secrets.VITE_MESSAGING_SENDER_ID}}
   VITE_APP_ID: ${{secrets.VITE_APP_ID}}
   VITE_MEASUREMENT_ID: ${{secrets.VITE_MEASUREMENT_ID}}
+  FIREBASE_TOKEN: ${{ secrets.VITE_FIREBASE_TOKEN }}
 jobs:
   build_and_deploy:
+    env:
+      FIREBASE_TOKEN: ${{ secrets.VITE_FIREBASE_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -37,5 +40,6 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LEONARDO_TRUJILLO }}
+          
           channelId: live
           projectId: leonardo-trujillo

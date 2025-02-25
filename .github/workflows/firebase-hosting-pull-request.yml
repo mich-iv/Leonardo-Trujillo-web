@@ -16,7 +16,7 @@ env: # <--- here
   VITE_MESSAGING_SENDER_ID: ${{secrets.VITE_MESSAGING_SENDER_ID}}
   VITE_APP_ID: ${{secrets.VITE_APP_ID}}
   VITE_MEASUREMENT_ID: ${{secrets.VITE_MEASUREMENT_ID}}
-  FIREBASE_TOKEN: ${{ secrets.VITE_FIREBASE_TOKEN }}
+  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 jobs:
   build_and_preview:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}

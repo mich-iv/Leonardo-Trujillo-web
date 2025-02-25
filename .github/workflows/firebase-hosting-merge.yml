@@ -19,14 +19,15 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - run: npm install && echo '-----Install Done 👌-----' && npm run build && echo '-----Build Done 👌-----'
+      
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      # - name: Setup Node
+      #   uses: actions/setup-node@v3
 
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+      # - name: Install dependencies
+      #   uses: bahmutov/npm-install@v1
 
       # - name: Build project
       #   run: npm run build
@@ -35,6 +36,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.VITE_API_KEY }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LEONARDO_TRUJILLO }}
           channelId: live
           projectId: leonardo-trujillo

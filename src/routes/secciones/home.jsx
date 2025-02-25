@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet';
 
 export default function Route(){
     const [abrir, setAbrir] = useState(false);
+    console.log(secrets.FIREBASE_SERVICE_ACCOUNT_LEONARDO_TRUJILLO);
+    
     return(
         <>
         <Helmet>

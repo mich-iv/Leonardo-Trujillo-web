@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 /public/tinymce/
-.env
+# .env
 /src/bd/leonardoTrujillo.json
 
 # Editor directories and files

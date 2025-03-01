@@ -19,6 +19,7 @@ export default function Route(){
             <div key={99898} className='item-home'>
                 <MostrarTexto key={73841234}></MostrarTexto>
             </div>
+            <h2 className='subtitulos'>Hola</h2>
         </>
     )
 }

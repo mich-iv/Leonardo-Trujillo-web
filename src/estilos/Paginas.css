@@ -128,12 +128,10 @@
     width: 4rem;
 }
 
-/* table{
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin: 1rem 0;
-} */
+.fas.fa-exclamation-circle{
+    color: #64af9f;
+    font-size: 8rem;
+}
 
 .mce-accordion{
     display: flex;

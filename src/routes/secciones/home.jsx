@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet';
 
 export default function Route(){
     const [abrir, setAbrir] = useState(false);
-    console.log(secrets.FIREBASE_SERVICE_ACCOUNT_LEONARDO_TRUJILLO);
     
     return(
         <>
@@ -20,6 +19,7 @@ export default function Route(){
             <div key={99898} className='item-home'>
                 <MostrarTexto key={73841234}></MostrarTexto>
             </div>
+            <h2 className='subtitulos'>Hola</h2>
         </>
     )
 }

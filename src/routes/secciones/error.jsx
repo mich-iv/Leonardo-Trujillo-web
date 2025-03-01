@@ -23,11 +23,17 @@ export default function Route(){
                     Error 404
                 </h1>
                        
-                <div className='texto' style={{textAlign:'center', alignContent:'center'}}>
+                <div className='texto' style={{display:'flex', flexDirection:'column',justifyContent:'center', alignItems:'center', textAlign:'center', alignContent:'center'}}>
                     {/* texto en ingles de Página no encontrada */}
                     <h2 className='subtitulos'>Page not found</h2>
-                    <FontAwesomeIcon icon={faExclamationCircle} size='10x' color='#64af9f'/>
+                    <FontAwesomeIcon className="fas fa-exclamation-circle" icon={faExclamationCircle} color='#64af9f'/>
+                    
+                    {/* button para regresar al inicio */}
+                    <br/>
+                    <br/>
+                    <button className='' onClick={()=>{window.location.href = '/'}}>Regresar al inicio</button>
                 </div>
+
             </div>
                 
         </>

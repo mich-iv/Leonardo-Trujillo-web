@@ -19,8 +19,7 @@ body{
 
 .cuerpo {
   top: 1rem;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding: 0 2.5rem 2.5rem 2.5rem;
 }
 
 .pie{
